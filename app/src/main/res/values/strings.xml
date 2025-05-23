@@ -6,4 +6,6 @@
     <string name="greeting_info">Войдите в аккаунт или создайте новый</string>
     <string name="greeting_singIn">Войти</string>
     <string name="greeting_singUp">Нет аккаунта? Создайте</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
