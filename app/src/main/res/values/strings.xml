@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Samsung_coursework</string>
+
+    <!-- Экран входа -->
+    <string name="greeting_greeting">Здравствуйте!</string>
+    <string name="greeting_info">Войдите в аккаунт или создайте новый</string>
+    <string name="greeting_singIn">Войти</string>
+    <string name="greeting_singUp">Нет аккаунта? Создайте</string>
 </resources>
