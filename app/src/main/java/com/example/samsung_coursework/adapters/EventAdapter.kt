@@ -29,6 +29,14 @@ class EventAdapter : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCallba
         //private val imageView = view.findViewById<ImageView>(R.id.image)
 
         fun bind(event: Event) {
+            // Название события
+            titleTextView.text = event.title
+
+            // Дата
+            dateTextView.text = event.dates
+
+            // Место проведения (если есть)
+            //placeTextView.text = "Место: ${event.place}"
 
         }
     }

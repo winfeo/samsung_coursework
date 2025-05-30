@@ -1,23 +1,22 @@
 package com.example.samsung_coursework.models.retrofit
 
+import android.location.Location
 import com.google.gson.annotations.SerializedName
 
 //Структуры данных (преобразование JSON-кода в объекты)
 data class Event(
     val id: Int,
-    val dates: String?, //List<EventDate>
+    val dates: String?,
     val title: String,
     val short_title: String?,
-    val place: String?, //Place?
+    val place: Place?,
     val description: String?,
-    val body_text : String?,
-    val location: String,
-    val categories: String,
-    val age_restriction: String,
+    val body_text: String?,
+    val location: Location?,
+    val categories: List<String>,
+    val age_restriction: String?,
     val price: String?,
-    val is_free: String
-
-    //val images: List<EventImage>?
+    val is_free: Boolean
 )
 
 data class EventsResponse(
@@ -42,10 +41,10 @@ data class EventDate(
 
 // Класс для места проведения
 data class Place(
-    val id: Int,
-    val title: String,
-    val address: String?,
-    @SerializedName("coords") val coordinates: Coordinates?
+    val id: Int
+    //val title: String,
+    //val address: String?,
+    //@SerializedName("coords") val coordinates: Coordinates?
 )
 
 // Координаты места
@@ -58,6 +57,11 @@ data class Coordinates(
 data class EventImage(
     val image: String,
     val source: Source?
+)
+
+//Место проведения
+data class Location(
+    val slug: String
 )
 
 // Источник изображения
