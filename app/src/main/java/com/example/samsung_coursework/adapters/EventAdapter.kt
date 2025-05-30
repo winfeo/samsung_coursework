@@ -32,8 +32,8 @@ class EventAdapter : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCallba
             // Название события
             titleTextView.text = event.title
 
-            // Дата
-            dateTextView.text = event.dates
+            // Описание
+            dateTextView.text = event.description
 
             // Место проведения (если есть)
             //placeTextView.text = "Место: ${event.place}"

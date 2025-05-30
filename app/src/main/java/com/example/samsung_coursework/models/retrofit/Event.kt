@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 //Структуры данных (преобразование JSON-кода в объекты)
 data class Event(
     val id: Int,
-    val dates: String?,
+    val dates: List<EventDate>?,
     val title: String,
     val short_title: String?,
     val place: Place?,
@@ -35,16 +35,26 @@ data class EventsResponse(
 
 // Класс для дат события
 data class EventDate(
-    @SerializedName("start") val startTime: Long,
+    @SerializedName("start") val startTime: Long?,
     @SerializedName("end") val endTime: Long?
 )
 
 // Класс для места проведения
 data class Place(
-    val id: Int
-    //val title: String,
-    //val address: String?,
-    //@SerializedName("coords") val coordinates: Coordinates?
+    val id: Int,
+    val title: String,
+    val address: String?,
+    val subway: String?
+)
+
+//Место проведения
+data class Location(
+    val slug: String?,
+    val name: String,
+    val timezone: String?,
+    @SerializedName("coords") val coordinates: Coordinates?,
+    val language: String?,
+    val currency: String?
 )
 
 // Координаты места
@@ -57,11 +67,6 @@ data class Coordinates(
 data class EventImage(
     val image: String,
     val source: Source?
-)
-
-//Место проведения
-data class Location(
-    val slug: String
 )
 
 // Источник изображения

@@ -1,5 +1,6 @@
 package com.example.samsung_coursework.models.retrofit
 
+import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -9,10 +10,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
     private const val BASE_URL = "https://kudago.com/public-api/v1.4/"
 
+    val gson = GsonBuilder()
+        .registerTypeAdapter(String::class.java, HtmlStrippingAdapter())
+        .create()
+
     val api: KudaGoApiService by lazy { //будет создан только при первом обращении
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpClient)
             .build()
             .create(KudaGoApiService::class.java)
