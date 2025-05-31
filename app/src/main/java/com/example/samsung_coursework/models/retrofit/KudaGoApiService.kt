@@ -12,7 +12,7 @@ interface KudaGoApiService {
         @Query("page_size") size: Int = 10,
         @Query("fields") fields: String = "id,dates,title,short_title," +
                 "place,description,body_text,location,categories,age_restriction," +
-                "price,is_free",
+                "price,is_free,images",
         @Query("location") location: String = "msk",
         @Query("actual_since") time: Long = (System.currentTimeMillis() / 1000),
         //@Query("actual_until") actualUntil: Long = (System.currentTimeMillis() / 1000 + 14 * 24 * 60 * 60),
@@ -30,7 +30,7 @@ interface KudaGoApiService {
         @Query("page_size") size: Int = 1,
         @Query("fields") fields: String = "id,dates,title,short_title," +
                 "place,description,body_text,location,categories,age_restriction," +
-                "price,is_free",
+                "price,is_free,images",
         @Query("location") location: String = "msk",
         @Query("actual_since") time: Long = (System.currentTimeMillis() / 1000),
         @Query("order_by") order: String = "-favorites_count",

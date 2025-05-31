@@ -3,10 +3,12 @@ package com.example.samsung_coursework.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.samsung_coursework.R
 import com.example.samsung_coursework.models.retrofit.CategoryTranslator
 import com.example.samsung_coursework.models.retrofit.Event
@@ -30,9 +32,18 @@ class EventAdapter : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCallba
         private val dateTextView = view.findViewById<TextView>(R.id.home_eventCardDate)
         private val ageTextView = view.findViewById<TextView>(R.id.home_eventCardAge)
         private val tagsTextView = view.findViewById<TextView>(R.id.home_eventCardTags)
-        //private val imageView = view.findViewById<ImageView>(R.id.image)
+        private val image = view.findViewById<ImageView>(R.id.home_eventCardImage)
 
         fun bind(event: Event) {
+            val imageURL = event?.images?.firstOrNull()?.url
+            Glide.with(itemView.context)
+                .load(imageURL)
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_foreground)
+                .centerCrop()
+                .into(image)
+
+
             // Название события
             titleTextView.text = event.short_title
 

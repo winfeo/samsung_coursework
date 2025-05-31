@@ -16,7 +16,8 @@ data class Event(
     val categories: List<String>,
     val age_restriction: String?,
     val price: String?,
-    val is_free: Boolean
+    val is_free: Boolean,
+    val images: List<ImageResource>?
 )
 
 data class EventsResponse(
@@ -63,13 +64,11 @@ data class Coordinates(
     val lon: Double
 )
 
-// Класс для изображений
-data class EventImage(
-    val image: String,
+data class ImageResource(
+    @SerializedName("image") val url: String,
     val source: Source?
 )
 
-// Источник изображения
 data class Source(
     val name: String?,
     val link: String?
