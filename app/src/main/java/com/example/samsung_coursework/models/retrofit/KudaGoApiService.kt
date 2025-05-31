@@ -24,4 +24,17 @@ interface KudaGoApiService {
     @GET("event-categories/")
     suspend fun getAllCategories(): Response<List<Category>>
 
+    @GET("events")
+    suspend fun getMostPopularEvent(
+        @Query("lang") language: String = "ru",
+        @Query("page_size") size: Int = 1,
+        @Query("fields") fields: String = "id,dates,title,short_title," +
+                "place,description,body_text,location,categories,age_restriction," +
+                "price,is_free",
+        @Query("location") location: String = "msk",
+        @Query("actual_since") time: Long = (System.currentTimeMillis() / 1000),
+        @Query("order_by") order: String = "-favorites_count",
+        @Query("expand") expand: String = "place,location"
+    ): Response<EventsResponse>
+
 }

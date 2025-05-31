@@ -17,12 +17,20 @@ class EventRepository {
     }
 
     suspend fun getAllCategories(): List<Category> {
-        val response =
         return try{
             RetrofitClient.api.getAllCategories().body()?: emptyList()
         } catch (e: Exception){
             Log.d("Error", "Не удалось загрузить категории")
             emptyList()
+        }
+    }
+
+    suspend fun getMostPopularEvent(): Event? {
+        return try {
+            RetrofitClient.api.getMostPopularEvent().body()?.results?.firstOrNull()
+        } catch (e: Exception) {
+            Log.d("Error", "Не удалось загрузить данные в репозиторий")
+            null
         }
     }
 }

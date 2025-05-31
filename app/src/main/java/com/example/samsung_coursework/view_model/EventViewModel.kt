@@ -14,6 +14,9 @@ class EventViewModel : ViewModel() {
     private val _events = MutableLiveData<List<Event>>() //изменяемое состояние
     val events: LiveData<List<Event>> = _events //переменная для использования в UI
 
+    private val _mostPopularEvent = MutableLiveData<Event?>()
+    val mostPopularEvent: LiveData<Event?> = _mostPopularEvent
+
     fun loadEvents() {
         viewModelScope.launch { //фоновая задача
             try {
@@ -21,12 +24,22 @@ class EventViewModel : ViewModel() {
                 if (categoryResponse.isNotEmpty()) {
                     CategoryTranslator.initFromList(categoryResponse)
                 }
+            } catch (e: Exception) {
+                throw e
+            }
 
+            try {
+                _mostPopularEvent.value = repository.getMostPopularEvent()
+            } catch (e: Exception) {
+                _mostPopularEvent.value = null
+            }
+
+            try {
                 _events.value = repository.getEvents() //загружаем данные из репозитория
             } catch (e: Exception) {
-                // Обработка ошибок
                 _events.value = emptyList()
             }
+
         }
     }
 }
