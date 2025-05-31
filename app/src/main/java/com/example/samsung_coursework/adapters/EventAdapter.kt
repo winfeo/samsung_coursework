@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.samsung_coursework.R
 import com.example.samsung_coursework.models.retrofit.Event
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EventAdapter : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCallback()) {
 
@@ -23,20 +25,25 @@ class EventAdapter : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCallba
     }
 
     class EventViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val titleTextView = view.findViewById<TextView>(R.id.title)
-        private val dateTextView = view.findViewById<TextView>(R.id.date)
-        private val placeTextView = view.findViewById<TextView>(R.id.place)
+        private val titleTextView = view.findViewById<TextView>(R.id.home_eventCardTitle)
+        private val dateTextView = view.findViewById<TextView>(R.id.home_eventCardDate)
+        private val ageTextView = view.findViewById<TextView>(R.id.home_eventCardAge)
+        private val tagsTextView = view.findViewById<TextView>(R.id.home_eventCardTags)
         //private val imageView = view.findViewById<ImageView>(R.id.image)
 
         fun bind(event: Event) {
             // Название события
-            titleTextView.text = event.title
+            titleTextView.text = event.short_title
 
-            // Описание
-            dateTextView.text = event.description
+            // Дата
+            val formatter = SimpleDateFormat("d MMMM", Locale("ru"))
+            val start = event.dates?.get(0)?.startTime?.let { formatter.format(Date(it)) }
+            dateTextView.text = "$start"
 
-            // Место проведения (если есть)
-            //placeTextView.text = "Место: ${event.place}"
+            ageTextView.text = if (event.age_restriction.equals("0")) "${event.age_restriction}+"
+            else "${event.age_restriction}"
+
+            tagsTextView.text = event.categories.joinToString(separator = ", ")
 
         }
     }

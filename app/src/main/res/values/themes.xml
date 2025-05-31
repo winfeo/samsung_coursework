@@ -47,4 +47,14 @@
         <item name="android:textColor">@color/gray</item>
         <item name="android:background">@drawable/bg_button_secondary</item>
     </style>
+
+    <!-- Кастомный стиль для карточек-->
+    <style name="eventCard" parent="CardView">
+        <item name="android:background">@drawable/bg_event_card</item>
+    </style>
+
+    <!-- Кастомный стиль для иконки возаста на карточке-->
+    <style name="eventCardAge" parent="CardView">
+        <item name="android:background">@drawable/bg_event_card_age</item>
+    </style>
 </resources>

@@ -1,33 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="200dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginEnd="8dp"
+    style="@style/eventCard">
 
-    <!--
-    <ImageView
-        android:id="@+id/image"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"/>
-    -->
+        android:layout_height="170dp">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_launcher_background"
+            android:scaleType="centerCrop" /> <!--centerInside-->
+
+        <TextView
+            android:id="@+id/home_eventCardAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:text="12+"
+            android:layout_gravity="bottom|end"
+            android:textSize="16sp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:padding="5dp"
+            style="@style/eventCardAge"/>
+
+        <TextView
+            android:id="@+id/home_eventCardDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="31 мая"
+            android:textColor="@color/white"
+            android:gravity="start"
+            android:layout_gravity="bottom|start"
+            android:backgroundTint="#02B86A"
+            android:textSize="16sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:padding="5dp"
+            style="@style/eventCardAge"/>
+
+        <ImageButton
+            android:id="@+id/home_addToFavoriteCardButton"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="12dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_favorite"
+            android:scaleType="fitCenter"/>
+
+    </FrameLayout>
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/home_eventCardTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        style="bold"
+        android:lines="3"
+        android:text="Выставка"
         android:textSize="18sp"
         android:padding="8dp"/>
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/home_eventCardTags"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"/>
-
-    <TextView
-        android:id="@+id/place"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:textColor="@color/gray"
+        android:textSize="14sp"
+        android:text="Выставка"
         android:padding="8dp"/>
 </LinearLayout>

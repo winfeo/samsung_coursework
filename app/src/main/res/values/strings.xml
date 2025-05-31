@@ -8,4 +8,12 @@
     <string name="greeting_singUp">Нет аккаунта? Создайте</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Домашний экран -->
+    <string name="home_findEvent">Найти события в</string>
+    <string name="home_popularEvent">Сейчас популярно в</string>
+    <string name="home_soonEvent">Ближайшие события</string>
+
+
+
 </resources>

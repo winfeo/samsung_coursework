@@ -10,15 +10,15 @@ interface KudaGoApiService {
     suspend fun getEvents(
         //@Query("lang") language: String = "ru",
         //@Query("page") page: Int = 1,
-        @Query("page_size") size: Int = 3,
+        @Query("page_size") size: Int = 4,
         @Query("fields") fields: String = "id,dates,title,short_title," +
                 "place,description,body_text,location,categories,age_restriction," +
                 "price,is_free",
         @Query("location") location: String = "msk",
-        //@Query("order_by") order: String = "dates.start",
-        @Query("actual_since") time: Long = (System.currentTimeMillis() / 1000),
-        @Query("actual_until") actualUntil: Long = (System.currentTimeMillis() / 1000 + 2 * 24 * 60 * 60),
-        @Query("expand") expand: String = "place,location",
+        @Query("actual_since") time: Long = (System.currentTimeMillis() / 1000 + 6 * 60 * 60),
+        @Query("actual_until") actualUntil: Long = (System.currentTimeMillis() / 1000 + 14 * 24 * 60 * 60),
+        @Query("order_by") order: String = "-publication_date",
+        @Query("expand") expand: String = "place,location"
 
     ): Response<EventsResponse>
 }
