@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.samsung_coursework.R
+import com.example.samsung_coursework.models.retrofit.CategoryTranslator
 import com.example.samsung_coursework.models.retrofit.Event
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,20 +38,36 @@ class EventAdapter : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCallba
 
             // Дата
             val formatter = SimpleDateFormat("d MMMM", Locale("ru"))
-            val start = event.dates?.get(0)?.startTime?.let { formatter.format(Date(it)) }
+            val time = event.dates?.first()?.startTime
+            var start = time?.let { formatter.format(Date(it * 1000)) }
+
+            val curTime = System.currentTimeMillis() / 1000
+            if(event.dates!!.size > 2 || event.dates!!.get(0).startTime!! < curTime){
+                start = "${itemView.context.getString(R.string.home_startWithEvent)} $start"}
             dateTextView.text = "$start"
 
-            ageTextView.text = if (event.age_restriction.equals("0")) "${event.age_restriction}+"
-            else "${event.age_restriction}"
+            val textAge = when (event.age_restriction) {
+                null, "0", "null" -> "0+"
+                else -> "${event.age_restriction}"
+            }
+            ageTextView.text = textAge
 
-            tagsTextView.text = event.categories.joinToString(separator = ", ")
+            val translatedCategories = CategoryTranslator.translateCategory(event.categories)
+            tagsTextView.text = translatedCategories
 
         }
     }
 
     //сравнение старых и новых данных при обновлениии списка
     class DiffCallback : DiffUtil.ItemCallback<Event>() {
-        override fun areItemsTheSame(oldItem: Event, newItem: Event) = oldItem.id == newItem.id
-        override fun areContentsTheSame(oldItem: Event, newItem: Event) = oldItem == newItem
+        override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {
+            return oldItem.id == newItem.id
+        }
+        override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean{
+            return oldItem.short_title == newItem.short_title &&
+                    oldItem.age_restriction == newItem.age_restriction &&
+                    oldItem.dates == newItem.dates &&
+                    oldItem.categories == newItem.categories
+        }
     }
 }

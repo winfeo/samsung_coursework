@@ -3,10 +3,11 @@ package com.example.samsung_coursework.view_model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope // Добавьте этот импорт
+import androidx.lifecycle.viewModelScope
 import com.example.samsung_coursework.models.EventRepository
+import com.example.samsung_coursework.models.retrofit.CategoryTranslator
 import com.example.samsung_coursework.models.retrofit.Event
-import kotlinx.coroutines.launch // Добавьте этот импорт
+import kotlinx.coroutines.launch
 
 class EventViewModel : ViewModel() {
     private val repository = EventRepository() //создание репозитория
@@ -16,6 +17,11 @@ class EventViewModel : ViewModel() {
     fun loadEvents() {
         viewModelScope.launch { //фоновая задача
             try {
+                val categoryResponse = repository.getAllCategories()
+                if (categoryResponse.isNotEmpty()) {
+                    CategoryTranslator.initFromList(categoryResponse)
+                }
+
                 _events.value = repository.getEvents() //загружаем данные из репозитория
             } catch (e: Exception) {
                 // Обработка ошибок

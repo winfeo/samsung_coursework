@@ -1,6 +1,7 @@
 package com.example.samsung_coursework.models
 
 import android.util.Log
+import com.example.samsung_coursework.models.retrofit.Category
 import com.example.samsung_coursework.models.retrofit.Event
 import com.example.samsung_coursework.models.retrofit.RetrofitClient
 
@@ -11,6 +12,16 @@ class EventRepository {
             RetrofitClient.api.getEvents().body()?.results ?: emptyList()
         } catch (e: Exception) {
             Log.d("Error", "Не удалось загрузить данные в репозиторий")
+            emptyList()
+        }
+    }
+
+    suspend fun getAllCategories(): List<Category> {
+        val response =
+        return try{
+            RetrofitClient.api.getAllCategories().body()?: emptyList()
+        } catch (e: Exception){
+            Log.d("Error", "Не удалось загрузить категории")
             emptyList()
         }
     }

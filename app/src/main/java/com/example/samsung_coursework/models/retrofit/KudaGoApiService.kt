@@ -8,17 +8,20 @@ import retrofit2.http.Query
 interface KudaGoApiService {
     @GET("events/") //получение списка всех событий
     suspend fun getEvents(
-        //@Query("lang") language: String = "ru",
-        //@Query("page") page: Int = 1,
-        @Query("page_size") size: Int = 4,
+        @Query("lang") language: String = "ru",
+        @Query("page_size") size: Int = 10,
         @Query("fields") fields: String = "id,dates,title,short_title," +
                 "place,description,body_text,location,categories,age_restriction," +
                 "price,is_free",
         @Query("location") location: String = "msk",
-        @Query("actual_since") time: Long = (System.currentTimeMillis() / 1000 + 6 * 60 * 60),
-        @Query("actual_until") actualUntil: Long = (System.currentTimeMillis() / 1000 + 14 * 24 * 60 * 60),
-        @Query("order_by") order: String = "-publication_date",
+        @Query("actual_since") time: Long = (System.currentTimeMillis() / 1000),
+        //@Query("actual_until") actualUntil: Long = (System.currentTimeMillis() / 1000 + 14 * 24 * 60 * 60),
+        @Query("order_by") order: String = "-id",
         @Query("expand") expand: String = "place,location"
 
     ): Response<EventsResponse>
+
+    @GET("event-categories/")
+    suspend fun getAllCategories(): Response<List<Category>>
+
 }
