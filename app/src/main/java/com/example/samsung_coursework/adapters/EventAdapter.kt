@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.samsung_coursework.R
 import com.example.samsung_coursework.models.retrofit.CategoryTranslator
 import com.example.samsung_coursework.models.retrofit.Event
+import com.example.samsung_coursework.models.retrofit.EventDate
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -49,6 +50,24 @@ class EventAdapter : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCallba
 
             // Дата
             val formatter = SimpleDateFormat("d MMMM", Locale("ru"))
+
+            val eventDates: EventDate? = event?.dates
+                ?.filter { it.endTime != null && it.endTime > System.currentTimeMillis() / 1000 }
+                ?.minByOrNull { it.endTime!! }
+                //?.maxByOrNull { it.endTime!! }
+
+            val startTime = eventDates?.startTime?.let { formatter.format(Date(it * 1000)) }
+            val endTime = eventDates?.endTime?.let { formatter.format(Date(it * 1000)) }
+            if(!startTime.equals(endTime)){
+                val add = itemView.context.getString(R.string.home_endWithEvent)
+                val endTime = eventDates?.endTime?.let { formatter.format(Date(it * 1000 + 24 * 60 * 60 * 1000)) }
+                dateTextView.text = "$add $endTime"
+            }
+            else dateTextView.text = "$endTime"
+
+
+            /*
+            val formatter = SimpleDateFormat("d MMMM", Locale("ru"))
             val time = event.dates?.first()?.startTime
             var start = time?.let { formatter.format(Date(it * 1000)) }
 
@@ -56,6 +75,8 @@ class EventAdapter : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCallba
             if(event.dates!!.size > 2 || event.dates!!.get(0).startTime!! < curTime){
                 start = "${itemView.context.getString(R.string.home_startWithEvent)} $start"}
             dateTextView.text = "$start"
+
+             */
 
             val textAge = when (event.age_restriction) {
                 null, "0", "null" -> "0+"

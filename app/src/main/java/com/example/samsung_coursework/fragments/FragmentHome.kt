@@ -21,9 +21,14 @@ import java.util.*
 
 class FragmentHome : Fragment() {
     private val viewModel: EventViewModel by viewModels()
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: EventAdapter
-
+    private lateinit var recyclerViewAllEvents: RecyclerView
+    private lateinit var recyclerViewFreeEvents: RecyclerView
+    private lateinit var recyclerViewMostPopularEvents: RecyclerView
+    private var adapters = mapOf(
+        "allEvents" to EventAdapter(),
+        "freeEvents" to EventAdapter(),
+        "popularEvents" to EventAdapter()
+    )
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -32,15 +37,25 @@ class FragmentHome : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView = view.findViewById(R.id.recyclerView)
-        adapter = EventAdapter()
-        //recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = adapter
+        recyclerViewAllEvents = view.findViewById(R.id.recyclerView)
+        recyclerViewFreeEvents = view.findViewById(R.id.recyclerView2)
+        recyclerViewMostPopularEvents = view.findViewById(R.id.recyclerView3)
+
+        recyclerViewAllEvents.adapter = adapters["allEvents"]
+        recyclerViewFreeEvents.adapter = adapters["freeEvents"]
+        recyclerViewMostPopularEvents.adapter = adapters["popularEvents"]
 
         viewModel.events.observe(viewLifecycleOwner, Observer { events ->
-            adapter.submitList(events)
+            adapters["allEvents"]?.submitList(events)
         })
 
+        viewModel.freeEvents.observe(viewLifecycleOwner, Observer { freeEvents ->
+            adapters["freeEvents"]?.submitList(freeEvents)
+        })
+
+        viewModel.mostPopularEvents.observe(viewLifecycleOwner, Observer { mostPopularEvents ->
+            adapters["popularEvents"]?.submitList(mostPopularEvents)
+        })
 
         viewModel.mostPopularEvent.observe(viewLifecycleOwner) { event ->
                 updatePopularEventCard(event,view)

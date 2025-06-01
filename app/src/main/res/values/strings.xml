@@ -11,9 +11,11 @@
 
     <!-- Домашний экран -->
     <string name="home_findEvent">Найти события в</string>
-    <string name="home_popularEvent">Сейчас популярно в</string>
-    <string name="home_soonEvent">Ближайшие события</string>
-    <string name="home_startWithEvent">c</string>
+    <string name="home_popularEvent">Сейчас популярно</string>
+    <string name="home_soonEvent">Актуальные события</string>
+    <string name="home_freeEvent">Бесплатное посещение</string>
+    <string name="home_popularEvents">Самые просматриваемые</string>
+    <string name="home_endWithEvent">до</string>
 
 
 

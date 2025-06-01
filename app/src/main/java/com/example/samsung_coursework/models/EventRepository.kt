@@ -5,13 +5,13 @@ import com.example.samsung_coursework.models.retrofit.Category
 import com.example.samsung_coursework.models.retrofit.Event
 import com.example.samsung_coursework.models.retrofit.RetrofitClient
 
-//Отвечает за получение данных
+//Получение данных
 class EventRepository {
     suspend fun getEvents(): List<Event> {
         return try {
             RetrofitClient.api.getEvents().body()?.results ?: emptyList()
         } catch (e: Exception) {
-            Log.d("Error", "Не удалось загрузить данные в репозиторий")
+            Log.d("Error", "Не удалось загрузить все события")
             emptyList()
         }
     }
@@ -31,6 +31,24 @@ class EventRepository {
         } catch (e: Exception) {
             Log.d("Error", "Не удалось загрузить данные в репозиторий")
             null
+        }
+    }
+
+    suspend fun getFreeEvents(): List<Event>{
+        return try {
+            RetrofitClient.api.getFreeEvents().body()?.results?: emptyList()
+        } catch (e: Exception) {
+            Log.d("Error", "Не удалось загрузить бесплатные события")
+            emptyList()
+        }
+    }
+
+    suspend fun getMostPopularEvents(): List<Event>{
+        return try {
+            RetrofitClient.api.getMostPopularEvents().body()?.results?: emptyList()
+        } catch (e: Exception) {
+            Log.d("Error", "Не удалось загрузить бесплатные события")
+            emptyList()
         }
     }
 }
