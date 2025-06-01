@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +19,7 @@ import com.example.samsung_coursework.adapters.EventAdapter
 import com.example.samsung_coursework.models.retrofit.Event
 import com.example.samsung_coursework.models.retrofit.EventDate
 import com.example.samsung_coursework.view_model.EventViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,6 +28,9 @@ class FragmentHome : Fragment() {
     private lateinit var recyclerViewAllEvents: RecyclerView
     private lateinit var recyclerViewFreeEvents: RecyclerView
     private lateinit var recyclerViewMostPopularEvents: RecyclerView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var homePage: LinearLayout
+    private lateinit var navigationView: BottomNavigationView
     private var adapters = mapOf(
         "allEvents" to EventAdapter(),
         "freeEvents" to EventAdapter(),
@@ -45,6 +52,14 @@ class FragmentHome : Fragment() {
         recyclerViewFreeEvents.adapter = adapters["freeEvents"]
         recyclerViewMostPopularEvents.adapter = adapters["popularEvents"]
 
+        progressBar = view.findViewById(R.id.home_progressBar)
+        progressBar.visibility = View.VISIBLE
+
+        homePage = view.findViewById(R.id.home_page)
+        homePage.visibility = View.INVISIBLE
+
+        navigationView = requireActivity().findViewById(R.id.bottom_nav_menu)
+
         viewModel.events.observe(viewLifecycleOwner, Observer { events ->
             adapters["allEvents"]?.submitList(events)
         })
@@ -58,7 +73,23 @@ class FragmentHome : Fragment() {
         })
 
         viewModel.mostPopularEvent.observe(viewLifecycleOwner) { event ->
-                updatePopularEventCard(event,view)
+            updatePopularEventCard(event,view)
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            progressBar.isVisible = isLoading
+            if (isLoading) {
+                progressBar.fadeIn()
+                homePage.fadeOut()
+            } else {
+                progressBar.fadeOut()
+                homePage.fadeIn()
+                navigationView.visibility = View.VISIBLE
+            }
+        }
+
+        viewModel.isPageVisible.observe(viewLifecycleOwner) { isPageVisible ->
+            homePage.isVisible = isPageVisible
         }
 
         // Загрузить все данные
@@ -99,5 +130,26 @@ class FragmentHome : Fragment() {
         val endTime = eventDates?.endTime?.let { formatter.format(Date(it * 1000)) }
         textDate.text = "$startTime - $endTime"
 
+    }
+
+    fun View.fadeIn(duration: Long = 300) {
+        this.apply {
+            alpha = 0f
+            visibility = View.VISIBLE
+            animate()
+                .alpha(1f)
+                .setDuration(duration)
+                .withEndAction { alpha = 1f }
+        }
+    }
+
+    fun View.fadeOut(duration: Long = 300) {
+        this.animate()
+            .alpha(0f)
+            .setDuration(duration)
+            .withEndAction {
+                visibility = View.GONE
+                alpha = 1f
+            }
     }
 }
