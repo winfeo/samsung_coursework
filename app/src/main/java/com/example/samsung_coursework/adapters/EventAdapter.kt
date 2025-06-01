@@ -39,7 +39,7 @@ class EventAdapter : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCallba
             val imageURL = event?.images?.firstOrNull()?.url
             Glide.with(itemView.context)
                 .load(imageURL)
-                .placeholder(R.drawable.ic_launcher_background)
+                //.placeholder(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_foreground)
                 .centerCrop()
                 .into(image)
