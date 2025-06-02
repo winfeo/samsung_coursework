@@ -18,7 +18,8 @@
     <string name="home_endWithEvent">до</string>
 
     <!-- Экран просмотра события -->
-    <string name="event_title"></string>
+    <string name="event_textButton">Посмотрть на картах</string>
+    <string name="event_price">Цена</string>
 
 
 </resources>

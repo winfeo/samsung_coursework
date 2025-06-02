@@ -11,4 +11,5 @@
     <!-- кастомные цвета -->
     <color name="greenButtonColor">#0DCDAA</color>
     <color name="gray">#7C7C7C</color>
+    <color name="textButton">#2854C6</color>
 </resources>

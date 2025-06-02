@@ -17,7 +17,7 @@ interface KudaGoApiService {
         @Query("actual_since") time: Long = (System.currentTimeMillis() / 1000),
         //@Query("actual_until") actualUntil: Long = (System.currentTimeMillis() / 1000 + 14 * 24 * 60 * 60),
         @Query("order_by") order: String = "-id",
-        @Query("expand") expand: String = "place,location"
+        @Query("expand") expand: String = "place,location,dates"
 
     ): Response<EventsResponse>
 
@@ -34,7 +34,7 @@ interface KudaGoApiService {
         @Query("location") location: String = "msk",
         @Query("actual_since") time: Long = (System.currentTimeMillis() / 1000),
         @Query("order_by") order: String = "-favorites_count",
-        @Query("expand") expand: String = "place,location"
+        @Query("expand") expand: String = "place,location,dates"
     ): Response<EventsResponse>
 
     @GET("events/") //получение списка бесплатных событий
@@ -49,7 +49,7 @@ interface KudaGoApiService {
         //@Query("actual_until") actualUntil: Long = (System.currentTimeMillis() / 1000 + 14 * 24 * 60 * 60),
         @Query("order_by") order: String = "-id",
         @Query("is_free") free: String = "true",
-        @Query("expand") expand: String = "place,location"
+        @Query("expand") expand: String = "place,location,dates"
 
     ): Response<EventsResponse>
 
@@ -63,7 +63,7 @@ interface KudaGoApiService {
         @Query("location") location: String = "msk",
         @Query("actual_since") time: Long = (System.currentTimeMillis() / 1000),
         @Query("order_by") order: String = "-favorites_count",
-        @Query("expand") expand: String = "place,location"
+        @Query("expand") expand: String = "place,location,dates"
 
     ): Response <EventsResponse>
 
