@@ -1,18 +1,24 @@
 package com.example.samsung_coursework.fragments
 
+import android.animation.LayoutTransition
+import android.animation.ValueAnimator
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import com.example.samsung_coursework.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -39,15 +45,72 @@ class FragmentEvent : Fragment() {
         //toolbar.title = "Событие дня"
 
         val window = requireActivity().window
-
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.statusBarColor = Color.TRANSPARENT
-
-        // Установите тёмные иконки в статус-баре
         WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = false
 
 
 
+
+
+        val descriptionContainer = view.findViewById<LinearLayout>(R.id.description_container)
+        val descriptionContent = view.findViewById<LinearLayout>(R.id.description_content)
+        val descriptionText = view.findViewById<TextView>(R.id.description_text)
+        val descriptionArrow = view.findViewById<ImageView>(R.id.description_arrow)
+        var initialHeight = descriptionContent.height
+        var isExpanded = false
+
+        descriptionContainer.setOnClickListener {
+            isExpanded = !isExpanded
+
+            val rotationAnim = ValueAnimator.ofFloat(
+                descriptionArrow.rotation,
+                if (isExpanded) 180f else 0f
+            ).apply {
+                duration = 300
+                interpolator = AccelerateDecelerateInterpolator()
+                addUpdateListener { animator ->
+                    descriptionArrow.rotation = animator.animatedValue as Float
+                }
+            }
+
+            descriptionText.post {
+                initialHeight = descriptionText.lineHeight * 3
+            }
+
+            descriptionText.maxLines = Integer.MAX_VALUE
+            descriptionText.measure(
+                View.MeasureSpec.makeMeasureSpec(descriptionText.width, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            )
+            val fullHeight = descriptionText.measuredHeight
+
+            if (isExpanded) {
+                ValueAnimator.ofInt(descriptionContent.height, fullHeight).apply {
+                    duration = 300
+                    interpolator = AccelerateDecelerateInterpolator()
+                    addUpdateListener { animator ->
+                        val value = animator.animatedValue as Int
+                        descriptionContent.layoutParams.height = value
+                        descriptionContent.requestLayout()
+                    }
+                    start()
+                }
+                rotationAnim.start()
+            } else {
+                ValueAnimator.ofInt(descriptionContent.height, initialHeight).apply {
+                    duration = 300
+                    interpolator = AccelerateDecelerateInterpolator()
+                    addUpdateListener { animator ->
+                        val value = animator.animatedValue as Int
+                        descriptionContent.layoutParams.height = value
+                        descriptionContent.requestLayout()
+                    }
+                    start()
+                }
+                rotationAnim.start()
+            }
+        }
 
     }
 }
