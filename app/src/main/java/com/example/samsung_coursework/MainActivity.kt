@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_search -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, FragmentSearch())
+                        .replace(R.id.fragment_container, FragmentEvent()) //заменить на FragmentSearch()
                         .commit()
                     true
                 }

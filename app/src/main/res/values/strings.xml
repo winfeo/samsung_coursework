@@ -17,6 +17,8 @@
     <string name="home_popularEvents">Самые просматриваемые</string>
     <string name="home_endWithEvent">до</string>
 
+    <!-- Экран просмотра события -->
+    <string name="event_title"></string>
 
 
 </resources>
