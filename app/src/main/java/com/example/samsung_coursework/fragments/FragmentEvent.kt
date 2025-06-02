@@ -74,18 +74,17 @@ class FragmentEvent : Fragment() {
                 }
             }
 
-            descriptionText.post {
-                initialHeight = descriptionText.lineHeight * 3
-            }
-
-            descriptionText.maxLines = Integer.MAX_VALUE
-            descriptionText.measure(
-                View.MeasureSpec.makeMeasureSpec(descriptionText.width, View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-            )
-            val fullHeight = descriptionText.measuredHeight
-
             if (isExpanded) {
+                // Expand
+                descriptionText.maxLines = Integer.MAX_VALUE
+                descriptionText.ellipsize = null
+
+                descriptionText.measure(
+                    View.MeasureSpec.makeMeasureSpec(descriptionText.width, View.MeasureSpec.EXACTLY),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+                )
+                val fullHeight = descriptionText.measuredHeight
+
                 ValueAnimator.ofInt(descriptionContent.height, fullHeight).apply {
                     duration = 300
                     interpolator = AccelerateDecelerateInterpolator()
@@ -96,8 +95,12 @@ class FragmentEvent : Fragment() {
                     }
                     start()
                 }
-                rotationAnim.start()
             } else {
+                // Collapse
+                descriptionText.maxLines = 3
+                descriptionText.ellipsize = TextUtils.TruncateAt.END
+
+                val initialHeight = descriptionText.lineHeight * 3
                 ValueAnimator.ofInt(descriptionContent.height, initialHeight).apply {
                     duration = 300
                     interpolator = AccelerateDecelerateInterpolator()
@@ -108,9 +111,11 @@ class FragmentEvent : Fragment() {
                     }
                     start()
                 }
-                rotationAnim.start()
             }
+
+            rotationAnim.start()
         }
+
 
     }
 }
