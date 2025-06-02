@@ -57,7 +57,6 @@ class FragmentEvent : Fragment() {
         val descriptionContent = view.findViewById<LinearLayout>(R.id.description_content)
         val descriptionText = view.findViewById<TextView>(R.id.description_text)
         val descriptionArrow = view.findViewById<ImageView>(R.id.description_arrow)
-        var initialHeight = descriptionContent.height
         var isExpanded = false
 
         descriptionContainer.setOnClickListener {
@@ -75,7 +74,6 @@ class FragmentEvent : Fragment() {
             }
 
             if (isExpanded) {
-                // Expand
                 descriptionText.maxLines = Integer.MAX_VALUE
                 descriptionText.ellipsize = null
 
@@ -96,7 +94,6 @@ class FragmentEvent : Fragment() {
                     start()
                 }
             } else {
-                // Collapse
                 descriptionText.maxLines = 3
                 descriptionText.ellipsize = TextUtils.TruncateAt.END
 
