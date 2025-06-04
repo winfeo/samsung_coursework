@@ -1,10 +1,9 @@
-package com.example.samsung_coursework.models.retrofit
+package com.example.samsung_coursework.data.retrofit
 
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-//Интерфейс, описывающий доступные методы API
 interface KudaGoApiService {
     @GET("events/") //получение списка всех событий
     suspend fun getEvents(
@@ -19,10 +18,10 @@ interface KudaGoApiService {
         @Query("order_by") order: String = "-id",
         @Query("expand") expand: String = "place,location,dates"
 
-    ): Response<EventsResponse>
+    ): Response<EventsResponseDTO>
 
     @GET("event-categories/") //получение списка всех категорий сайта
-    suspend fun getAllCategories(): Response<List<Category>>
+    suspend fun getAllCategories(): Response<List<CategoryDTO>> /**TODO доделать DTO категорий**/
 
     @GET("events") //получение самого популярного события
     suspend fun getMostPopularEvent(
@@ -35,7 +34,7 @@ interface KudaGoApiService {
         @Query("actual_since") time: Long = (System.currentTimeMillis() / 1000),
         @Query("order_by") order: String = "-favorites_count",
         @Query("expand") expand: String = "place,location,dates"
-    ): Response<EventsResponse>
+    ): Response<EventsResponseDTO>
 
     @GET("events/") //получение списка бесплатных событий
     suspend fun getFreeEvents(
@@ -51,7 +50,7 @@ interface KudaGoApiService {
         @Query("is_free") free: String = "true",
         @Query("expand") expand: String = "place,location,dates"
 
-    ): Response<EventsResponse>
+    ): Response<EventsResponseDTO>
 
     @GET("events/") //Получение списка самых популярных событий
     suspend fun getMostPopularEvents(
@@ -65,6 +64,6 @@ interface KudaGoApiService {
         @Query("order_by") order: String = "-favorites_count",
         @Query("expand") expand: String = "place,location,dates"
 
-    ): Response <EventsResponse>
+    ): Response <EventsResponseDTO>
 
 }

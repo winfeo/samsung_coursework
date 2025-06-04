@@ -1,13 +1,13 @@
-package com.example.samsung_coursework.models
+package com.example.samsung_coursework.data
 
 import android.util.Log
-import com.example.samsung_coursework.models.retrofit.Category
-import com.example.samsung_coursework.models.retrofit.Event
-import com.example.samsung_coursework.models.retrofit.RetrofitClient
 
-//Получение данных
-class EventRepository {
-    suspend fun getEvents(): List<Event> {
+import com.example.samsung_coursework.data.retrofit.RetrofitClient
+import com.example.samsung_coursework.domain.EventRepository
+
+//Реализ. методов
+class EventRepositoryImp(): EventRepository {
+    override suspend fun getEvents(): List<Event> {
         return try {
             RetrofitClient.api.getEvents().body()?.results ?: emptyList()
         } catch (e: Exception) {
