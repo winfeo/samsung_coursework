@@ -1,4 +1,4 @@
-package com.example.samsung_coursework.fragments
+package com.example.samsung_coursework.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -15,10 +15,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.samsung_coursework.R
-import com.example.samsung_coursework.adapters.EventAdapter
-import com.example.samsung_coursework.models.retrofit.Event
-import com.example.samsung_coursework.models.retrofit.EventDate
-import com.example.samsung_coursework.view_model.EventViewModel
+import com.example.samsung_coursework.domain.models.Event
+import com.example.samsung_coursework.domain.models.EventDate
+import com.example.samsung_coursework.ui.adapters.EventAdapter
+import com.example.samsung_coursework.ui.view_model.EventViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.SimpleDateFormat
 import java.util.*
@@ -92,7 +92,7 @@ class FragmentHome : Fragment() {
             homePage.isVisible = isPageVisible
         }
 
-        // Загрузить все данные
+        //Usecase-ы, загрузка данных
         viewModel.loadEvents()
     }
 

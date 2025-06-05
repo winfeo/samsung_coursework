@@ -1,6 +1,5 @@
-package com.example.samsung_coursework.fragments
+package com.example.samsung_coursework.ui.fragments
 
-import android.animation.LayoutTransition
 import android.animation.ValueAnimator
 import android.graphics.Color
 import android.os.Bundle
@@ -17,8 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
 import com.example.samsung_coursework.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 

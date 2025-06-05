@@ -1,4 +1,4 @@
-package com.example.samsung_coursework.view_model
+package com.example.samsung_coursework.ui.view_model
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -6,13 +6,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.samsung_coursework.data.EventRepositoryImp
-import com.example.samsung_coursework.models.retrofit.CategoryTranslator
-import com.example.samsung_coursework.models.retrofit.Event
+import com.example.samsung_coursework.data.retrofit.CategoryTranslator
+import com.example.samsung_coursework.domain.models.Event
+import com.example.samsung_coursework.domain.use_cases.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class EventViewModel : ViewModel() {
     private val repository = EventRepositoryImp() //создание репозитория
+    private val getAllCategoriesUseCase = GetAllCategoriesUseCase(repository)
+    private val getEventsUseCase = GetEventsUseCase(repository)
+    private val getFreeEventsUseCase = GetFreeEventsUseCase(repository)
+    private val getMostPopularEventsUseCase = GetMostPopularEventsUseCase(repository)
+    private val getMostPopularEventUseCase = GetMostPopularEventUseCase(repository)
+
     private val _events = MutableLiveData<List<Event>>() //все события
     private val _freeEvents = MutableLiveData<List<Event>>() //бесплатные события
     private val _mostPopularEvent = MutableLiveData<Event?>() //самое популярное событие
@@ -33,15 +40,16 @@ class EventViewModel : ViewModel() {
             _isLoading.value = true
             _isPageVisible.value = false
             try{
-                val categoryResponse = repository.getAllCategories()
-                if (categoryResponse.isNotEmpty()) {
-                    CategoryTranslator.initFromList(categoryResponse)
+                /**TODO перенести загрузку категорий в другое место?**/
+                val categories = getAllCategoriesUseCase.getAllCategories()
+                if (categories.isNotEmpty()) {
+                    CategoryTranslator.initFromList(categories)
                 }
 
-                val popularEvent = async { repository.getMostPopularEvent() }
-                val events = async { repository.getEvents() }
-                val freeEvents = async { repository.getFreeEvents() }
-                val mostPopularEvents = async { repository.getMostPopularEvents() }
+                val popularEvent = async { getMostPopularEventUseCase.getAllCategories() }
+                val events = async { getEventsUseCase.getEvent() }
+                val freeEvents = async { getFreeEventsUseCase.getFreeEvents() }
+                val mostPopularEvents = async { getMostPopularEventsUseCase.getMostPopularEvents() }
 
                 _mostPopularEvent.value = popularEvent.await()
                 _events.value = events.await()

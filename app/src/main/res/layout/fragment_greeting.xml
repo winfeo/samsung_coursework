@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingHorizontal="32dp"
-    tools:context=".fragments.FragmentGreeting">
+    tools:context=".ui.fragments.FragmentGreeting">
 
     <LinearLayout
         android:layout_width="match_parent"

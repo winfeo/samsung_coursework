@@ -1,4 +1,4 @@
-package com.example.samsung_coursework.models.retrofit
+package com.example.samsung_coursework.data.retrofit
 
 import androidx.core.text.HtmlCompat
 import com.google.gson.JsonDeserializationContext

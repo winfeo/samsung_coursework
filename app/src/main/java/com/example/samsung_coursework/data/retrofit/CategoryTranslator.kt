@@ -1,14 +1,10 @@
-package com.example.samsung_coursework.models.retrofit
+package com.example.samsung_coursework.data.retrofit
 
-data class Category(
-    val id: Int,
-    val slug: String,
-    val name: String
-)
+import com.example.samsung_coursework.domain.models.*
 
-//Перевод категорий от API
+//Перевод категорий API
 object CategoryTranslator {
-    private var categoryMap: Map<String, String> = emptyMap()
+    private lateinit var categoryMap: Map<String, String>
 
     fun initFromList(categories: List<Category>) {
         categoryMap = categories.associate { it.slug to it.name }

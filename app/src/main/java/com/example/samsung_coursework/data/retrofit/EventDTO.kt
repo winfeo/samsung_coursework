@@ -22,17 +22,10 @@ data class EventDTO(
 
 //Осн. формат ответа
 data class EventsResponseDTO(
-    @SerializedName("results")
-    val results: List<EventDTO>,
-
-    @SerializedName("count")
-    val count: Int,
-
-    @SerializedName("next")
-    val next: String?,
-
-    @SerializedName("previous")
-    val previous: String?
+    @SerializedName("results") val results: List<EventDTO>,
+    @SerializedName("count") val count: Int,
+    @SerializedName("next") val next: String?,
+    @SerializedName("previous") val previous: String?
 )
 
 data class EventDateDTO(

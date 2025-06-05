@@ -1,4 +1,4 @@
-package com.example.samsung_coursework.adapters
+package com.example.samsung_coursework.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.samsung_coursework.R
-import com.example.samsung_coursework.models.retrofit.CategoryTranslator
-import com.example.samsung_coursework.models.retrofit.Event
-import com.example.samsung_coursework.models.retrofit.EventDate
+import com.example.samsung_coursework.data.retrofit.CategoryTranslator
+import com.example.samsung_coursework.domain.models.Event
+import com.example.samsung_coursework.domain.models.EventDate
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -90,7 +90,6 @@ class EventAdapter : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCallba
         }
     }
 
-    //сравнение старых и новых данных при обновлениии списка
     class DiffCallback : DiffUtil.ItemCallback<Event>() {
         override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {
             return oldItem.id == newItem.id

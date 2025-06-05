@@ -2,7 +2,7 @@ package com.example.samsung_coursework.domain.models
 
 //import android.location.Location
 
-//Структуры данных, преобраз. из DTO
+//Модели, преобраз. из DTO
 data class Event(
     val id: Int,
     val dates: List<EventDate>?,
@@ -20,6 +20,7 @@ data class Event(
 )
 
 //Осн. формат ответа
+/** TODO нужен ли теперь? **/
 data class EventsResponse(
     val results: List<Event>,
     val count: Int,

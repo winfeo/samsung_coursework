@@ -1,4 +1,4 @@
-package com.example.samsung_coursework.fragments
+package com.example.samsung_coursework.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
