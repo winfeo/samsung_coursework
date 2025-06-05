@@ -21,6 +21,10 @@
     <string name="event_textButton">Посмотреть на картах</string>
     <string name="event_price">Цена</string>
     <string name="event_description">Описание</string>
+    <string name="event_subway">метро</string>
+    <string name="event_freePrice">Бесплатно!</string>
+    <string name="event_location">Адресс:</string>
+    <string name="event_emptyPlace">не указано</string>
 
 
 </resources>

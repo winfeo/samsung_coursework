@@ -24,6 +24,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <ImageView
+                android:id="@+id/event_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -96,13 +97,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:textSize="16sp"
-                        android:text="выставка, фестиваль"/>
+                        android:textSize="16sp"/>
 
                     <TextView
+                        android:id="@+id/event_age"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="16+"
                         android:gravity="end"
                         android:layout_gravity="end"
                         android:textSize="16sp"
@@ -115,8 +115,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:text="Название"/>
+                    android:textStyle="bold"/>
             </LinearLayout>
 
             <!-- Описание -->
@@ -169,7 +168,6 @@
                         android:id="@+id/description_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="rem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
                         android:textColor="@android:color/black"
                         android:alpha="0.65"
                         android:textSize="16sp"
@@ -201,7 +199,6 @@
                         android:id="@+id/event_timeDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="До 1 июня"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="20sp"
@@ -213,7 +210,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="вт, 19:00 - 21:00"
+                    android:text="!------вт, 19:00 - 21:00-----!"
                     android:textSize="16sp"/>
 
                 <LinearLayout
@@ -232,7 +229,6 @@
                         android:id="@+id/event_locationCity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Москва"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:textSize="20sp"
@@ -244,7 +240,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="м. Дмитровская, пр. Мира, дом 34, строение 2"
                     android:textSize="16sp"/>
 
                 <TextView
@@ -286,7 +281,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Билет от 500 рублей"
                     android:textSize="16sp"/>
 
             </LinearLayout>

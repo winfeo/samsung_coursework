@@ -16,11 +16,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
 import com.example.samsung_coursework.R
+import com.example.samsung_coursework.data.retrofit.CategoryTranslator
+import com.example.samsung_coursework.domain.models.Event
+import com.example.samsung_coursework.domain.models.EventDate
+import com.example.samsung_coursework.ui.view_model.SelectedEventViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.text.SimpleDateFormat
+import java.util.*
 
 class FragmentEvent : Fragment() {
     private lateinit var toolbar: Toolbar
+    private val selectedEventViewModel: SelectedEventViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +57,9 @@ class FragmentEvent : Fragment() {
 
 
 
+        selectedEventViewModel.event.observe(viewLifecycleOwner){ event ->
+            updateCardInfo(event, view)
+        }
 
 
         val descriptionContainer = view.findViewById<LinearLayout>(R.id.description_container)
@@ -112,4 +124,88 @@ class FragmentEvent : Fragment() {
 
 
     }
+
+    fun updateCardInfo(event: Event, view: View){
+        val imageView = view.findViewById<ImageView>(R.id.event_image)
+        val categoriesText = view.findViewById<TextView>(R.id.event_categories)
+        val ageText = view.findViewById<TextView>(R.id.event_age)
+        val titleText = view.findViewById<TextView>(R.id.event_title)
+        val descriptionText = view.findViewById<TextView>(R.id.description_text)
+        val timeDateText = view.findViewById<TextView>(R.id.event_timeDate)
+        val timeTimeText = view.findViewById<TextView>(R.id.event_timeTime)
+        val locationCityText = view.findViewById<TextView>(R.id.event_locationCity)
+        val locationDetailedText = view.findViewById<TextView>(R.id.event_locationDetailed)
+        val priceText = view.findViewById<TextView>(R.id.event_price)
+
+        val imageURL = event?.images?.firstOrNull()?.url
+        Glide.with(view)
+            .load(imageURL)
+            .error(R.drawable.ic_launcher_foreground)
+            .centerCrop()
+            .into(imageView)
+
+        val translatedCategories = CategoryTranslator.translateCategory(event.categories)
+        categoriesText.text = translatedCategories
+
+        val textAge = when (event.age_restriction) {
+            null, "0", "null" -> "0+"
+            else -> "${event.age_restriction}"
+        }
+        ageText.text = textAge
+
+        titleText.text = event?.title
+        descriptionText.text = event?.body_text //description?
+
+        val formatter = SimpleDateFormat("d MMMM", Locale("ru"))
+        val eventDates: EventDate? = event?.dates
+            ?.filter { it.endTime != null && it.endTime > System.currentTimeMillis() / 1000 }
+            ?.minByOrNull { it.endTime!! }
+        //?.maxByOrNull { it.endTime!! }
+        val startTime = eventDates?.startTime?.let { formatter.format(Date(it * 1000)) }
+        val endTime = eventDates?.endTime?.let { formatter.format(Date(it * 1000)) }
+        if(!startTime.equals(endTime)){
+            val add = view.context.getString(R.string.home_endWithEvent) //?
+            val endTime = eventDates?.endTime?.let { formatter.format(Date(it * 1000 + 24 * 60 * 60 * 1000)) }
+            timeDateText.text = "$add $endTime"
+        }
+        else timeDateText.text = "$endTime"
+
+        locationCityText.text = event.location?.name
+
+        val place = event.place?.title
+        if (place != null) {
+            val subway = event.place?.subway
+            val address = event.place?.address
+
+            val locationText = buildString {
+                append("$place\n\n")
+                append(getString(R.string.event_location))
+
+                if (!subway.isNullOrEmpty()) {
+                    append(" ")
+                    append(getString(R.string.event_subway))
+                    append(" $subway")
+                }
+
+                if (!address.isNullOrEmpty()) {
+                    if (!subway.isNullOrEmpty()) append(", ") else append(" ")
+                    append(address)
+                }
+            }
+
+            locationDetailedText.text = locationText
+        } else {
+            locationDetailedText.text = "${getString(R.string.event_location)} ${getString(R.string.event_emptyPlace)}"
+        }
+
+        if(!event.is_free){
+            priceText.text = event.price
+        }
+        else{
+            priceText.text = getString(R.string.event_freePrice)
+        }
+    }
+
+
+
 }

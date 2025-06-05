@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -19,12 +20,14 @@ import com.example.samsung_coursework.domain.models.Event
 import com.example.samsung_coursework.domain.models.EventDate
 import com.example.samsung_coursework.ui.adapters.EventAdapter
 import com.example.samsung_coursework.ui.view_model.EventViewModel
+import com.example.samsung_coursework.ui.view_model.SelectedEventViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.SimpleDateFormat
 import java.util.*
 
 class FragmentHome : Fragment() {
     private val viewModel: EventViewModel by viewModels()
+    private val selectedEventViewModel: SelectedEventViewModel by activityViewModels()
     private lateinit var recyclerViewAllEvents: RecyclerView
     private lateinit var recyclerViewFreeEvents: RecyclerView
     private lateinit var recyclerViewMostPopularEvents: RecyclerView
@@ -94,6 +97,38 @@ class FragmentHome : Fragment() {
 
         //Usecase-ы, загрузка данных
         viewModel.loadEvents()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adapters["allEvents"]?.clickListener = object : EventAdapter.ClickInterface{
+            override fun onClick(event: Event) {
+                selectedEventViewModel.choceEvent(event)
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, FragmentEvent())
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
+        adapters["freeEvents"]?.clickListener = object : EventAdapter.ClickInterface{
+            override fun onClick(event: Event) {
+                selectedEventViewModel.choceEvent(event)
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, FragmentEvent())
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
+        adapters["popularEvents"]?.clickListener = object : EventAdapter.ClickInterface{
+            override fun onClick(event: Event) {
+                selectedEventViewModel.choceEvent(event)
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, FragmentEvent())
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
+
     }
 
     private fun updatePopularEventCard(event: Event?, view: View) {

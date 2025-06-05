@@ -16,7 +16,12 @@ import com.example.samsung_coursework.domain.models.EventDate
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EventAdapter : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCallback()) {
+class EventAdapter() : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCallback()) {
+
+    interface ClickInterface{
+        fun onClick(event: Event)
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -28,7 +33,8 @@ class EventAdapter : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCallba
         holder.bind(getItem(position))
     }
 
-    class EventViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    var clickListener: ClickInterface? = null//клики
+    inner class EventViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val titleTextView = view.findViewById<TextView>(R.id.home_eventCardTitle)
         private val dateTextView = view.findViewById<TextView>(R.id.home_eventCardDate)
         private val ageTextView = view.findViewById<TextView>(R.id.home_eventCardAge)
@@ -86,6 +92,15 @@ class EventAdapter : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCallba
 
             val translatedCategories = CategoryTranslator.translateCategory(event.categories)
             tagsTextView.text = translatedCategories
+
+
+
+
+
+
+            itemView.setOnClickListener(){
+                clickListener?.onClick(event)
+            }
 
         }
     }
