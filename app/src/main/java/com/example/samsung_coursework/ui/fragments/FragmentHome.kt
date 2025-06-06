@@ -14,6 +14,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.samsung_coursework.R
@@ -35,7 +36,7 @@ class FragmentHome : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var homePage: LinearLayout
     private lateinit var navigationView: BottomNavigationView
-    private var popularClickListener: EventAdapter.ClickInterface? = null
+    private var click: EventAdapter.ClickInterface? = null
     private var adapters = mapOf(
         "allEvents" to EventAdapter(),
         "freeEvents" to EventAdapter(),
@@ -103,23 +104,20 @@ class FragmentHome : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        popularClickListener = object : EventAdapter.ClickInterface {
+        click = object : EventAdapter.ClickInterface {
             override fun onClick(event: Event) {
                 selectedEventViewModel.choseEvent(event)
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, FragmentEvent())
-                    .addToBackStack(null)
-                    .commit()
+                findNavController().navigate(R.id.action_fragmentHome_to_fragmentEvent)
             }
         }
 
-        adapters["allEvents"]?.clickListener = popularClickListener
-        adapters["freeEvents"]?.clickListener = popularClickListener
-        adapters["popularEvents"]?.clickListener = popularClickListener
+        adapters["allEvents"]?.clickListener = click
+        adapters["freeEvents"]?.clickListener = click
+        adapters["popularEvents"]?.clickListener = click
         val popularCard = view?.findViewById<CardView>(R.id.home_popularEvent)
         popularCard?.setOnClickListener {
             viewModel.mostPopularEvent.value?.let { event ->
-                popularClickListener?.onClick(event)
+                click?.onClick(event)
             }
         }
 
