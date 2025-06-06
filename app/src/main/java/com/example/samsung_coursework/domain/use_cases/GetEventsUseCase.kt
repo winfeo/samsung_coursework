@@ -5,7 +5,7 @@ import com.example.samsung_coursework.domain.models.Event
 
 class GetEventsUseCase(EventRepository: EventRepository) {
     private val repository = EventRepository
-    suspend fun getEvent(): List<Event>{
-        return repository.getEvents()
+    suspend fun getEvent(code: String = "msk"): List<Event>{
+        return repository.getEvents(code)
     }
 }

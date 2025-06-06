@@ -5,10 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -28,7 +25,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class FragmentHome : Fragment() {
-    private val viewModel: EventViewModel by viewModels()
+    private val viewModel: EventViewModel by activityViewModels()
     private val selectedEventViewModel: SelectedEventViewModel by activityViewModels()
     private lateinit var recyclerViewAllEvents: RecyclerView
     private lateinit var recyclerViewFreeEvents: RecyclerView
@@ -49,6 +46,28 @@ class FragmentHome : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val cityNames = resources.getStringArray(R.array.home_cityList)
+        val cityCodes = resources.getStringArray(R.array.home_cityListAPI)
+        val mapCity = cityNames.zip(cityCodes).toMap()
+        val spinner = view.findViewById<Spinner>(R.id.home_spinner)
+        val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.home_cityList, android.R.layout.simple_spinner_item)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val cityName = cityNames[position]
+                val cityCode = mapCity[cityName] ?: "msk"
+                viewModel.loadEvents(cityCode)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
+
+
+
+
 
         recyclerViewAllEvents = view.findViewById(R.id.recyclerView)
         recyclerViewFreeEvents = view.findViewById(R.id.recyclerView2)
@@ -97,9 +116,6 @@ class FragmentHome : Fragment() {
         viewModel.isPageVisible.observe(viewLifecycleOwner) { isPageVisible ->
             homePage.isVisible = isPageVisible
         }
-
-        //Usecase-ы, загрузка данных
-        viewModel.loadEvents()
     }
 
     override fun onResume() {

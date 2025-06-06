@@ -5,7 +5,7 @@ import com.example.samsung_coursework.domain.models.Event
 
 class GetMostPopularEventsUseCase(EventRepository: EventRepository) {
     private val repository = EventRepository
-    suspend fun getMostPopularEvents(): List<Event>{
-        return repository.getMostPopularEvents()
+    suspend fun getMostPopularEvents(code: String = "msk"): List<Event>{
+        return repository.getMostPopularEvents(code)
     }
 }

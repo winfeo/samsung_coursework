@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.samsung_coursework.R
 import com.example.samsung_coursework.data.retrofit.CategoryTranslator
@@ -48,6 +49,9 @@ class FragmentEvent : Fragment() {
         (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
         (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as? AppCompatActivity)?.supportActionBar?.setDisplayShowTitleEnabled(false)
+        toolbar.setNavigationOnClickListener{
+            findNavController().navigateUp()
+        }
         //toolbar.title = "Событие дня"
 
         val window = requireActivity().window

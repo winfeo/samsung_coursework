@@ -16,6 +16,21 @@
     <string name="home_freeEvent">Бесплатное посещение</string>
     <string name="home_popularEvents">Самые просматриваемые</string>
     <string name="home_endWithEvent">до</string>
+    <string-array name="home_cityList">
+        <item>Москве</item>
+        <item>Санкт-Петербурге</item>
+        <item>Екатеринбурге</item>
+        <item>Казани</item>
+        <item>Нижнем Новгороде</item>
+    </string-array>
+    <string-array name="home_cityListAPI">
+        <item>msk</item>
+        <item>spb</item>
+        <item>ekb</item>
+        <item>kzn</item>
+        <item>nnv</item>
+    </string-array>
+
 
     <!-- Экран просмотра события -->
     <string name="event_textButton">Посмотреть на картах</string>

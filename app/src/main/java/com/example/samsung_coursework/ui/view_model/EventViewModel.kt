@@ -35,7 +35,7 @@ class EventViewModel : ViewModel() {
     val isLoading: LiveData<Boolean> = _isLoading
     val isPageVisible: LiveData<Boolean> = _isPageVisible
 
-    fun loadEvents() {
+    fun loadEvents(code: String = "msk") {
         viewModelScope.launch { //фоновая задача
             _isLoading.value = true
             _isPageVisible.value = false
@@ -46,10 +46,10 @@ class EventViewModel : ViewModel() {
                     CategoryTranslator.initFromList(categories)
                 }
 
-                val popularEvent = async { getMostPopularEventUseCase.getAllCategories() }
-                val events = async { getEventsUseCase.getEvent() }
-                val freeEvents = async { getFreeEventsUseCase.getFreeEvents() }
-                val mostPopularEvents = async { getMostPopularEventsUseCase.getMostPopularEvents() }
+                val popularEvent = async { getMostPopularEventUseCase.getAllCategories(code) }
+                val events = async { getEventsUseCase.getEvent(code) }
+                val freeEvents = async { getFreeEventsUseCase.getFreeEvents(code) }
+                val mostPopularEvents = async { getMostPopularEventsUseCase.getMostPopularEvents(code) }
 
                 _mostPopularEvent.value = popularEvent.await()
                 _events.value = events.await()
