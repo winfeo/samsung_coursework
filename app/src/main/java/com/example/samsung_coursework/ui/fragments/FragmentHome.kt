@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -34,6 +35,7 @@ class FragmentHome : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var homePage: LinearLayout
     private lateinit var navigationView: BottomNavigationView
+    private var popularClickListener: EventAdapter.ClickInterface? = null
     private var adapters = mapOf(
         "allEvents" to EventAdapter(),
         "freeEvents" to EventAdapter(),
@@ -101,7 +103,7 @@ class FragmentHome : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        adapters["allEvents"]?.clickListener = object : EventAdapter.ClickInterface{
+        popularClickListener = object : EventAdapter.ClickInterface {
             override fun onClick(event: Event) {
                 selectedEventViewModel.choseEvent(event)
                 parentFragmentManager.beginTransaction()
@@ -110,22 +112,14 @@ class FragmentHome : Fragment() {
                     .commit()
             }
         }
-        adapters["freeEvents"]?.clickListener = object : EventAdapter.ClickInterface{
-            override fun onClick(event: Event) {
-                selectedEventViewModel.choseEvent(event)
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, FragmentEvent())
-                    .addToBackStack(null)
-                    .commit()
-            }
-        }
-        adapters["popularEvents"]?.clickListener = object : EventAdapter.ClickInterface{
-            override fun onClick(event: Event) {
-                selectedEventViewModel.choseEvent(event)
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, FragmentEvent())
-                    .addToBackStack(null)
-                    .commit()
+
+        adapters["allEvents"]?.clickListener = popularClickListener
+        adapters["freeEvents"]?.clickListener = popularClickListener
+        adapters["popularEvents"]?.clickListener = popularClickListener
+        val popularCard = view?.findViewById<CardView>(R.id.home_popularEvent)
+        popularCard?.setOnClickListener {
+            viewModel.mostPopularEvent.value?.let { event ->
+                popularClickListener?.onClick(event)
             }
         }
 
