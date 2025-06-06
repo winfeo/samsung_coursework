@@ -58,15 +58,15 @@ class EventAdapter() : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCall
             val formatter = SimpleDateFormat("d MMMM", Locale("ru"))
 
             val eventDates: EventDate? = event?.dates
-                ?.filter { it.endTime != null && it.endTime > System.currentTimeMillis() / 1000 }
-                ?.minByOrNull { it.endTime!! }
+                ?.filter { it.endTimeNumber != null && it.endTimeNumber > System.currentTimeMillis() / 1000 }
+                ?.minByOrNull { it.endTimeNumber!! }
                 //?.maxByOrNull { it.endTime!! }
 
-            val startTime = eventDates?.startTime?.let { formatter.format(Date(it * 1000)) }
-            val endTime = eventDates?.endTime?.let { formatter.format(Date(it * 1000)) }
+            val startTime = eventDates?.startTimeNumber?.let { formatter.format(Date(it * 1000)) }
+            val endTime = eventDates?.endTimeNumber?.let { formatter.format(Date(it * 1000)) }
             if(!startTime.equals(endTime)){
                 val add = itemView.context.getString(R.string.home_endWithEvent)
-                val endTime = eventDates?.endTime?.let { formatter.format(Date(it * 1000 + 24 * 60 * 60 * 1000)) }
+                val endTime = eventDates?.endTimeNumber?.let { formatter.format(Date(it * 1000 + 24 * 60 * 60 * 1000)) }
                 dateTextView.text = "$add $endTime"
             }
             else dateTextView.text = "$endTime"

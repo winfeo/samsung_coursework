@@ -103,7 +103,7 @@ class FragmentHome : Fragment() {
         super.onResume()
         adapters["allEvents"]?.clickListener = object : EventAdapter.ClickInterface{
             override fun onClick(event: Event) {
-                selectedEventViewModel.choceEvent(event)
+                selectedEventViewModel.choseEvent(event)
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, FragmentEvent())
                     .addToBackStack(null)
@@ -112,7 +112,7 @@ class FragmentHome : Fragment() {
         }
         adapters["freeEvents"]?.clickListener = object : EventAdapter.ClickInterface{
             override fun onClick(event: Event) {
-                selectedEventViewModel.choceEvent(event)
+                selectedEventViewModel.choseEvent(event)
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, FragmentEvent())
                     .addToBackStack(null)
@@ -121,7 +121,7 @@ class FragmentHome : Fragment() {
         }
         adapters["popularEvents"]?.clickListener = object : EventAdapter.ClickInterface{
             override fun onClick(event: Event) {
-                selectedEventViewModel.choceEvent(event)
+                selectedEventViewModel.choseEvent(event)
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, FragmentEvent())
                     .addToBackStack(null)
@@ -158,11 +158,11 @@ class FragmentHome : Fragment() {
         val formatter = SimpleDateFormat("d MMMM", Locale("ru"))
 
         val eventDates: EventDate? = event?.dates
-            ?.filter { it.startTime != null && it.startTime > 0 }
-            ?.maxByOrNull { it.startTime!! }
+            ?.filter { it.startTimeNumber != null && it.startTimeNumber > 0 }
+            ?.maxByOrNull { it.startTimeNumber!! }
 
-        val startTime = eventDates?.startTime?.let { formatter.format(Date(it * 1000)) }
-        val endTime = eventDates?.endTime?.let { formatter.format(Date(it * 1000)) }
+        val startTime = eventDates?.startTimeNumber?.let { formatter.format(Date(it * 1000)) }
+        val endTime = eventDates?.endTimeNumber?.let { formatter.format(Date(it * 1000)) }
         textDate.text = "$startTime - $endTime"
 
     }

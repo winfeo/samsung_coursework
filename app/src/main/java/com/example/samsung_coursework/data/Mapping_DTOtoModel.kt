@@ -29,10 +29,24 @@ fun List<EventDTO>.toDomainEvents(): List<Event>{
 
 fun EventDateDTO.toDomain(): EventDate{
     return EventDate(
+        startTimeNumber = startTimeNumber,
+        endTimeNumber = endTimeNumber,
+        startDate = startDate,
+        endDate = endDate,
+        startTime = startTime,
+        endTime = endTime,
+        schedules = schedules?.map { it.toDomain() }
+    )
+}
+
+fun SchedulesDTO.toDomain(): Schedules{
+    return Schedules(
+        schedules = schedules,
         startTime = startTime,
         endTime = endTime
     )
 }
+
 
 fun PlaceDTO.toDomain(): Place{
     return Place(

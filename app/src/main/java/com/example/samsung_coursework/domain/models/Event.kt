@@ -1,7 +1,5 @@
 package com.example.samsung_coursework.domain.models
 
-//import android.location.Location
-
 //Модели, преобраз. из DTO
 data class Event(
     val id: Int,
@@ -29,11 +27,23 @@ data class EventsResponse(
 )
 
 data class EventDate(
-    val startTime: Long?,
-    val endTime: Long?
+    val startTimeNumber: Long?,
+    val endTimeNumber: Long?,
+    val startDate: String?,
+    val endDate: String?,
+    val startTime: String?,
+    val endTime: String?,
+    val schedules: List<Schedules>?
 )
 
-// Класс для места проведения
+
+data class Schedules(
+    val schedules: List<Int>,
+    val startTime: String?,
+    val endTime: String?,
+)
+
+
 data class Place(
     val id: Int,
     val title: String,
@@ -41,7 +51,6 @@ data class Place(
     val subway: String?
 )
 
-//Место проведения
 data class Location(
     val slug: String?,
     val name: String,

@@ -9,7 +9,7 @@ class SelectedEventViewModel: ViewModel() {
     private val _event = MutableLiveData<Event>()
     val event: LiveData<Event> = _event
 
-    fun choceEvent(event: Event){
+    fun choseEvent(event: Event){
         _event.value = event
     }
 }

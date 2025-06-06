@@ -1,7 +1,6 @@
 package com.example.samsung_coursework.data.retrofit
 
 import com.google.gson.annotations.SerializedName
-import android.location.Location
 
 //классы DTO, сопаст. с JSON
 data class EventDTO(
@@ -29,11 +28,22 @@ data class EventsResponseDTO(
 )
 
 data class EventDateDTO(
-    @SerializedName("start") val startTime: Long?,
-    @SerializedName("end") val endTime: Long?
+    @SerializedName("start") val startTimeNumber: Long?,
+    @SerializedName("end") val endTimeNumber: Long?,
+    @SerializedName("start_date") val startDate: String?,
+    @SerializedName("end_date") val endDate: String?,
+    @SerializedName("start_time") val startTime: String?,
+    @SerializedName("end_time") val endTime: String?,
+    @SerializedName("schedules") val schedules: List<SchedulesDTO>?
 )
 
-// Класс для места проведения
+data class SchedulesDTO(
+    @SerializedName("days_of_week") val schedules: List<Int>,
+    @SerializedName("start_time") val startTime: String?,
+    @SerializedName("end_time") val endTime: String?,
+)
+
+// Место
 data class PlaceDTO(
     @SerializedName("id") val id: Int,
     @SerializedName("title") val title: String,
@@ -41,10 +51,7 @@ data class PlaceDTO(
     @SerializedName("subway") val subway: String?
 )
 
-/**
- * TODO удалить вообще мб этот класс?????
- */
-//Место проведения
+//Локация
 data class LocationDTO(
     @SerializedName("slug") val slug: String?,
     @SerializedName("name") val name: String,

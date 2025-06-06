@@ -25,6 +25,7 @@
     <string name="event_freePrice">Бесплатно!</string>
     <string name="event_location">Адресс:</string>
     <string name="event_emptyPlace">не указано</string>
+    <string name="event_daysPlace">Дни:</string>
 
 
 </resources>

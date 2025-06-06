@@ -156,19 +156,70 @@ class FragmentEvent : Fragment() {
         titleText.text = event?.title
         descriptionText.text = event?.body_text //description?
 
+        //Дни
         val formatter = SimpleDateFormat("d MMMM", Locale("ru"))
         val eventDates: EventDate? = event?.dates
-            ?.filter { it.endTime != null && it.endTime > System.currentTimeMillis() / 1000 }
-            ?.minByOrNull { it.endTime!! }
+            ?.filter { it.endTimeNumber != null && it.endTimeNumber > System.currentTimeMillis() / 1000 }
+            ?.minByOrNull { it.endTimeNumber!! }
         //?.maxByOrNull { it.endTime!! }
-        val startTime = eventDates?.startTime?.let { formatter.format(Date(it * 1000)) }
-        val endTime = eventDates?.endTime?.let { formatter.format(Date(it * 1000)) }
+        val startTime = eventDates?.startTimeNumber?.let { formatter.format(Date(it * 1000)) }
+        val endTime = eventDates?.endTimeNumber?.let { formatter.format(Date(it * 1000)) }
         if(!startTime.equals(endTime)){
             val add = view.context.getString(R.string.home_endWithEvent) //?
-            val endTime = eventDates?.endTime?.let { formatter.format(Date(it * 1000 + 24 * 60 * 60 * 1000)) }
+            val endTime = eventDates?.endTimeNumber?.let { formatter.format(Date(it * 1000 + 24 * 60 * 60 * 1000)) }
             timeDateText.text = "$add $endTime"
         }
         else timeDateText.text = "$endTime"
+
+
+        //Время
+        val startHour1 = eventDates?.startTime
+        val endHour1 = eventDates?.endTime
+        var startHour = ""
+        var endHour = ""
+        if(startHour1 != null){
+            startHour = SimpleDateFormat("HH:mm", Locale("ru")).format(
+                SimpleDateFormat("HH:mm:ss", Locale("ru")).parse(startHour1)
+            )
+        }
+        if(endHour1 != null){
+            endHour = SimpleDateFormat("HH:mm", Locale("ru")).format(
+                SimpleDateFormat("HH:mm:ss", Locale("ru")).parse(endHour1)
+            )
+        }
+
+        val timeText = when {
+            !startHour.isNullOrBlank() && !endHour.isNullOrBlank()
+                    && startHour != endHour -> "$startHour - $endHour"
+            !startHour.isNullOrBlank() -> startHour
+            !endHour.isNullOrBlank() -> endHour
+            else -> null
+        }
+        if (timeText != null) {
+            timeTimeText.append("$timeText")
+        }
+
+        //Расписание
+        val schedule = eventDates?.schedules?.firstOrNull()
+        val daysOfWeek = schedule?.schedules?.joinToString(", ") {
+            when (it) {
+                1 -> "Пн"
+                2 -> "Вт"
+                3 -> "Ср"
+                4 -> "Чт"
+                5 -> "Пт"
+                6 -> "Сб"
+                7 -> "Вс"
+                else -> ""
+            }
+        }
+
+        if (!daysOfWeek.isNullOrEmpty()) {
+            timeTimeText.append("\n${getString(R.string.event_daysPlace)} $daysOfWeek")
+        }
+
+
+
 
         locationCityText.text = event.location?.name
 
@@ -204,6 +255,7 @@ class FragmentEvent : Fragment() {
         else{
             priceText.text = getString(R.string.event_freePrice)
         }
+
     }
 
 
