@@ -34,6 +34,8 @@ class FragmentHome : Fragment() {
     private lateinit var homePage: LinearLayout
     private lateinit var navigationView: BottomNavigationView
     private var click: EventAdapter.ClickInterface? = null
+    private var lastPositionAdapter = -1
+    private var firstLoad = true
     private var adapters = mapOf(
         "allEvents" to EventAdapter(),
         "freeEvents" to EventAdapter(),
@@ -57,9 +59,17 @@ class FragmentHome : Fragment() {
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                val cityName = cityNames[position]
-                val cityCode = mapCity[cityName] ?: "msk"
-                viewModel.loadEvents(cityCode)
+                if (firstLoad) {
+                    firstLoad = false
+                    lastPositionAdapter = position
+                    return
+                }
+                if (position != lastPositionAdapter) {
+                    lastPositionAdapter = position
+                    val cityName = cityNames[position]
+                    val cityCode = mapCity[cityName] ?: "msk"
+                    viewModel.loadEvents(cityCode)
+                }
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }

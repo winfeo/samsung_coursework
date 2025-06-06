@@ -42,5 +42,8 @@
     <string name="event_emptyPlace">не указано</string>
     <string name="event_daysPlace">Дни:</string>
 
+    <!-- Экран поиска -->
+    <string name="search_find">Поиск</string>
+
 
 </resources>
