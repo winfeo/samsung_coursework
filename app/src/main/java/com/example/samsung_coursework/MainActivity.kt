@@ -23,7 +23,8 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         bottomNav.setupWithNavController(navController)
         /**TODO сделать экран, на котор при первом запуске прилож, будет ф-ия выбора города **/
-        viewModel.loadEvents()//по умолчанию msk в usecase-ах пока
+        /**TODO и языка? **/
+        viewModel.loadEvents()//по умолчанию msk в usecase-ах и запросах API пока будет
 
     }
 }

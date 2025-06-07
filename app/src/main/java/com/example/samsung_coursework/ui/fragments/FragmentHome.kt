@@ -1,5 +1,6 @@
 package com.example.samsung_coursework.ui.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.cardview.widget.CardView
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -48,6 +51,11 @@ class FragmentHome : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val window = requireActivity().window
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        window.statusBarColor = Color.TRANSPARENT
+        WindowInsetsControllerCompat(window, requireView()).isAppearanceLightStatusBars = true
 
         val cityNames = resources.getStringArray(R.array.home_cityList)
         val cityCodes = resources.getStringArray(R.array.home_cityListAPI)
@@ -126,10 +134,8 @@ class FragmentHome : Fragment() {
         viewModel.isPageVisible.observe(viewLifecycleOwner) { isPageVisible ->
             homePage.isVisible = isPageVisible
         }
-    }
 
-    override fun onResume() {
-        super.onResume()
+
         click = object : EventAdapter.ClickInterface {
             override fun onClick(event: Event) {
                 selectedEventViewModel.choseEvent(event)
@@ -146,7 +152,6 @@ class FragmentHome : Fragment() {
                 click?.onClick(event)
             }
         }
-
     }
 
     private fun updatePopularEventCard(event: Event?, view: View) {
@@ -162,6 +167,7 @@ class FragmentHome : Fragment() {
         val textTitle = view.findViewById<TextView>(R.id.home_eventTitle)
         textTitle.text = event?.title
 
+        /** TODO Не всегда Москва **/
         val textPlace = view.findViewById<TextView>(R.id.home_eventPlace)
         textPlace.text = "Москва" + ", ${event?.place?.title ?: ""}" + ", ${event?.place?.address ?: ""}"
 

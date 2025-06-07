@@ -44,6 +44,10 @@
 
     <!-- Экран поиска -->
     <string name="search_find">Поиск</string>
+    <string name="search_category1">События</string>
+    <string name="search_category2">Места</string>
+    <string name="search_category3">Новости</string>
+    <string name="search_found">Найдено в</string>
 
 
 </resources>

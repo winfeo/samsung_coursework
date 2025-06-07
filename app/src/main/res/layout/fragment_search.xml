@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.FragmentSearch"
     android:orientation="vertical"
+    android:layout_marginTop="40dp"
     android:paddingHorizontal="24dp">
 
     <LinearLayout
@@ -58,4 +59,68 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="4dp">
+
+        <TextView
+            android:id="@+id/search_eventsButton"
+            android:clickable="true"
+            android:background="@drawable/bg_event_card"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="8dp"
+            android:text="@string/search_category1"/>
+
+        <TextView
+            android:id="@+id/search_placesButton"
+            android:clickable="true"
+            android:background="@drawable/bg_event_card"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="8dp"
+            android:text="@string/search_category2"/>
+
+        <TextView
+            android:clickable="true"
+            android:background="@drawable/bg_event_card"
+            android:textColor="@color/black"
+            android:layout_marginStart="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="8dp"
+            android:text="@string/search_category3"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/search_foundCounter"
+        android:layout_marginTop="12dp"
+        android:paddingStart="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:text="@string/search_found"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_marginTop="12dp"
+        android:paddingHorizontal="4dp"/>
+
+
+
 </LinearLayout>
+

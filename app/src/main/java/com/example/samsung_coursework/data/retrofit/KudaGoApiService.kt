@@ -20,8 +20,8 @@ interface KudaGoApiService {
 
     ): Response<EventsResponseDTO>
 
-    @GET("event-categories/") //получение списка всех категорий сайта
-    suspend fun getAllCategories(): Response<List<CategoryDTO>> /**TODO доделать DTO категорий**/
+    @GET("event-categories/")
+    suspend fun getAllCategories(): Response<List<CategoryDTO>>
 
     @GET("events") //получение самого популярного события
     suspend fun getMostPopularEvent(
@@ -65,5 +65,51 @@ interface KudaGoApiService {
         @Query("expand") expand: String = "place,location,dates"
 
     ): Response <EventsResponseDTO>
+
+
+
+
+
+    @GET("search/") //Поиск событий, строка
+    suspend fun searchBar(
+        @Query("lang") language: String = "ru",
+        @Query("page_size") size: Int = 10,
+        @Query("q") title: String = "Выставка",
+        @Query("location") location: String = "msk",
+        @Query("ctype") type: String = "event",
+        @Query("is_free") free: Boolean = false,
+
+    ): Response <EventsResponseDTO>
+
+    @GET("search/") //Поиск мест, фильтры
+    suspend fun searchPlaces(
+        @Query("ctype") type: String = "place",
+        @Query("lang") language: String = "ru",
+        @Query("page_size") size: Int,
+        @Query("location") location: String,
+        @Query("is_free") free: Boolean
+
+    ): Response <EventsResponseDTO>                             /**TODO добавить новую модель для мест??? **/
+
+    @GET("events/") //Поиск событий, фильтры
+    suspend fun searchEvents(
+        @Query("lang") language: String = "ru",
+        @Query("page_size") size: Int = 30,
+        @Query("location") location: String,
+        @Query("is_free") free: Boolean,
+
+        @Query("fields") fields: String = "id,dates,title,short_title," +
+                "place,description,body_text,location,categories,age_restriction," +
+                "price,is_free,images",
+        @Query("actual_since") time: Long = (System.currentTimeMillis() / 1000),
+        //@Query("actual_until") actualUntil: Long = (System.currentTimeMillis() / 1000 + 14 * 24 * 60 * 60),
+        @Query("order_by") order: String = "-id",
+        @Query("expand") expand: String = "place,location,dates"
+
+    ): Response <EventsResponseDTO>
+
+
+
+    /** TODO Поиск новостей добавить? Новая модель + адаптер? **/
 
 }
