@@ -14,9 +14,11 @@ class SearchViewModel: ViewModel() {
     private val repository = SearchRepositoryImp()
     private val searchEventsUseCase = SearchEventsUseCase(repository)
 
+    private val _isButtonEventsPressed = MutableLiveData <Boolean>(false)
     private val _isLoading = MutableLiveData <Boolean>()
     private val _events = MutableLiveData <List<Event>>()//фильтр событий
 
+    var isButtonEventsPressed = _isButtonEventsPressed
     val loading: LiveData <Boolean> = _isLoading
     val events: LiveData <List<Event>> = _events
 
@@ -32,5 +34,9 @@ class SearchViewModel: ViewModel() {
                 _isLoading.value = false
             }
         }
+    }
+
+    fun changeEventColor(){
+        _isButtonEventsPressed.value = !(_isButtonEventsPressed.value?: false)
     }
 }

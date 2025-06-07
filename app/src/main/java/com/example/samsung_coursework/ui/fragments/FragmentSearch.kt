@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -29,6 +31,7 @@ class FragmentSearch : Fragment() {
     private lateinit var recyclerViewEvents: RecyclerView
     private val adapterEvent = EventAdapterWide()
     private lateinit var navigationView: BottomNavigationView
+    private lateinit var progressBar: ProgressBar
     private var click: EventAdapterWide.ClickInterface? = null
 
 
@@ -45,9 +48,9 @@ class FragmentSearch : Fragment() {
         window.statusBarColor = Color.TRANSPARENT
         WindowInsetsControllerCompat(window, requireView()).isAppearanceLightStatusBars = true
 
-        /** TODO исправить видимость, добавить fadeIn и fadeOut методы **/
         navigationView = requireActivity().findViewById(R.id.bottom_nav_menu)
         navigationView.visibility = View.VISIBLE
+        progressBar = view.findViewById(R.id.search_progressBar)
 
         recyclerViewEvents = view.findViewById(R.id.search_recyclerView)
         recyclerViewEvents.adapter = adapterEvent
@@ -56,17 +59,17 @@ class FragmentSearch : Fragment() {
             adapterEvent?.submitList(events)
         })
 
-        /*
+        /** TODO имзенить логику обработки, так как при навигации каждый раз вызывается анимация **/
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
-            recyclerViewEvents.isVisible = isLoading
+            progressBar.isVisible = isLoading
             if (isLoading) {
-                recyclerViewEvents.fadeIn()
-            } else {
+                progressBar.fadeIn()
                 recyclerViewEvents.fadeOut()
+            } else {
+                progressBar.fadeOut()
+                recyclerViewEvents.fadeIn()
             }
         }
-
-         */
 
         click = object : EventAdapterWide.ClickInterface {
             override fun onClick(event: Event) {
@@ -78,14 +81,27 @@ class FragmentSearch : Fragment() {
 
 
         val buttonEvent = view?.findViewById<TextView>(R.id.search_eventsButton)
+        viewModel.isButtonEventsPressed.observe(viewLifecycleOwner) { pressed ->
+            if (pressed) {
+                buttonEvent?.isSelected = true
+                buttonEvent?.setTextColor(Color.WHITE)
+                val pageSize: Int = 10
+                val location: String = "spb"
+                val isFree: Boolean = false
+                viewModel.searchEvents(pageSize, location, isFree)
+            } else {
+                buttonEvent?.isSelected = false
+                buttonEvent?.setTextColor(Color.BLACK)
+            }
+        }
         buttonEvent?.setOnClickListener(){
-            /** TODO сделать так, чтобы изменение цвета не сбрасывалось **/
-            buttonEvent.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_event_card_pressed)
-            buttonEvent.setTextColor(Color.WHITE)
-            val pageSize: Int = 10
-            val location: String = "spb"
-            val isFree: Boolean = false
-            viewModel.searchEvents(pageSize, location, isFree)
+            viewModel.changeEventColor()
+        }
+
+
+        val buttonPlace = view?.findViewById<TextView>(R.id.search_placesButton)
+        buttonPlace?.setOnClickListener(){
+
         }
 
     }
