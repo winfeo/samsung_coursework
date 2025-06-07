@@ -1,5 +1,6 @@
 package com.example.samsung_coursework.data.retrofit
 
+import com.example.samsung_coursework.data.retrofit.dto.*
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -81,6 +82,7 @@ interface KudaGoApiService {
 
     ): Response <EventsResponseDTO>
 
+    /*
     @GET("search/") //Поиск мест, фильтры
     suspend fun searchPlaces(
         @Query("ctype") type: String = "place",
@@ -89,7 +91,24 @@ interface KudaGoApiService {
         @Query("location") location: String,
         @Query("is_free") free: Boolean
 
-    ): Response <EventsResponseDTO>                             /**TODO добавить новую модель для мест??? **/
+    ): Response <EventsResponseDTO>
+                                 /**TODO добавить новую модель для мест??? **/
+     */
+
+    @GET("places/") //Поиск мест, фильтры
+    suspend fun searchPlaces(
+        @Query("lang") language: String = "ru",
+        @Query("page_size") size: Int = 30,
+        @Query("location") location: String = "msk",
+        @Query("is_free") free: Boolean = true,
+        @Query("fields") fields: String = "id,title,short_title," +
+                "address,location,timetable,phone,images,description," +
+                "body_text,foreign_url,favorites_count,categories",
+        @Query("order_by") order: String = "-favorites_count",
+        @Query("expand") expand: String = "location",
+        @Query("categories") categories: String?,           /** TODO добавить запрос на получение всех категорий мест **/
+
+    ): Response <SearchedPlaceResponseDTO>
 
     @GET("events/") //Поиск событий, фильтры
     suspend fun searchEvents(

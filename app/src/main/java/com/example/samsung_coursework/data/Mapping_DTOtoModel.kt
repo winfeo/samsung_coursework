@@ -1,6 +1,6 @@
 package com.example.samsung_coursework.data
 
-import com.example.samsung_coursework.data.retrofit.*
+import com.example.samsung_coursework.data.retrofit.dto.*
 import com.example.samsung_coursework.domain.models.*
 
 //Ивент маппинг
@@ -102,6 +102,11 @@ fun CategoryDTO.toDomain(): Category{
         name = name
     )
 }
+
+
+
+
+/** TODO добавить маппинг мест сюда + метод в репозиторий для получения мест + usecase-ы **/
 
 
 

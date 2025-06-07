@@ -100,10 +100,41 @@ class FragmentSearch : Fragment() {
 
 
         val buttonPlace = view?.findViewById<TextView>(R.id.search_placesButton)
+        viewModel.isButtonPlacesPressed.observe(viewLifecycleOwner){ pressed ->
+            if (pressed) {
+                buttonPlace?.isSelected = true
+                buttonPlace?.setTextColor(Color.WHITE)
+                val pageSize: Int = 10
+                val location: String = "spb"
+                val isFree: Boolean = false
+                //viewModel.searchEvents(pageSize, location, isFree)
+            } else {
+                buttonPlace?.isSelected = false
+                buttonPlace?.setTextColor(Color.BLACK)
+            }
+        }
         buttonPlace?.setOnClickListener(){
-
+            viewModel.changePlacesColor()
         }
 
+
+        val buttonNews = view?.findViewById<TextView>(R.id.search_newsButton)
+        viewModel.isButtonNewsPressed.observe(viewLifecycleOwner){ pressed ->
+            if (pressed) {
+                buttonNews?.isSelected = true
+                buttonNews?.setTextColor(Color.WHITE)
+                val pageSize: Int = 10
+                val location: String = "spb"
+                val isFree: Boolean = false
+                //viewModel.searchEvents(pageSize, location, isFree)
+            } else {
+                buttonNews?.isSelected = false
+                buttonNews?.setTextColor(Color.BLACK)
+            }
+        }
+        buttonNews?.setOnClickListener(){
+            viewModel.changeNewsColor()
+        }
     }
 
 

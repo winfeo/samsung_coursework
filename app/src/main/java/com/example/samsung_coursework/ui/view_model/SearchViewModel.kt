@@ -15,10 +15,14 @@ class SearchViewModel: ViewModel() {
     private val searchEventsUseCase = SearchEventsUseCase(repository)
 
     private val _isButtonEventsPressed = MutableLiveData <Boolean>(false)
+    private val _isButtonPlacesPressed = MutableLiveData <Boolean>(false)
+    private val _isButtonNewsPressed = MutableLiveData <Boolean>(false)
     private val _isLoading = MutableLiveData <Boolean>()
     private val _events = MutableLiveData <List<Event>>()//фильтр событий
 
-    var isButtonEventsPressed = _isButtonEventsPressed
+    var isButtonEventsPressed: LiveData <Boolean> = _isButtonEventsPressed
+    var isButtonPlacesPressed: LiveData <Boolean> = _isButtonPlacesPressed
+    var isButtonNewsPressed: LiveData <Boolean> = _isButtonNewsPressed
     val loading: LiveData <Boolean> = _isLoading
     val events: LiveData <List<Event>> = _events
 
@@ -38,5 +42,19 @@ class SearchViewModel: ViewModel() {
 
     fun changeEventColor(){
         _isButtonEventsPressed.value = !(_isButtonEventsPressed.value?: false)
+        _isButtonPlacesPressed.value = false
+        _isButtonNewsPressed.value = false
+    }
+
+    fun changePlacesColor(){
+        _isButtonPlacesPressed.value = !(_isButtonPlacesPressed.value?: false)
+        _isButtonEventsPressed.value = false
+        _isButtonNewsPressed.value = false
+    }
+
+    fun changeNewsColor(){
+        _isButtonNewsPressed.value = !(_isButtonNewsPressed.value?: false)
+        _isButtonPlacesPressed.value = false
+        _isButtonEventsPressed.value = false
     }
 }

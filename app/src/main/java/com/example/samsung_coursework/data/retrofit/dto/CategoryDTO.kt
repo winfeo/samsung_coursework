@@ -1,4 +1,4 @@
-package com.example.samsung_coursework.data.retrofit
+package com.example.samsung_coursework.data.retrofit.dto
 
 import com.google.gson.annotations.SerializedName
 

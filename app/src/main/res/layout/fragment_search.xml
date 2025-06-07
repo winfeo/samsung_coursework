@@ -79,7 +79,7 @@
         <TextView
             android:id="@+id/search_placesButton"
             android:clickable="true"
-            android:background="@drawable/bg_event_card"
+            android:background="@drawable/bg_event_card_selector"
             android:textColor="@color/black"
             android:layout_marginStart="8dp"
             android:layout_width="wrap_content"
@@ -89,8 +89,9 @@
             android:text="@string/search_category2"/>
 
         <TextView
+            android:id="@+id/search_newsButton"
             android:clickable="true"
-            android:background="@drawable/bg_event_card"
+            android:background="@drawable/bg_event_card_selector"
             android:textColor="@color/black"
             android:layout_marginStart="8dp"
             android:layout_width="wrap_content"
