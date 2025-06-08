@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.samsung_coursework.R
-import com.example.samsung_coursework.data.retrofit.CategoryTranslator
+import com.example.samsung_coursework.data.retrofit.CategoryTranslatorEvent
 import com.example.samsung_coursework.domain.models.Event
 import com.example.samsung_coursework.domain.models.EventDate
 import java.text.SimpleDateFormat
@@ -90,7 +90,7 @@ class EventAdapter() : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCall
             }
             ageTextView.text = textAge
 
-            val translatedCategories = CategoryTranslator.translateCategory(event.categories)
+            val translatedCategories = CategoryTranslatorEvent.translateCategory(event.categories)
             tagsTextView.text = translatedCategories
 
 

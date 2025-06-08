@@ -21,7 +21,7 @@ class SearchRepositoryImp(): SearchRepository {
         return try{
             RetrofitClient.api.searchPlaces(size = pageSize, location = location, free = isFree).body()?.results?.toDomainPlaces()?: emptyList()
         } catch (e: Exception){
-            Log.d("Error", "Не удалось найти события")
+            Log.d("Error", "Не удалось найти места")
             emptyList()
         }
     }

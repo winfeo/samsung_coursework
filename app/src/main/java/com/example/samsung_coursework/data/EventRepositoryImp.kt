@@ -4,7 +4,8 @@ import android.util.Log
 
 import com.example.samsung_coursework.data.retrofit.RetrofitClient
 import com.example.samsung_coursework.domain.EventRepository
-import com.example.samsung_coursework.domain.models.Category
+import com.example.samsung_coursework.domain.models.CategoryEvent
+import com.example.samsung_coursework.domain.models.CategoryPlace
 import com.example.samsung_coursework.domain.models.Event
 
 //Реализ. методов
@@ -18,11 +19,11 @@ class EventRepositoryImp(): EventRepository {
         }
     }
 
-    override suspend fun getAllCategories(): List<Category> {
+    override suspend fun getAllCategoriesEvent(): List<CategoryEvent> {
         return try{
-            RetrofitClient.api.getAllCategories().body()?.toDomainCategories()?: emptyList()
+            RetrofitClient.api.getAllCategoriesEvent().body()?.toDomainCategoriesEvent()?: emptyList()
         } catch (e: Exception){
-            Log.d("Error", "Не удалось загрузить список категорий")
+            Log.d("Error", "Не удалось загрузить список категорий событий")
             emptyList()
         }
     }
@@ -50,6 +51,15 @@ class EventRepositoryImp(): EventRepository {
             RetrofitClient.api.getMostPopularEvents(location = code).body()?.results?.toDomainEvents()?: emptyList()
         } catch (e: Exception) {
             Log.d("Error", "Не удалось загрузить список самых попул событий")
+            emptyList()
+        }
+    }
+
+    override suspend fun getAllCategoriesPlace(): List<CategoryPlace> {
+        return try {
+            RetrofitClient.api.getAllCategoriesPlaces().body()?.toDomainCategoriesPlace()?: emptyList()
+        } catch (e: Exception) {
+            Log.d("Error", "Не удалось загрузить список всех категорий мест")
             emptyList()
         }
     }

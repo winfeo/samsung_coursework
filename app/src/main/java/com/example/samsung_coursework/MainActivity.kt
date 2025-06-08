@@ -6,12 +6,12 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.samsung_coursework.ui.view_model.EventViewModel
+import com.example.samsung_coursework.ui.view_model.HomeViewModel
 //import com.example.samsung_coursework.ui.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel: EventViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

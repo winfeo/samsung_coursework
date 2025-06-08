@@ -91,12 +91,24 @@ fun SourceDTO.toDomain(): Source{
 
 
 //Маппинг категорий
-fun List<CategoryDTO>.toDomainCategories(): List<Category>{
+fun List<CategoryEventDTO>.toDomainCategoriesEvent(): List<CategoryEvent>{
     return map { it.toDomain() }
 }
 
-fun CategoryDTO.toDomain(): Category{
-    return Category(
+fun CategoryEventDTO.toDomain(): CategoryEvent{
+    return CategoryEvent(
+        id = id,
+        slug = slug,
+        name = name
+    )
+}
+
+fun List<CategoryPlaceDTO>.toDomainCategoriesPlace(): List<CategoryPlace>{
+    return map { it.toDomain() }
+}
+
+fun CategoryPlaceDTO.toDomain(): CategoryPlace{
+    return CategoryPlace(
         id = id,
         slug = slug,
         name = name

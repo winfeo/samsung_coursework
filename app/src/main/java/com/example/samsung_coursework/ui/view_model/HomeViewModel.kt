@@ -6,15 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.samsung_coursework.data.EventRepositoryImp
-import com.example.samsung_coursework.data.retrofit.CategoryTranslator
+import com.example.samsung_coursework.data.retrofit.CategoryTranslatorEvent
+import com.example.samsung_coursework.data.retrofit.CategoryTranslatorPlace
 import com.example.samsung_coursework.domain.models.Event
 import com.example.samsung_coursework.domain.use_cases.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class EventViewModel : ViewModel() {
+class HomeViewModel : ViewModel() {
     private val repository = EventRepositoryImp() //создание репозитория
-    private val getAllCategoriesUseCase = GetAllCategoriesUseCase(repository)
+    private val getAllCategoriesEventUseCase = GetAllCategoriesEventUseCase(repository)
+    private val getAllCategoriesPlaceUseCase = GetAllCategoriesPlaceUseCase(repository)
     private val getEventsUseCase = GetEventsUseCase(repository)
     private val getFreeEventsUseCase = GetFreeEventsUseCase(repository)
     private val getMostPopularEventsUseCase = GetMostPopularEventsUseCase(repository)
@@ -41,10 +43,17 @@ class EventViewModel : ViewModel() {
             _isPageVisible.value = false
             try{
                 /**TODO перенести загрузку категорий в другое место?**/
-                val categories = getAllCategoriesUseCase.getAllCategories()
-                if (categories.isNotEmpty()) {
-                    CategoryTranslator.initFromList(categories)
+                val categoriesEvent = getAllCategoriesEventUseCase.getAllCategories()
+                if (categoriesEvent.isNotEmpty()) {
+                    CategoryTranslatorEvent.initFromList(categoriesEvent)
                 }
+
+                val categoriesPlace = getAllCategoriesPlaceUseCase.getAllCategories()
+                if (categoriesPlace.isNotEmpty()) {
+                    CategoryTranslatorPlace.initFromList(categoriesPlace)
+                }
+
+
 
                 val popularEvent = async { getMostPopularEventUseCase.getAllCategories(code) }
                 val events = async { getEventsUseCase.getEvent(code) }

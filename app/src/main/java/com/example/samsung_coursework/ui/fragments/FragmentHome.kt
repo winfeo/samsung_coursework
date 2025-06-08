@@ -12,7 +12,6 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -21,14 +20,14 @@ import com.example.samsung_coursework.R
 import com.example.samsung_coursework.domain.models.Event
 import com.example.samsung_coursework.domain.models.EventDate
 import com.example.samsung_coursework.ui.adapters.EventAdapter
-import com.example.samsung_coursework.ui.view_model.EventViewModel
+import com.example.samsung_coursework.ui.view_model.HomeViewModel
 import com.example.samsung_coursework.ui.view_model.SelectedEventViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.SimpleDateFormat
 import java.util.*
 
 class FragmentHome : Fragment() {
-    private val viewModel: EventViewModel by activityViewModels()
+    private val viewModel: HomeViewModel by activityViewModels()
     private val selectedEventViewModel: SelectedEventViewModel by activityViewModels()
     private lateinit var recyclerViewAllEvents: RecyclerView
     private lateinit var recyclerViewFreeEvents: RecyclerView

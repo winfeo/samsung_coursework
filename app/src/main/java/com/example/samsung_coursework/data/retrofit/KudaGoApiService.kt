@@ -22,7 +22,7 @@ interface KudaGoApiService {
     ): Response<EventsResponseDTO>
 
     @GET("event-categories/")
-    suspend fun getAllCategories(): Response<List<CategoryDTO>>
+    suspend fun getAllCategoriesEvent(): Response<List<CategoryEventDTO>>
 
     @GET("events") //получение самого популярного события
     suspend fun getMostPopularEvent(
@@ -109,6 +109,9 @@ interface KudaGoApiService {
         @Query("categories") categories: String? = null           /** TODO добавить запрос на получение всех категорий мест **/
 
     ): Response <SearchedPlaceResponseDTO>
+
+    @GET("place-categories/")
+    suspend fun getAllCategoriesPlaces(): Response<List<CategoryPlaceDTO>>
 
     @GET("events/") //Поиск событий, фильтры
     suspend fun searchEvents(

@@ -20,7 +20,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.samsung_coursework.R
-import com.example.samsung_coursework.data.retrofit.CategoryTranslator
+import com.example.samsung_coursework.data.retrofit.CategoryTranslatorEvent
 import com.example.samsung_coursework.domain.models.Event
 import com.example.samsung_coursework.domain.models.EventDate
 import com.example.samsung_coursework.ui.view_model.SelectedEventViewModel
@@ -148,7 +148,7 @@ class FragmentEvent : Fragment() {
             .centerCrop()
             .into(imageView)
 
-        val translatedCategories = CategoryTranslator.translateCategory(event.categories)
+        val translatedCategories = CategoryTranslatorEvent.translateCategory(event.categories)
         categoriesText.text = translatedCategories
 
         val textAge = when (event.age_restriction) {
