@@ -107,6 +107,28 @@ fun CategoryDTO.toDomain(): Category{
 
 
 /** TODO добавить маппинг мест сюда + метод в репозиторий для получения мест + usecase-ы **/
+//Маппинг мест
+fun List<SearchedPlaceDTO>.toDomainPlaces(): List <SearchedPlace>{
+    return map { it.toDomain() }
+}
+
+fun SearchedPlaceDTO.toDomain(): SearchedPlace{
+    return SearchedPlace(
+        id = id,
+        title = title,
+        shortTitle = shortTitle,
+        address = address,
+        timetable = timetable,
+        phone = phone,
+        bodyText = bodyText,
+        description = description,
+        foreignUrl = foreignUrl,
+        favoritesCount = favoritesCount,
+        images = images?.map { it.toDomain() },
+        categories = categories,
+        location = location
+    )
+}
 
 
 

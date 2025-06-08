@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_fragmentSearch_to_fragmentEvent"
             app:destination="@id/fragmentEvent" />
+        <action
+            android:id="@+id/action_fragmentSearch_to_fragmentPlace"
+            app:destination="@id/fragmentPlace" />
     </fragment>
     <fragment
         android:id="@+id/fragmentMap"
@@ -51,4 +54,9 @@
         android:name="com.example.samsung_coursework.ui.fragments.FragmentFilters"
         android:label="fragment_filters"
         tools:layout="@layout/fragment_filters" />
+    <fragment
+        android:id="@+id/fragmentPlace"
+        android:name="com.example.samsung_coursework.ui.fragments.FragmentPlace"
+        android:label="fragment_place"
+        tools:layout="@layout/fragment_place" />
 </navigation>

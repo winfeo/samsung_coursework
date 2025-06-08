@@ -179,6 +179,7 @@ class FragmentHome : Fragment() {
         textAge.text = age
 
         val textDate = view.findViewById<TextView>(R.id.home_eventDate)
+        /*
         val formatter = SimpleDateFormat("d MMMM", Locale("ru"))
 
         val eventDates: EventDate? = event?.dates
@@ -188,6 +189,24 @@ class FragmentHome : Fragment() {
         val startTime = eventDates?.startTimeNumber?.let { formatter.format(Date(it * 1000)) }
         val endTime = eventDates?.endTimeNumber?.let { formatter.format(Date(it * 1000)) }
         textDate.text = "$startTime - $endTime"
+         */
+        // Дата
+        /** TODO настроить правильное отображение **/
+        val formatter = SimpleDateFormat("d MMMM", Locale("ru"))
+
+        val eventDates: EventDate? = event?.dates
+            ?.filter { it.endTimeNumber != null && it.endTimeNumber > System.currentTimeMillis() / 1000 }
+            ?.minByOrNull { it.endTimeNumber!! }
+        //?.maxByOrNull { it.endTime!! }
+
+        val startTime = eventDates?.startTimeNumber?.let { formatter.format(Date(it * 1000)) }
+        val endTime = eventDates?.endTimeNumber?.let { formatter.format(Date(it * 1000)) }
+        if(!startTime.equals(endTime)){
+            val startTime = eventDates?.startTimeNumber?.let { formatter.format(Date(it * 1000)) }
+            val endTime = eventDates?.endTimeNumber?.let { formatter.format(Date(it * 1000)) }
+            textDate.text = "$startTime - $endTime"
+        }
+        else textDate.text = "$endTime"
 
     }
 

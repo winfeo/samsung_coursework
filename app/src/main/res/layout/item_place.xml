@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/search_card"
+        android:id="@+id/search_card2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="4dp"
@@ -25,15 +25,16 @@
                 style="@style/eventCard">
 
                 <ImageView
-                    android:id="@+id/search_cardImage"
+                    android:id="@+id/search_card2Image"
                     android:layout_width="match_parent"
                     android:src="@drawable/ic_launcher_background"
                     android:layout_height="128dp"
                     android:scaleType="centerCrop"
                     android:background="@drawable/bg_event_card_image"/>
 
+                <!--
                 <TextView
-                    android:id="@+id/search_cardAge"
+                    android:id="@+id/search_card2Age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
@@ -45,12 +46,13 @@
                     android:layout_marginBottom="8dp"
                     android:padding="5dp"
                     style="@style/eventCardAge"/>
+                -->
 
                 <TextView
-                    android:id="@+id/search_cardDate"
+                    android:id="@+id/search_card2isFree"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="31 мая"
+                    android:text="Бесплатное посещение"
                     android:textColor="@color/white"
                     android:gravity="start"
                     android:layout_gravity="bottom|start"
@@ -62,7 +64,7 @@
                     style="@style/eventCardAge"/>
 
                 <ImageButton
-                    android:id="@+id/search_cardAddToFavoriteButton"
+                    android:id="@+id/search_card2AddToFavoriteButton"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_gravity="top|end"
@@ -74,24 +76,24 @@
             </FrameLayout>
 
             <TextView
-                android:id="@+id/search_cardTitle"
+                android:id="@+id/search_card2Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Спектакль"
+                android:text="Москва"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:ellipsize="end"
                 android:lines="2"
+                android:ellipsize="end"
                 android:alpha="0.75"
                 android:textColor="@color/black"
                 android:layout_marginTop="8dp"
                 android:layout_marginHorizontal="16dp"/>
 
             <TextView
-                android:id="@+id/search_cardPlace"
+                android:id="@+id/search_card2Description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Москва"
+                android:text="Описание"
                 android:lines="2"
                 android:ellipsize="end"
                 android:textSize="14sp"

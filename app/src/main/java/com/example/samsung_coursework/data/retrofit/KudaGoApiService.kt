@@ -106,7 +106,7 @@ interface KudaGoApiService {
                 "body_text,foreign_url,favorites_count,categories",
         @Query("order_by") order: String = "-favorites_count",
         @Query("expand") expand: String = "location",
-        @Query("categories") categories: String?,           /** TODO добавить запрос на получение всех категорий мест **/
+        @Query("categories") categories: String? = null           /** TODO добавить запрос на получение всех категорий мест **/
 
     ): Response <SearchedPlaceResponseDTO>
 

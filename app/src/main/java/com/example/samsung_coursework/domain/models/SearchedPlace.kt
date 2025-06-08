@@ -1,7 +1,5 @@
 package com.example.samsung_coursework.domain.models
 
-import com.example.samsung_coursework.data.retrofit.dto.SearchedPlaceDTO
-
 data class SearchedPlace (
     val id: Int,
     val title: String,
@@ -19,6 +17,6 @@ data class SearchedPlace (
 )
 
 data class SearchedPlaceResponse(
-    val results: List<SearchedPlaceDTO>?,
+    val results: List<SearchedPlace>?,
     val count: Int
 )

@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
@@ -18,21 +17,23 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.samsung_coursework.R
-import com.example.samsung_coursework.domain.models.Event
+import com.example.samsung_coursework.domain.models.*
 import com.example.samsung_coursework.ui.adapters.*
-import com.example.samsung_coursework.ui.view_model.SearchViewModel
-import com.example.samsung_coursework.ui.view_model.SelectedEventViewModel
+import com.example.samsung_coursework.ui.view_model.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class FragmentSearch : Fragment() {
     private val viewModel: SearchViewModel by viewModels()
     private val selectedEventViewModel: SelectedEventViewModel by activityViewModels()
+    private val selectedPlaceViewModel: SelectedPlaceViewModel by activityViewModels()
     private lateinit var recyclerViewEvents: RecyclerView
     private val adapterEvent = EventAdapterWide()
+    private val adapterPlace = SearchedPlaceAdapter()
     private lateinit var navigationView: BottomNavigationView
     private lateinit var progressBar: ProgressBar
     private var click: EventAdapterWide.ClickInterface? = null
+    private var click2: SearchedPlaceAdapter.ClickInterface? = null
 
 
 
@@ -55,10 +56,14 @@ class FragmentSearch : Fragment() {
         recyclerViewEvents = view.findViewById(R.id.search_recyclerView)
         recyclerViewEvents.adapter = adapterEvent
 
+        //обзёрверы
         viewModel.events.observe(viewLifecycleOwner, Observer { events ->
-            adapterEvent?.submitList(events)
+            adapterEvent.submitList(events)
         })
 
+        viewModel.places.observe(viewLifecycleOwner) { places ->
+            adapterPlace.submitList(places)
+        }
         /** TODO имзенить логику обработки, так как при навигации каждый раз вызывается анимация **/
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             progressBar.isVisible = isLoading
@@ -71,20 +76,36 @@ class FragmentSearch : Fragment() {
             }
         }
 
+
+
+
+        //клики нажатий
         click = object : EventAdapterWide.ClickInterface {
             override fun onClick(event: Event) {
                 selectedEventViewModel.choseEvent(event)
                 findNavController().navigate(R.id.action_fragmentSearch_to_fragmentEvent)
             }
         }
-        adapterEvent?.clickListener = click
+        adapterEvent.clickListener = click
+
+        click2 = object : SearchedPlaceAdapter.ClickInterface {
+            override fun onClick(place: SearchedPlace) {
+                selectedPlaceViewModel.chosePlace(place)
+                findNavController().navigate(R.id.action_fragmentSearch_to_fragmentPlace)
+            }
+        }
+        adapterPlace.clickListener = click2
 
 
-        val buttonEvent = view?.findViewById<TextView>(R.id.search_eventsButton)
+
+
+        //логика
+        val buttonEvent = view.findViewById<TextView>(R.id.search_eventsButton)
         viewModel.isButtonEventsPressed.observe(viewLifecycleOwner) { pressed ->
             if (pressed) {
                 buttonEvent?.isSelected = true
                 buttonEvent?.setTextColor(Color.WHITE)
+                recyclerViewEvents.adapter = adapterEvent
                 val pageSize: Int = 10
                 val location: String = "spb"
                 val isFree: Boolean = false
@@ -98,16 +119,16 @@ class FragmentSearch : Fragment() {
             viewModel.changeEventColor()
         }
 
-
-        val buttonPlace = view?.findViewById<TextView>(R.id.search_placesButton)
+        val buttonPlace = view.findViewById<TextView>(R.id.search_placesButton)
         viewModel.isButtonPlacesPressed.observe(viewLifecycleOwner){ pressed ->
             if (pressed) {
                 buttonPlace?.isSelected = true
                 buttonPlace?.setTextColor(Color.WHITE)
+                recyclerViewEvents.adapter = adapterPlace
                 val pageSize: Int = 10
-                val location: String = "spb"
+                val location: String = "msk"
                 val isFree: Boolean = false
-                //viewModel.searchEvents(pageSize, location, isFree)
+                viewModel.searchPlaces(pageSize, location, isFree)
             } else {
                 buttonPlace?.isSelected = false
                 buttonPlace?.setTextColor(Color.BLACK)
@@ -117,8 +138,7 @@ class FragmentSearch : Fragment() {
             viewModel.changePlacesColor()
         }
 
-
-        val buttonNews = view?.findViewById<TextView>(R.id.search_newsButton)
+        val buttonNews = view.findViewById<TextView>(R.id.search_newsButton)
         viewModel.isButtonNewsPressed.observe(viewLifecycleOwner){ pressed ->
             if (pressed) {
                 buttonNews?.isSelected = true
