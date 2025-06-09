@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.view.WindowCompat
@@ -80,6 +81,11 @@ class FragmentSearch : Fragment() {
 
 
         //клики нажатий
+        val filterButton = view.findViewById<ImageButton>(R.id.search_buttonFilters)
+        filterButton.setOnClickListener(){
+            findNavController().navigate(R.id.action_fragmentSearch_to_fragmentFilters)
+        }
+
         click = object : EventAdapterWide.ClickInterface {
             override fun onClick(event: Event) {
                 selectedEventViewModel.choseEvent(event)

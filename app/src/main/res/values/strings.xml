@@ -49,5 +49,29 @@
     <string name="search_category3">Новости</string>
     <string name="search_found">Найдено в</string>
 
+    <!-- Экран фильтров -->
+    <string name="slider_label_formatter">%1$s</string>
+
+    <string name="filter_contentType">Тип контента</string>
+    <string name="filter_contentTypeEvents">События</string>
+    <string name="filter_contentTypePlaces">Места</string>
+    <string name="filter_city">Город</string>
+    <string name="filter_cityHint">Выберите город</string>
+    <string name="filter_price">Цена</string>
+    <string name="filter_priceIsFree">Только бесплатные</string>
+    <string name="filter_categories">Категории</string>
+    <string name="filter_sortBy">Сортировать по</string>
+    <string name="filter_sortByPopularity">Популярности</string>
+    <string name="filter_sortByDate">Дате события</string>
+    <string name="filter_sortByPublication">Дате публикации</string>
+    <string name="filter_showNumber">Показывать по</string>
+    <string-array name="filter_showNumber">
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+
+
 
 </resources>

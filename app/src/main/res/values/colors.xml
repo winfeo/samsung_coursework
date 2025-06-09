@@ -12,4 +12,5 @@
     <color name="greenButtonColor">#0DCDAA</color>
     <color name="gray">#7C7C7C</color>
     <color name="textButton">#2854C6</color>
+    <color name="card_stroke">#1F000000</color>
 </resources>

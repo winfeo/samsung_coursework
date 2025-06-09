@@ -106,7 +106,7 @@ interface KudaGoApiService {
                 "body_text,foreign_url,favorites_count,categories",
         @Query("order_by") order: String = "-favorites_count",
         @Query("expand") expand: String = "location",
-        @Query("categories") categories: String? = null           /** TODO добавить запрос на получение всех категорий мест **/
+        @Query("categories") categories: String? = null
 
     ): Response <SearchedPlaceResponseDTO>
 
@@ -126,7 +126,8 @@ interface KudaGoApiService {
         @Query("actual_since") time: Long = (System.currentTimeMillis() / 1000),
         //@Query("actual_until") actualUntil: Long = (System.currentTimeMillis() / 1000 + 14 * 24 * 60 * 60),
         @Query("order_by") order: String = "-id",
-        @Query("expand") expand: String = "place,location,dates"
+        @Query("expand") expand: String = "place,location,dates",
+        @Query("categories") categories: String? = null
 
     ): Response <EventsResponseDTO>
 
