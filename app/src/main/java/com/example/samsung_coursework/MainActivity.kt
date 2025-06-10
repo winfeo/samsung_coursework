@@ -9,6 +9,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.samsung_coursework.ui.view_model.HomeViewModel
 //import com.example.samsung_coursework.ui.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.FirebaseApp
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: HomeViewModel by viewModels()
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        FirebaseApp.initializeApp(this)
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav_menu)
         bottomNav.visibility = View.GONE
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment

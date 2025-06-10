@@ -145,3 +145,18 @@ fun SearchedPlaceDTO.toDomain(): SearchedPlace{
 
 
 
+
+
+//Маппинг юзера
+fun UserDTO.toDomain(): User{
+    return User(
+        userId = userId,
+        userEmail = userEmail,
+        userFavoriteEvents = userFavoriteEvents,
+        userFavoritePlaces = userFavoritePlaces
+    )
+}
+
+
+
+

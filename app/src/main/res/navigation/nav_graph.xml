@@ -48,7 +48,7 @@
         android:id="@+id/fragmentProfile"
         android:name="com.example.samsung_coursework.ui.fragments.FragmentProfile"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile_unauthorized" />
     <fragment
         android:id="@+id/fragmentFilters"
         android:name="com.example.samsung_coursework.ui.fragments.FragmentFilters"
