@@ -9,32 +9,37 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.samsung_coursework.R
-import com.example.samsung_coursework.data.FirebaseRepositoryImp
-import com.example.samsung_coursework.domain.use_cases.firebase.SignUpUseCase
 import com.example.samsung_coursework.ui.view_model.ProfileViewModel
-import kotlinx.coroutines.launch
 
 
 class FragmentProfile : Fragment() {
     private val viewModel: ProfileViewModel by activityViewModels()
     private lateinit var buttonSingIn: Button
-    private lateinit var buttonSingUp: Button
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var buttonSignUp: Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_profile_unauthorized, container, false)
+        if(viewModel.isAuthorised.value == true){
+            findNavController().navigate(R.id.action_fragmentProfile_to_fragmentProfileAuthorised)
+            return null
+        }
+        else{
+            return inflater.inflate(R.layout.fragment_profile_unauthorized, container, false)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         buttonSingIn = view.findViewById(R.id.profile_buttonSingIn)
-        buttonSingUp = view.findViewById(R.id.profile_buttonSingUp)
+        buttonSignUp = view.findViewById(R.id.profile_buttonSingUp)
+
+        viewModel.isAuthorised.observe(viewLifecycleOwner, Observer{
+                isAuthorised -> if(isAuthorised) {
+                findNavController().navigate(R.id.action_fragmentProfile_to_fragmentProfileAuthorised)
+            }
+        })
 
         viewModel.toast.observe(viewLifecycleOwner, Observer{
             toast -> Toast.makeText(requireContext(), toast, Toast.LENGTH_SHORT).show()
@@ -42,8 +47,12 @@ class FragmentProfile : Fragment() {
 
         val testEmail = "testMail@aboba.ru"
         val testPassword = "testPassword123"
-        buttonSingUp.setOnClickListener(){
-            viewModel.singUp(testEmail, testPassword)
+        buttonSignUp.setOnClickListener(){
+            viewModel.signUp(testEmail, testPassword)
+        }
+
+        buttonSingIn.setOnClickListener(){
+            viewModel.signIn(testEmail, testPassword)
         }
 
 

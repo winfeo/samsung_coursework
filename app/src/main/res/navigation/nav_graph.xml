@@ -48,7 +48,11 @@
         android:id="@+id/fragmentProfile"
         android:name="com.example.samsung_coursework.ui.fragments.FragmentProfile"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile_unauthorized" />
+        tools:layout="@layout/fragment_profile_unauthorized" >
+        <action
+            android:id="@+id/action_fragmentProfile_to_fragmentProfileAuthorised"
+            app:destination="@id/fragmentProfileAuthorised" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentFilters"
         android:name="com.example.samsung_coursework.ui.fragments.FragmentFilters"
@@ -59,4 +63,9 @@
         android:name="com.example.samsung_coursework.ui.fragments.FragmentPlace"
         android:label="fragment_place"
         tools:layout="@layout/fragment_place" />
+    <fragment
+        android:id="@+id/fragmentProfileAuthorised"
+        android:name="com.example.samsung_coursework.ui.fragments.FragmentProfileAuthorised"
+        android:label="fragment_profile_authorised"
+        tools:layout="@layout/fragment_profile_authorised" />
 </navigation>

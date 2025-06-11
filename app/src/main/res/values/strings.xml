@@ -78,6 +78,7 @@
     <string name="profile_info">Войдите в аккаунт или создайте новый</string>
     <string name="profile_singIn">Войти</string>
     <string name="profile_singUp">Нет аккаунта? Создайте</string>
+    <string name="profile_LogOut">Выйти</string>
 
 
 </resources>

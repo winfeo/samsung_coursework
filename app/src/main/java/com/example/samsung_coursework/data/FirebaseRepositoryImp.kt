@@ -12,4 +12,12 @@ class FirebaseRepositoryImp : FirebaseRepository {
     override suspend fun signUp(email: String, password: String): AuthResult {
         return auth.createUserWithEmailAndPassword(email,password).await()
     }
+
+    override suspend fun signIn(email: String, password: String): AuthResult {
+        return auth.signInWithEmailAndPassword(email, password).await()
+    }
+
+    override suspend fun signOut() {
+        auth.signOut()
+    }
 }
