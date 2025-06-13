@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_fragmentProfile_to_fragmentProfileAuthorised"
             app:destination="@id/fragmentProfileAuthorised" />
+        <action
+            android:id="@+id/action_fragmentProfile_to_fragmentSignUp"
+            app:destination="@id/fragmentSignUp" />
     </fragment>
     <fragment
         android:id="@+id/fragmentFilters"
@@ -68,4 +71,13 @@
         android:name="com.example.samsung_coursework.ui.fragments.FragmentProfileAuthorised"
         android:label="fragment_profile_authorised"
         tools:layout="@layout/fragment_profile_authorised" />
+    <fragment
+        android:id="@+id/fragmentSignUp"
+        android:name="com.example.samsung_coursework.ui.fragments.FragmentSignUp"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_fragmentSignUp_to_fragmentProfileAuthorised"
+            app:destination="@id/fragmentProfileAuthorised" />
+    </fragment>
 </navigation>

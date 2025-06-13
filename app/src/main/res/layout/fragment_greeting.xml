@@ -51,14 +51,14 @@
             style="@style/ButtonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/greeting_singIn"/>
+            android:text="@string/greeting_signIn"/>
 
         <Button
             android:id="@+id/greeting_buttonSingUp"
             style="@style/ButtonSecondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/greeting_singUp"
+            android:text="@string/greeting_signUp"
             android:layout_marginTop="10dp"/>
     </LinearLayout>
 </LinearLayout>

@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.samsung_coursework.R
 import com.example.samsung_coursework.ui.view_model.ProfileViewModel
@@ -16,8 +17,9 @@ import com.example.samsung_coursework.ui.view_model.ProfileViewModel
 
 class FragmentProfile : Fragment() {
     private val viewModel: ProfileViewModel by activityViewModels()
-    private lateinit var buttonSingIn: Button
+    private lateinit var buttonSignIn: Button
     private lateinit var buttonSignUp: Button
+    private lateinit var navController: NavController
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if(viewModel.isAuthorised.value == true){
@@ -32,12 +34,13 @@ class FragmentProfile : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        buttonSingIn = view.findViewById(R.id.profile_buttonSingIn)
+        buttonSignIn = view.findViewById(R.id.profile_buttonSingIn)
         buttonSignUp = view.findViewById(R.id.profile_buttonSingUp)
+        navController = findNavController()
 
         viewModel.isAuthorised.observe(viewLifecycleOwner, Observer{
                 isAuthorised -> if(isAuthorised) {
-                findNavController().navigate(R.id.action_fragmentProfile_to_fragmentProfileAuthorised)
+                navController.navigate(R.id.action_fragmentProfile_to_fragmentProfileAuthorised)
             }
         })
 
@@ -48,10 +51,10 @@ class FragmentProfile : Fragment() {
         val testEmail = "testMail@aboba.ru"
         val testPassword = "testPassword123"
         buttonSignUp.setOnClickListener(){
-            viewModel.signUp(testEmail, testPassword)
+            navController.navigate(R.id.action_fragmentProfile_to_fragmentSignUp)
         }
 
-        buttonSingIn.setOnClickListener(){
+        buttonSignIn.setOnClickListener(){
             viewModel.signIn(testEmail, testPassword)
         }
 

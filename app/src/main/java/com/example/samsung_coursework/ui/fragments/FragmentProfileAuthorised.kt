@@ -29,7 +29,7 @@ class FragmentProfileAuthorised : Fragment() {
         buttonSignOut = view.findViewById(R.id.profile_buttonSignOut)
         buttonSignOut.setOnClickListener(){
             viewModel.signOut()
-            findNavController().navigateUp()
+            findNavController().navigate(R.id.fragmentProfile)
         }
 
 

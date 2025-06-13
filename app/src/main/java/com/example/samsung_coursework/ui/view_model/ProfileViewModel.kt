@@ -23,10 +23,10 @@ class ProfileViewModel: ViewModel() {
     val isAuthorised: LiveData<Boolean> = _isAuthorised
     val toast: LiveData<String> = _toast
 
-    fun signUp(email: String, password: String){
+    fun signUp(nickname: String, email: String, password: String){
         viewModelScope.launch {
-            val result = signUpUseCase.signUp(email, password)
-            _toast.value = result
+            val result = signUpUseCase.signUp(nickname, email, password)
+            toastMessage(result)
         }
     }
 
@@ -36,8 +36,12 @@ class ProfileViewModel: ViewModel() {
             if(result){
                 _isAuthorised.value = true
             }
-            _toast.value = toast
+            toastMessage(toast)
         }
+    }
+
+    fun toastMessage(toast: String){
+        _toast.value = toast
     }
 
     fun signOut(){

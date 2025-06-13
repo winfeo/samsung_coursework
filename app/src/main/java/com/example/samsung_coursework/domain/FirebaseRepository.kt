@@ -9,5 +9,6 @@ interface FirebaseRepository {
     suspend fun signOut()
 
     /** TODO еализовать usecase-ы для работы с избранным **/
+    suspend fun createNewUser(user: User)
     //suspend fun getUser(): User?
 }

@@ -4,8 +4,8 @@
     <!-- Экран входа -->
     <string name="greeting_greeting">Здравствуйте!</string>
     <string name="greeting_info">Войдите в аккаунт или создайте новый</string>
-    <string name="greeting_singIn">Войти</string>
-    <string name="greeting_singUp">Нет аккаунта? Создайте</string>
+    <string name="greeting_signIn">Войти</string>
+    <string name="greeting_signUp">Нет аккаунта? Создайте</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -79,6 +79,19 @@
     <string name="profile_singIn">Войти</string>
     <string name="profile_singUp">Нет аккаунта? Создайте</string>
     <string name="profile_LogOut">Выйти</string>
+
+    <!-- Экран Регистрации -->
+    <string name="profile_signUpInfo">Новый аккаунт</string>
+    <string name="profile_signUpNickname">Псевдоним</string>
+    <string name="profile_signUpNicknameEnter">Введи свой псевдоним</string>
+    <string name="profile_signUpEmail">Электронная почта</string>
+    <string name="profile_signUpPassword">Пароль</string>
+    <string name="profile_signUpPasswordEnter">Введи свой пароль</string>
+    <string name="profile_signUpPasswordRepeat">Повтори пароль</string>
+    <string name="profile_signUpPasswordRepeatEnter">Повтори новый пароль</string>
+    <string name="profile_signUpButton">Создать аккаунт</string>
+    <string name="profile_signUpPasswordError">Пароли должны совпадать</string>
+    <string name="profile_signUpFillError">Заполните все поля</string>
 
 
 </resources>
