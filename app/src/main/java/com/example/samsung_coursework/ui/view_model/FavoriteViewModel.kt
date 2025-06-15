@@ -32,6 +32,7 @@ class FavoriteViewModel: ViewModel() {
     private val _favoriteEventIds = MutableLiveData<Set<Int>>(emptySet())
     val favoriteEventIds: LiveData<Set<Int>> = _favoriteEventIds
 
+    /** TODO добавить счётчик событий во фрагменте избранного **/
     private val _favoriteEventsCount = MutableLiveData<Int>(0)
     val favoriteCount: LiveData<Int> = _favoriteEventsCount
 
@@ -66,6 +67,8 @@ class FavoriteViewModel: ViewModel() {
                     _favoriteEventIds.value = currentIds
 
                     addFavoriteEventUseCase.add(eventId)
+
+                    updateFavoriteEvents()
                 }
             } catch (e: Exception) {
                 val currentIds = _favoriteEventIds.value?.toMutableSet() ?: mutableSetOf()
