@@ -3,6 +3,7 @@ package com.example.samsung_coursework.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -20,8 +21,16 @@ class EventAdapter() : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCall
 
     interface ClickInterface{
         fun onClick(event: Event)
+        fun onFavoriteClick(event: Event, isCurrentlyFavorite: Boolean)
     }
 
+    var favoriteEventIds: Set<Int> = emptySet()
+        set(value) {
+            if (field != value) {
+                field = value
+                notifyDataSetChanged()
+            }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -40,6 +49,7 @@ class EventAdapter() : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCall
         private val ageTextView = view.findViewById<TextView>(R.id.home_eventCardAge)
         private val tagsTextView = view.findViewById<TextView>(R.id.home_eventCardTags)
         private val image = view.findViewById<ImageView>(R.id.home_eventCardImage)
+        private val favorite = view.findViewById<ImageButton>(R.id.home_addToFavoriteCardButton)
 
         fun bind(event: Event) {
             val imageURL = event?.images?.firstOrNull()?.url
@@ -53,6 +63,16 @@ class EventAdapter() : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCall
 
             // Название события
             titleTextView.text = event.short_title
+
+            val isFavorite = favoriteEventIds.contains(event.id)
+            favorite.setImageResource(
+                if (isFavorite) R.drawable.ic_favorite_full
+                else R.drawable.ic_favorite
+            )
+
+            favorite.setOnClickListener {
+                clickListener?.onFavoriteClick(event, isFavorite)
+            }
 
             // Дата
             val formatter = SimpleDateFormat("d MMMM", Locale("ru"))
@@ -95,8 +115,9 @@ class EventAdapter() : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCall
 
 
 
-
-
+            favorite.setOnClickListener {
+                clickListener?.onFavoriteClick(event, isFavorite)
+            }
 
             itemView.setOnClickListener(){
                 clickListener?.onClick(event)
@@ -110,10 +131,7 @@ class EventAdapter() : ListAdapter<Event, EventAdapter.EventViewHolder>(DiffCall
             return oldItem.id == newItem.id
         }
         override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean{
-            return oldItem.short_title == newItem.short_title &&
-                    oldItem.age_restriction == newItem.age_restriction &&
-                    oldItem.dates == newItem.dates &&
-                    oldItem.categories == newItem.categories
+            return oldItem == newItem && oldItem.is_favorite == newItem.is_favorite
         }
     }
 }

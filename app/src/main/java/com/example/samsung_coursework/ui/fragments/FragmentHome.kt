@@ -20,6 +20,7 @@ import com.example.samsung_coursework.R
 import com.example.samsung_coursework.domain.models.Event
 import com.example.samsung_coursework.domain.models.EventDate
 import com.example.samsung_coursework.ui.adapters.EventAdapter
+import com.example.samsung_coursework.ui.view_model.FavoriteViewModel
 import com.example.samsung_coursework.ui.view_model.HomeViewModel
 import com.example.samsung_coursework.ui.view_model.SelectedEventViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -29,6 +30,7 @@ import java.util.*
 class FragmentHome : Fragment() {
     private val viewModel: HomeViewModel by activityViewModels()
     private val selectedEventViewModel: SelectedEventViewModel by activityViewModels()
+    private val favoriteViewModel: FavoriteViewModel by activityViewModels()
     private lateinit var recyclerViewAllEvents: RecyclerView
     private lateinit var recyclerViewFreeEvents: RecyclerView
     private lateinit var recyclerViewMostPopularEvents: RecyclerView
@@ -134,11 +136,25 @@ class FragmentHome : Fragment() {
             homePage.isVisible = isPageVisible
         }
 
+        favoriteViewModel.favoriteEventIds.observe(viewLifecycleOwner) { ids ->
+            adapters.values.forEach { adapter ->
+                adapter.favoriteEventIds = ids
+            }
+        }
+
 
         click = object : EventAdapter.ClickInterface {
             override fun onClick(event: Event) {
                 selectedEventViewModel.choseEvent(event)
                 findNavController().navigate(R.id.action_fragmentHome_to_fragmentEvent)
+            }
+
+            override fun onFavoriteClick(event: Event, isCurrentlyFavorite: Boolean) {
+                if (isCurrentlyFavorite) {
+                    favoriteViewModel.deleteFavoriteEvent(event.id)
+                } else {
+                    favoriteViewModel.addFavoriteEvent(event.id)
+                }
             }
         }
 
@@ -149,6 +165,15 @@ class FragmentHome : Fragment() {
         popularCard?.setOnClickListener {
             viewModel.mostPopularEvent.value?.let { event ->
                 click?.onClick(event)
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        favoriteViewModel.favoriteEventIds.value?.let { ids ->
+            adapters.values.forEach { adapter ->
+                adapter.favoriteEventIds = ids
             }
         }
     }
@@ -165,6 +190,29 @@ class FragmentHome : Fragment() {
 
         val textTitle = view.findViewById<TextView>(R.id.home_eventTitle)
         textTitle.text = event?.title
+
+        val favorite = view.findViewById<ImageButton>(R.id.home_addToFavoriteButton)
+        val isFavorite = favoriteViewModel.isFavorite(event?.id ?: 0)
+        favoriteViewModel.favoriteEventIds.observe(viewLifecycleOwner) { ids ->
+            event?.let {
+                val isFavorite = ids.contains(it.id)
+                favorite.setImageResource(
+                    if (isFavorite) R.drawable.ic_favorite_full
+                    else R.drawable.ic_favorite
+                )
+            }
+        }
+
+        favorite.setOnClickListener {
+            event?.let { currentEvent ->
+                val isCurrentlyFavorite = favoriteViewModel.isFavorite(currentEvent.id)
+                if (isCurrentlyFavorite) {
+                    favoriteViewModel.deleteFavoriteEvent(currentEvent.id)
+                } else {
+                    favoriteViewModel.addFavoriteEvent(currentEvent.id)
+                }
+            }
+        }
 
         /** TODO Не всегда Москва **/
         val textPlace = view.findViewById<TextView>(R.id.home_eventPlace)
