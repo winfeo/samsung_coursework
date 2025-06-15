@@ -131,8 +131,14 @@ interface KudaGoApiService {
 
     ): Response <EventsResponseDTO>
 
-
-
-    /** TODO Поиск новостей добавить? Новая модель + адаптер? **/
+    @GET("events/")
+    suspend fun getFavoriteEvents(
+        @Query("ids") ids: String,
+        @Query("page_size") pageSize: Int = 100,
+        @Query("fields") fields: String = "id,dates,title,short_title," +
+                "place,description,body_text,location,categories,age_restriction," +
+                "price,is_free,images",
+        @Query("expand") expand: String = "place,location"
+    ): Response <EventsResponseDTO>
 
 }

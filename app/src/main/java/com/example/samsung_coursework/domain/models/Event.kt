@@ -14,7 +14,8 @@ data class Event(
     val age_restriction: String?,
     val price: String?,
     val is_free: Boolean,
-    val images: List<ImageResource>?
+    val images: List<ImageResource>?,
+    val is_favorite: Boolean = false
 )
 
 //Осн. формат ответа

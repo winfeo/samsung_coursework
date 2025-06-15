@@ -72,6 +72,8 @@
         <item>30</item>
     </string-array>
 
+    <!-- Экран Регистрации -->
+    <string name="favorite_info">Избранное</string>
 
     <!-- Экран Профиля -->
     <string name="profile_greeting">Здравствуйте!</string>

@@ -13,4 +13,6 @@ interface EventRepository {
     suspend fun getMostPopularEvents(code: String = "msk"): List<Event>
 
     suspend fun getAllCategoriesPlace(): List<CategoryPlace>
+
+    suspend fun getFavoriteEvents(ids: String): List<Event>
 }

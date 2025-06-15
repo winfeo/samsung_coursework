@@ -3,6 +3,7 @@ package com.example.samsung_coursework.data
 import android.util.Log
 
 import com.example.samsung_coursework.data.retrofit.RetrofitClient
+import com.example.samsung_coursework.data.retrofit.dto.EventsResponseDTO
 import com.example.samsung_coursework.domain.EventRepository
 import com.example.samsung_coursework.domain.models.CategoryEvent
 import com.example.samsung_coursework.domain.models.CategoryPlace
@@ -60,6 +61,15 @@ class EventRepositoryImp(): EventRepository {
             RetrofitClient.api.getAllCategoriesPlaces().body()?.toDomainCategoriesPlace()?: emptyList()
         } catch (e: Exception) {
             Log.d("Error", "Не удалось загрузить список всех категорий мест")
+            emptyList()
+        }
+    }
+
+    override suspend fun getFavoriteEvents(ids: String): List<Event> {
+        return try {
+            RetrofitClient.api.getFavoriteEvents(ids = ids).body()?.results?.toDomainEvents()?: emptyList()
+        } catch (e: Exception) {
+            Log.d("Error", "Любимки не любимки :(((((")
             emptyList()
         }
     }

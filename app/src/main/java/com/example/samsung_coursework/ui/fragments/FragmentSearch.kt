@@ -28,6 +28,7 @@ class FragmentSearch : Fragment() {
     private val viewModel: SearchViewModel by viewModels()
     private val selectedEventViewModel: SelectedEventViewModel by activityViewModels()
     private val selectedPlaceViewModel: SelectedPlaceViewModel by activityViewModels()
+    private val favoriteViewModel: FavoriteViewModel by activityViewModels()
     private lateinit var recyclerViewEvents: RecyclerView
     private val adapterEvent = EventAdapterWide()
     private val adapterPlace = SearchedPlaceAdapter()
@@ -54,6 +55,8 @@ class FragmentSearch : Fragment() {
         navigationView.visibility = View.VISIBLE
         progressBar = view.findViewById(R.id.search_progressBar)
 
+        favoriteViewModel.updateFavoriteEvents()
+
         recyclerViewEvents = view.findViewById(R.id.search_recyclerView)
         recyclerViewEvents.adapter = adapterEvent
 
@@ -65,6 +68,18 @@ class FragmentSearch : Fragment() {
         viewModel.places.observe(viewLifecycleOwner) { places ->
             adapterPlace.submitList(places)
         }
+
+        /*
+        favoriteViewModel.favoriteEvents.observe(viewLifecycleOwner, Observer{ events ->
+            adapterEvent.favoriteEvents = events.toSet()
+        })
+
+         */
+
+        favoriteViewModel.favoriteEventIds.observe(viewLifecycleOwner, Observer { ids ->
+            adapterEvent.favoriteEventIds = ids
+        })
+
         /** TODO имзенить логику обработки, так как при навигации каждый раз вызывается анимация **/
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             progressBar.isVisible = isLoading
@@ -90,6 +105,14 @@ class FragmentSearch : Fragment() {
             override fun onClick(event: Event) {
                 selectedEventViewModel.choseEvent(event)
                 findNavController().navigate(R.id.action_fragmentSearch_to_fragmentEvent)
+            }
+
+            override fun onFavoriteClick(event: Event, isCurrentlyFavorite: Boolean) {
+                if (isCurrentlyFavorite) {
+                    favoriteViewModel.deleteFavoriteEvent(event.id)
+                } else {
+                    favoriteViewModel.addFavoriteEvent(event.id)
+                }
             }
         }
         adapterEvent.clickListener = click

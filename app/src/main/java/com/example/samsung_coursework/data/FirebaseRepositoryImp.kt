@@ -1,10 +1,13 @@
 package com.example.samsung_coursework.data
 
+import com.example.samsung_coursework.data.retrofit.dto.EventsResponseDTO
 import com.example.samsung_coursework.domain.FirebaseRepository
+import com.example.samsung_coursework.domain.models.Event
 import com.example.samsung_coursework.domain.models.User
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
@@ -27,5 +30,50 @@ class FirebaseRepositoryImp : FirebaseRepository {
 
     override suspend fun createNewUser(user: User) {
         reference.child(user.userId).setValue(user).await()
+    }
+
+
+
+
+
+
+    override suspend fun getUserData(): User? {
+        val userId = auth.currentUser?.uid
+        val snapshot = userId?.let { reference.child(it).get().await() }
+        val user = snapshot?.getValue(User::class.java)
+        return user
+    }
+
+    override suspend fun addFavoriteEvent(userId: String, eventId: Int) {
+        val currentList = getFavoriteEventsIds(userId)
+
+        if (!currentList.contains(eventId)) {
+            val updatedList = currentList.toMutableList()
+            updatedList.add(eventId)
+            reference.child(userId).child("userFavoriteEvents").setValue(updatedList).await()
+        }
+    }
+
+    override suspend fun deleteFavoriteEvent(userId: String, eventId: Int) {
+        val currentList = getFavoriteEventsIds(userId)
+
+        if (currentList.contains(eventId)) {
+            val updatedList = currentList.toMutableList()
+            updatedList.remove(eventId)
+            reference.child(userId).child("userFavoriteEvents").setValue(updatedList).await()
+        }
+    }
+
+
+
+
+    override suspend fun updateFavoriteEvents(userId: String, events: List<Int>) {
+        reference.child(userId).child("userFavoriteEvents").setValue(events).await()
+    }
+
+
+    override suspend fun getFavoriteEventsIds(userId: String): List<Int> {
+        val snapshot = reference.child(userId).child("userFavoriteEvents").get().await()
+        return snapshot.getValue<List<Int>>() ?: emptyList()
     }
 }
