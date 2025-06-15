@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -23,6 +24,7 @@ import com.example.samsung_coursework.R
 import com.example.samsung_coursework.data.retrofit.CategoryTranslatorEvent
 import com.example.samsung_coursework.domain.models.Event
 import com.example.samsung_coursework.domain.models.EventDate
+import com.example.samsung_coursework.ui.view_model.FavoriteViewModel
 import com.example.samsung_coursework.ui.view_model.SelectedEventViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.SimpleDateFormat
@@ -31,6 +33,8 @@ import java.util.*
 class FragmentEvent : Fragment() {
     private lateinit var toolbar: Toolbar
     private val selectedEventViewModel: SelectedEventViewModel by activityViewModels()
+    private val favoriteViewModel: FavoriteViewModel by activityViewModels()
+    private lateinit var favoriteButton: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +63,19 @@ class FragmentEvent : Fragment() {
         window.statusBarColor = Color.TRANSPARENT
         WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = false
 
+        favoriteButton = view.findViewById<ImageButton>(R.id.event_favorite_button)
 
+        selectedEventViewModel.event.observe(viewLifecycleOwner) { event ->
+            updateCardInfo(event, view)
+            selectedEventViewModel.updateFavoriteStatus(favoriteViewModel.isFavorite(event.id))
+        }
+
+        selectedEventViewModel.isFavorite.observe(viewLifecycleOwner) { isFavorite ->
+            favoriteButton.setImageResource(
+                if (isFavorite) R.drawable.ic_favorite_full
+                else R.drawable.ic_favorite
+            )
+        }
 
         selectedEventViewModel.event.observe(viewLifecycleOwner){ event ->
             updateCardInfo(event, view)
@@ -126,10 +142,21 @@ class FragmentEvent : Fragment() {
             rotationAnim.start()
         }
 
+        favoriteButton.setOnClickListener {
+            selectedEventViewModel.event.value?.id?.let { eventId ->
+                val currentlyFavorite = selectedEventViewModel.isFavorite.value ?: false
+                if (currentlyFavorite) {
+                    favoriteViewModel.deleteFavoriteEvent(eventId)
+                } else {
+                    favoriteViewModel.addFavoriteEvent(eventId)
+                }
+                selectedEventViewModel.toggleFavorite(eventId)
+            }
+        }
 
     }
 
-    fun updateCardInfo(event: Event, view: View){
+    private fun updateCardInfo(event: Event, view: View){
         val imageView = view.findViewById<ImageView>(R.id.event_image)
         val categoriesText = view.findViewById<TextView>(R.id.event_categories)
         val ageText = view.findViewById<TextView>(R.id.event_age)
@@ -159,6 +186,12 @@ class FragmentEvent : Fragment() {
 
         titleText.text = event?.title
         descriptionText.text = event?.body_text //description?
+
+        val isFavorite = favoriteViewModel.isFavorite(event.id)
+        favoriteButton.setImageResource(
+            if (isFavorite) R.drawable.ic_favorite_full
+            else R.drawable.ic_favorite
+        )
 
         //Дни
         val formatter = SimpleDateFormat("d MMMM", Locale("ru"))
