@@ -15,7 +15,13 @@ interface FirebaseRepository {
 
     suspend fun addFavoriteEvent(userId: String, eventId: Int)
     suspend fun deleteFavoriteEvent(userId: String, eventId: Int)
-
     suspend fun updateFavoriteEvents(userId: String, events: List<Int>)
     suspend fun getFavoriteEventsIds(userId: String): List<Int>
+
+    suspend fun addFavoritePlace(userId: String, eventId: Int)
+    suspend fun deleteFavoritePlace(userId: String, eventId: Int)
+    suspend fun updateFavoritePlaces(userId: String, events: List<Int>)
+    suspend fun getFavoritePlaceIds(userId: String): List<Int>
+
+
 }

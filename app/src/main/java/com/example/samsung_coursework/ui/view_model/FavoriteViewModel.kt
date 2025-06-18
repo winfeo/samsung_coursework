@@ -8,10 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.samsung_coursework.data.EventRepositoryImp
 import com.example.samsung_coursework.data.FirebaseRepositoryImp
 import com.example.samsung_coursework.domain.models.Event
-import com.example.samsung_coursework.domain.use_cases.firebase.AddFavoriteEventUseCase
-import com.example.samsung_coursework.domain.use_cases.firebase.DeleteFavoriteEventUseCase
-import com.example.samsung_coursework.domain.use_cases.firebase.GetFavoriteEventsUseCase
-import com.example.samsung_coursework.domain.use_cases.firebase.GetUserDataUseCase
+import com.example.samsung_coursework.domain.models.SearchedPlace
+import com.example.samsung_coursework.domain.use_cases.firebase.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -19,18 +17,30 @@ class FavoriteViewModel: ViewModel() {
     /** TODO Hilt **/
     private val repository = FirebaseRepositoryImp()
     private val eventRepository = EventRepositoryImp()
+    private val getUserDataUseCase = GetUserDataUseCase(repository)
+
     private val addFavoriteEventUseCase = AddFavoriteEventUseCase(repository)
     private val deleteFavoriteEventUseCase = DeleteFavoriteEventUseCase(repository)
-    private val getUserDataUseCase = GetUserDataUseCase(repository)
     private val getFavoriteEventsUseCase = GetFavoriteEventsUseCase(eventRepository)
+
+    private val addFavoritePlaceUseCase = AddFavoritePlaceUseCase(repository)
+    private val deleteFavoritePlaceUseCase = DeleteFavoritePlaceUseCase(repository)
+    private val getFavoritePlacesUseCase = GetFavoritePlacesUseCase(eventRepository)
 
     //список событий
     private val _favoriteEvents = MutableLiveData<List<Event>>(emptyList())
     val favoriteEvents: LiveData<List<Event>> = _favoriteEvents
 
+    //событ
+    private val _favoritePlaces = MutableLiveData<List<SearchedPlace>>(emptyList())
+    val favoritePlaces: LiveData<List<SearchedPlace>> = _favoritePlaces
+
     //проверка для обнов.
     private val _favoriteEventIds = MutableLiveData<Set<Int>>(emptySet())
     val favoriteEventIds: LiveData<Set<Int>> = _favoriteEventIds
+
+    private val _favoritePlaceIds = MutableLiveData<Set<Int>>(emptySet())
+    val favoritePlaceIds: LiveData<Set<Int>> = _favoritePlaceIds
 
     /** TODO добавить счётчик событий во фрагменте избранного **/
     private val _favoriteEventsCount = MutableLiveData<Int>(0)
@@ -101,6 +111,62 @@ class FavoriteViewModel: ViewModel() {
 
     fun isFavorite(eventId: Int): Boolean {
         return _favoriteEventIds.value?.contains(eventId) ?: false
+    }
+
+
+
+
+
+
+
+    fun updateFavoritePlaces() {
+        viewModelScope.launch {
+            try {
+                val user = getUserDataUseCase.getUser()
+                if (user != null) {
+                    /** TODO если пользователь не авторизован, то сообщение об этом **/
+                    val ids = repository.getFavoritePlaceIds(user.userId)
+                    _favoritePlaceIds.value = ids.toSet()
+
+                    val places = getFavoritePlacesUseCase.getFavoritePlaces(ids)
+                    _favoritePlaces.value = places
+                }
+            } catch (e: Exception) {
+                /** TODO обработка ошибок **/
+            }
+        }
+    }
+
+    fun addFavoritePlace(placeId: Int) {
+        viewModelScope.launch {
+            try {
+                val user = getUserDataUseCase.getUser()
+                if (user != null) {
+                    addFavoritePlaceUseCase.add(placeId)
+                    updateFavoritePlaces()
+                }
+            } catch (e: Exception) {
+                /** TODO обработка ошибок **/
+            }
+        }
+    }
+
+    fun deleteFavoritePlace(placeId: Int) {
+        viewModelScope.launch {
+            try {
+                val user = getUserDataUseCase.getUser()
+                if (user != null) {
+                    deleteFavoritePlaceUseCase.delete(placeId)
+                    updateFavoritePlaces()
+                }
+            } catch (e: Exception) {
+                /** TODO обработка ошибок **/
+            }
+        }
+    }
+
+    fun isFavoritePlace(placeId: Int): Boolean {
+        return _favoritePlaceIds.value?.contains(placeId) ?: false
     }
 
 

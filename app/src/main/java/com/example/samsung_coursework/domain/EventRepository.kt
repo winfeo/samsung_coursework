@@ -3,6 +3,7 @@ package com.example.samsung_coursework.domain
 import com.example.samsung_coursework.domain.models.CategoryEvent
 import com.example.samsung_coursework.domain.models.CategoryPlace
 import com.example.samsung_coursework.domain.models.Event
+import com.example.samsung_coursework.domain.models.SearchedPlace
 
 //Интерфейсик
 interface EventRepository {
@@ -15,4 +16,5 @@ interface EventRepository {
     suspend fun getAllCategoriesPlace(): List<CategoryPlace>
 
     suspend fun getFavoriteEvents(ids: String): List<Event>
+    suspend fun getFavoritePlaces(ids: String): List<SearchedPlace>
 }

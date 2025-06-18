@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.loadEvents()//по умолчанию msk в usecase-ах и запросах API пока будет
 
         favoriteViewModel.updateFavoriteEvents()
+        favoriteViewModel.updateFavoritePlaces()
 
     }
 }

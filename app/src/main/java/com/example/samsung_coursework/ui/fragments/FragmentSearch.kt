@@ -80,6 +80,10 @@ class FragmentSearch : Fragment() {
             adapterEvent.favoriteEventIds = ids
         })
 
+        favoriteViewModel.favoritePlaceIds.observe(viewLifecycleOwner, Observer { ids ->
+            adapterPlace.favoritePlaceIds = ids
+        })
+
         /** TODO имзенить логику обработки, так как при навигации каждый раз вызывается анимация **/
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             progressBar.isVisible = isLoading
@@ -121,6 +125,14 @@ class FragmentSearch : Fragment() {
             override fun onClick(place: SearchedPlace) {
                 selectedPlaceViewModel.chosePlace(place)
                 findNavController().navigate(R.id.action_fragmentSearch_to_fragmentPlace)
+            }
+
+            override fun onFavoriteClick(place: SearchedPlace, isCurrentlyFavorite: Boolean) {
+                if (isCurrentlyFavorite) {
+                    favoriteViewModel.deleteFavoritePlace(place.id)
+                } else {
+                    favoriteViewModel.addFavoritePlace(place.id)
+                }
             }
         }
         adapterPlace.clickListener = click2

@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_fragmentFavorite_to_fragmentEvent"
             app:destination="@id/fragmentEvent" />
+        <action
+            android:id="@+id/action_fragmentFavorite_to_fragmentPlace"
+            app:destination="@id/fragmentPlace" />
     </fragment>
     <fragment
         android:id="@+id/fragmentProfile"

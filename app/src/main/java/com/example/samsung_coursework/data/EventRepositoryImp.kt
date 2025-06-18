@@ -8,6 +8,7 @@ import com.example.samsung_coursework.domain.EventRepository
 import com.example.samsung_coursework.domain.models.CategoryEvent
 import com.example.samsung_coursework.domain.models.CategoryPlace
 import com.example.samsung_coursework.domain.models.Event
+import com.example.samsung_coursework.domain.models.SearchedPlace
 
 //Реализ. методов
 class EventRepositoryImp(): EventRepository {
@@ -70,6 +71,15 @@ class EventRepositoryImp(): EventRepository {
             RetrofitClient.api.getFavoriteEvents(ids = ids).body()?.results?.toDomainEvents()?: emptyList()
         } catch (e: Exception) {
             Log.d("Error", "Любимки не любимки :(((((")
+            emptyList()
+        }
+    }
+
+    override suspend fun getFavoritePlaces(ids: String): List<SearchedPlace> {
+        return try {
+            RetrofitClient.api.getFavoritePlaces(ids = ids).body()?.results?.toDomainPlaces() ?: emptyList()
+        } catch (e: Exception) {
+            Log.d("Error", "Любимки не любимки, места :(((((")
             emptyList()
         }
     }

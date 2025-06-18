@@ -44,6 +44,7 @@ class FirebaseRepositoryImp : FirebaseRepository {
         return user
     }
 
+    //избран событ
     override suspend fun addFavoriteEvent(userId: String, eventId: Int) {
         val currentList = getFavoriteEventsIds(userId)
 
@@ -64,9 +65,6 @@ class FirebaseRepositoryImp : FirebaseRepository {
         }
     }
 
-
-
-
     override suspend fun updateFavoriteEvents(userId: String, events: List<Int>) {
         reference.child(userId).child("userFavoriteEvents").setValue(events).await()
     }
@@ -76,4 +74,41 @@ class FirebaseRepositoryImp : FirebaseRepository {
         val snapshot = reference.child(userId).child("userFavoriteEvents").get().await()
         return snapshot.getValue<List<Int>>() ?: emptyList()
     }
+
+
+
+
+
+
+    //избран места
+    override suspend fun updateFavoritePlaces(userId: String, places: List<Int>) {
+        reference.child(userId).child("userFavoritePlaces").setValue(places).await()
+    }
+
+    override suspend fun addFavoritePlace(userId: String, eventId: Int) {
+        val currentList = getFavoritePlaceIds(userId)
+
+        if (!currentList.contains(eventId)) {
+            val updatedList = currentList.toMutableList()
+            updatedList.add(eventId)
+            reference.child(userId).child("userFavoritePlaces").setValue(updatedList).await()
+        }
+    }
+
+    override suspend fun deleteFavoritePlace(userId: String, eventId: Int) {
+        val currentList = getFavoritePlaceIds(userId)
+
+        if (currentList.contains(eventId)) {
+            val updatedList = currentList.toMutableList()
+            updatedList.remove(eventId)
+            reference.child(userId).child("userFavoritePlaces").setValue(updatedList).await()
+        }
+    }
+
+    override suspend fun getFavoritePlaceIds(userId: String): List<Int> {
+        val snapshot = reference.child(userId).child("userFavoritePlaces").get().await()
+        return snapshot.getValue<List<Int>>() ?: emptyList()
+    }
+
+
 }

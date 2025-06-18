@@ -3,6 +3,7 @@ package com.example.samsung_coursework.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -16,7 +17,16 @@ class SearchedPlaceAdapter() : ListAdapter<SearchedPlace, SearchedPlaceAdapter.P
 
     interface ClickInterface{
         fun onClick(place: SearchedPlace)
+        fun onFavoriteClick(place: SearchedPlace, isCurrentlyFavorite: Boolean)
     }
+
+    var favoritePlaceIds: Set<Int> = emptySet()
+        set(value) {
+            if (field != value) {
+                field = value
+                notifyDataSetChanged()
+            }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaceViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -34,6 +44,7 @@ class SearchedPlaceAdapter() : ListAdapter<SearchedPlace, SearchedPlaceAdapter.P
         private val descriptionTextView = itemView.findViewById<TextView>(R.id.search_card2Description)
         private val image = itemView.findViewById<ImageView>(R.id.search_card2Image)
         private val isFreeTextView = itemView.findViewById<TextView>(R.id.search_card2isFree)
+        private val favoriteButton = itemView.findViewById<ImageButton>(R.id.search_card2AddToFavoriteButton)
 
         fun bind(place: SearchedPlace) {
             val imageURL = place?.images?.firstOrNull()?.url
@@ -47,6 +58,12 @@ class SearchedPlaceAdapter() : ListAdapter<SearchedPlace, SearchedPlaceAdapter.P
             titleTextView.text = place.title.replaceFirstChar { it.uppercaseChar() }
             descriptionTextView.text = place.description?.replaceFirstChar { it.uppercaseChar() }
 
+            val isFavorite = favoritePlaceIds.contains(place.id)
+            favoriteButton.setImageResource(
+                if (isFavorite) R.drawable.ic_favorite_full
+                else R.drawable.ic_favorite
+            )
+
             /** TODO подумать на что заменить, т.к. API не возвращает пар-тр isFree **/
             /*
             if (place.isFree == true) {
@@ -57,6 +74,9 @@ class SearchedPlaceAdapter() : ListAdapter<SearchedPlace, SearchedPlaceAdapter.P
 
              */
 
+            favoriteButton.setOnClickListener {
+                clickListener?.onFavoriteClick(place, isFavorite)
+            }
 
             itemView.setOnClickListener(){
                 clickListener?.onClick(place)

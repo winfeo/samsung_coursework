@@ -54,9 +54,8 @@ class FragmentFavorite : Fragment() {
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {
-                /** TODO сделать строковый массив-ресурс **/
-                0 -> "События"
-                1 -> "Места"
+                0 -> getString(R.string.favorite_tabEvents)
+                1 -> getString(R.string.favorite_tabPlaces)
                 else -> ""
             }
         }.attach()

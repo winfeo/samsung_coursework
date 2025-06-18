@@ -32,7 +32,7 @@ class SelectedEventViewModel: ViewModel() {
         _isFavorite.value = isFavorite
     }
 
-    fun toggleFavorite(eventId: Int) {
+    fun workFavorite(eventId: Int) {
         viewModelScope.launch {
             try {
                 val user = getUserDataUseCase.getUser()

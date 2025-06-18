@@ -141,4 +141,15 @@ interface KudaGoApiService {
         @Query("expand") expand: String = "place,location"
     ): Response <EventsResponseDTO>
 
+
+    @GET("places/")
+    suspend fun getFavoritePlaces(
+        @Query("ids") ids: String,
+        @Query("page_size") pageSize: Int = 100,
+        @Query("fields") fields: String = "id,title,short_title," +
+                "address,location,timetable,phone,images,description," +
+                "body_text,foreign_url,favorites_count,categories",
+        @Query("expand") expand: String = "location"
+    ): Response <SearchedPlaceResponseDTO>
+
 }

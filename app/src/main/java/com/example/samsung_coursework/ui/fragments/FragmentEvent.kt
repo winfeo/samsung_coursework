@@ -150,7 +150,7 @@ class FragmentEvent : Fragment() {
                 } else {
                     favoriteViewModel.addFavoriteEvent(eventId)
                 }
-                selectedEventViewModel.toggleFavorite(eventId)
+                selectedEventViewModel.workFavorite(eventId)
             }
         }
 
