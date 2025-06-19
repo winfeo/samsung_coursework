@@ -3,15 +3,14 @@ package com.example.samsung_coursework.data
 import android.util.Log
 
 import com.example.samsung_coursework.data.retrofit.RetrofitClient
-import com.example.samsung_coursework.data.retrofit.dto.EventsResponseDTO
-import com.example.samsung_coursework.domain.EventRepository
+import com.example.samsung_coursework.domain.ApiRepository
 import com.example.samsung_coursework.domain.models.CategoryEvent
 import com.example.samsung_coursework.domain.models.CategoryPlace
 import com.example.samsung_coursework.domain.models.Event
 import com.example.samsung_coursework.domain.models.SearchedPlace
 
 //Реализ. методов
-class EventRepositoryImp(): EventRepository {
+class ApiRepositoryImp(): ApiRepository {
     override suspend fun getEvents(code: String): List<Event> {
         return try {
             RetrofitClient.api.getEvents(location = code).body()?.results?.toDomainEvents()?: emptyList()
@@ -82,5 +81,46 @@ class EventRepositoryImp(): EventRepository {
             Log.d("Error", "Любимки не любимки, места :(((((")
             emptyList()
         }
+    }
+
+
+    override suspend fun searchEvents(pageSize: Int, location: String, isFree: Boolean, orderBy: String?): List<Event>{
+        return try{
+            RetrofitClient.api.searchEvents(size = pageSize, location = location, free = isFree, order = orderBy).body()?.results?.toDomainEvents()?: emptyList()
+        } catch (e: Exception){
+            Log.d("Error", "Не удалось найти события")
+            emptyList()
+        }
+    }
+
+    override suspend fun searchPlaces(pageSize: Int, location: String, isFree: Boolean, orderBy: String?): List<SearchedPlace> {
+        return try{
+            RetrofitClient.api.searchPlaces(size = pageSize, location = location, free = isFree, order = orderBy).body()?.results?.toDomainPlaces()?: emptyList()
+        } catch (e: Exception){
+            Log.d("Error", "Не удалось найти места")
+            emptyList()
+        }
+    }
+
+    override suspend fun searchByText(query: String): List<Event> {
+        return try{
+            RetrofitClient.api.searchBarEvents(title = query).body()?.results?.toDomainEvents()?: emptyList()
+        }
+        catch (e: Exception){
+            Log.d("Error", "Не удалось найти места по тексту")
+            emptyList()
+        }
+
+    }
+
+    override suspend fun searchByTextPlace(query: String): List<SearchedPlace> {
+        return try{
+            RetrofitClient.api.searchBarPlaces(title = query).body()?.results?.toDomainPlaces()?: emptyList()
+        }
+        catch (e: Exception){
+            Log.d("Error", "Не удалось найти места по тексту")
+            emptyList()
+        }
+
     }
 }

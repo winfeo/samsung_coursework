@@ -9,7 +9,6 @@ interface FirebaseRepository {
     suspend fun signIn(email: String, password: String): AuthResult
     suspend fun signOut()
 
-    /** TODO еализовать usecase-ы для работы с избранным **/
     suspend fun createNewUser(user: User)
     suspend fun getUserData(): User?
 
@@ -23,5 +22,6 @@ interface FirebaseRepository {
     suspend fun updateFavoritePlaces(userId: String, events: List<Int>)
     suspend fun getFavoritePlaceIds(userId: String): List<Int>
 
+    suspend fun changeNickname(userId: String, newNickname: String)
 
 }

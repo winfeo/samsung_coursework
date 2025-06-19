@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:layout_marginTop="40dp"
+    android:scrollbars="none"
     android:paddingHorizontal="16dp"
     android:paddingBottom="16dp"
     tools:context=".ui.fragments.FragmentFilters">
@@ -52,7 +53,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/filter_contentTypeEvents"
                         app:chipIcon="@drawable/ic_event"
-                        app:checkedIconVisible="true"/>
+                        app:checkedIconVisible="true"
+                        android:checkable="true" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/filter_contentTypePlaces"
@@ -60,7 +62,9 @@
                         android:layout_height="wrap_content"
                         android:text="@string/filter_contentTypePlaces"
                         app:chipIcon="@drawable/ic_location"
-                        app:checkedIconVisible="true"/>
+                        app:checkedIconVisible="true"
+                        android:checkable="true" />
+
                 </com.google.android.material.chip.ChipGroup>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -87,18 +91,11 @@
                     android:textColor="@color/black"
                     android:layout_marginBottom="8dp"/>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                <Spinner
+                    android:id="@+id/filter_citySpinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/filter_cityHint">
+                    android:layout_height="wrap_content" />
 
-                    <AutoCompleteTextView
-                        android:id="@+id/filter_cityAutoComplete"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"/>
-                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -133,37 +130,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="2dp"
-            android:layout_marginBottom="16dp"
-            app:strokeColor="@color/card_stroke"
-            app:strokeWidth="1dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/filter_categories"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"
-                    android:layout_marginBottom="8dp"/>
-
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/filter_categoriesGroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:singleLine="false"
-                    app:singleSelection="false">
-                </com.google.android.material.chip.ChipGroup>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -206,11 +172,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/filter_sortByDate"/>
 
-                    <com.google.android.material.radiobutton.MaterialRadioButton
-                        android:id="@+id/filter_sortByPublication"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/filter_sortByPublication"/>
                 </RadioGroup>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -246,21 +207,25 @@
                         android:id="@+id/filter_show5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="5"
                         android:checked="true"/>
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
                         android:id="@+id/filter_show10"
                         android:layout_width="match_parent"
+                        android:text="10"
                         android:layout_height="wrap_content"/>
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
                         android:id="@+id/filter_show20"
                         android:layout_width="match_parent"
+                        android:text="20"
                         android:layout_height="wrap_content"/>
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
                         android:id="@+id/filter_show30"
                         android:layout_width="match_parent"
+                        android:text="30"
                         android:layout_height="wrap_content"/>
 
                 </RadioGroup>
@@ -272,7 +237,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingTop="24dp"
-            android:divider="@drawable/divider_horizontal"
             android:showDividers="middle"
             android:gravity="center">
 
@@ -282,17 +246,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Сбросить"
+                android:layout_marginEnd="10dp"
+                android:text="@string/filter_buttonReset"
                 android:textColor="@color/black"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/filter_applyButton"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="0dp"
+                android:layout_marginStart="10dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginStart="16dp"
-                android:text="Применить"
+                android:text="@string/filter_buttonApply"
                 app:backgroundTint="@color/greenButtonColor"/>
         </LinearLayout>
 

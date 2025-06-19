@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -13,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.samsung_coursework.R
 import com.example.samsung_coursework.ui.view_model.ProfileViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class FragmentProfile : Fragment() {
@@ -44,22 +46,20 @@ class FragmentProfile : Fragment() {
             }
         })
 
-        viewModel.toast.observe(viewLifecycleOwner, Observer{
-            toast -> Toast.makeText(requireContext(), toast, Toast.LENGTH_SHORT).show()
-        })
-
-        val testEmail = "testMail@aboba.ru"
-        val testPassword = "testPassword123"
         buttonSignUp.setOnClickListener(){
             navController.navigate(R.id.action_fragmentProfile_to_fragmentSignUp)
         }
 
         buttonSignIn.setOnClickListener(){
-            viewModel.signIn(testEmail, testPassword)
+            navController.navigate(R.id.action_fragmentProfile_to_fragmentSignIn)
         }
 
+    }
 
-
+    override fun onResume() {
+        super.onResume()
+        val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_menu)
+        bottomNav.visibility = View.VISIBLE
     }
 
 }

@@ -35,11 +35,6 @@
             app:destination="@id/fragmentPlace" />
     </fragment>
     <fragment
-        android:id="@+id/fragmentMap"
-        android:name="com.example.samsung_coursework.ui.fragments.FragmentMap"
-        android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
-    <fragment
         android:id="@+id/fragmentFavorite"
         android:name="com.example.samsung_coursework.ui.fragments.FragmentFavorite"
         android:label="fragment_favorite"
@@ -62,6 +57,9 @@
         <action
             android:id="@+id/action_fragmentProfile_to_fragmentSignUp"
             app:destination="@id/fragmentSignUp" />
+        <action
+            android:id="@+id/action_fragmentProfile_to_fragmentSignIn"
+            app:destination="@id/fragmentSignIn" />
     </fragment>
     <fragment
         android:id="@+id/fragmentFilters"
@@ -86,5 +84,26 @@
         <action
             android:id="@+id/action_fragmentSignUp_to_fragmentProfileAuthorised"
             app:destination="@id/fragmentProfileAuthorised" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSignIn"
+        android:name="com.example.samsung_coursework.ui.fragments.FragmentSignIn"
+        android:label="fragment_sign_in"
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_fragmentSignIn_to_fragmentProfileAuthorised2"
+            app:destination="@id/fragmentProfileAuthorised" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentFavoriteUnauthorised"
+        android:name="com.example.samsung_coursework.ui.fragments.FragmentFavoriteUnauthorised"
+        android:label="fragment_favorite_unauthorised"
+        tools:layout="@layout/fragment_favorite_unauthorised" >
+        <action
+            android:id="@+id/action_fragmentFavoriteUnauthorised_to_fragmentFavorite"
+            app:destination="@id/fragmentFavorite" />
+        <action
+            android:id="@+id/action_fragmentFavoriteUnauthorised_to_fragmentSignIn"
+            app:destination="@id/fragmentSignIn" />
     </fragment>
 </navigation>

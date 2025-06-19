@@ -12,7 +12,7 @@ data class SearchedPlace (
     val foreignUrl: String?,
     val favoritesCount: Int?,
     val images: List<ImageResource>?,
-    val categories: List<String>?,
+    val categories: List<String>,
     val location: String?
 )
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:key="nickname"
+        android:title="@string/pref_nickname"
+        android:summary="@string/pref_nicknameChose"
+        android:defaultValue="User"/>
+
+    <ListPreference
+        android:key="primary_city"
+        android:title="@string/pref_cityName"
+        android:summary="@string/pref_cityChose"
+        android:entryValues="@array/pref_cityListId"
+        android:entries="@array/pref_cityList"
+        android:defaultValue="msk"/>
+
+    <ListPreference
+        android:key="language"
+        android:title="@string/pref_languageName"
+        android:summary="@string/pref_languageChose"
+        android:entryValues="@array/pref_languageListId"
+        android:entries="@array/pref_languageList"
+        android:defaultValue="ru"/>
+
+    <SwitchPreferenceCompat
+        android:key="stay_logged_in"
+        android:title="@string/pref_stayLoggedIn"
+        android:summary="@string/pref_stayLoggedInInfo"
+        android:defaultValue="true"/>
+
+</PreferenceScreen>

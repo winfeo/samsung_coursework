@@ -8,14 +8,9 @@
         android:id="@+id/fragmentSearch"
         android:icon="@drawable/ic_search"
         android:title="Поиск"/>
-    <!-- TODO доделать фрагмент, если останется время
+
     <item
-        android:id="@+id/fragmentMap"
-        android:icon="@drawable/ic_map"
-        android:title="Карта"/>
-    -->
-    <item
-        android:id="@+id/fragmentFavorite"
+        android:id="@+id/fragmentFavoriteUnauthorised"
         android:icon="@drawable/ic_favorite_black"
         android:title="Избарнное"/>
     <item

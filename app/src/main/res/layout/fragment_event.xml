@@ -185,6 +185,7 @@
                 android:layout_marginTop="24dp">
 
                 <LinearLayout
+                    android:id="@+id/event_timeContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -207,6 +208,13 @@
 
                 <TextView
                     android:id="@+id/event_timeTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/event_schedule"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -239,18 +247,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:id="@+id/event_placeButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:textColor="@color/textButton"
-                    android:text="@string/event_textButton"
-                    android:textStyle="bold"
                     android:textSize="16sp"/>
 
                 <LinearLayout

@@ -77,9 +77,12 @@ class FragmentEvent : Fragment() {
             )
         }
 
+        /*
         selectedEventViewModel.event.observe(viewLifecycleOwner){ event ->
             updateCardInfo(event, view)
         }
+
+         */
 
 
         val descriptionContainer = view.findViewById<LinearLayout>(R.id.description_container)
@@ -167,6 +170,7 @@ class FragmentEvent : Fragment() {
         val locationCityText = view.findViewById<TextView>(R.id.event_locationCity)
         val locationDetailedText = view.findViewById<TextView>(R.id.event_locationDetailed)
         val priceText = view.findViewById<TextView>(R.id.event_price)
+        val scheduleText = view.findViewById<TextView>(R.id.event_schedule)
 
         val imageURL = event?.images?.firstOrNull()?.url
         Glide.with(view)
@@ -187,11 +191,14 @@ class FragmentEvent : Fragment() {
         titleText.text = event?.title
         descriptionText.text = event?.body_text //description?
 
+        /*
         val isFavorite = favoriteViewModel.isFavorite(event.id)
         favoriteButton.setImageResource(
             if (isFavorite) R.drawable.ic_favorite_full
             else R.drawable.ic_favorite
         )
+
+         */
 
         //Дни
         val formatter = SimpleDateFormat("d MMMM", Locale("ru"))
@@ -201,12 +208,18 @@ class FragmentEvent : Fragment() {
         //?.maxByOrNull { it.endTime!! }
         val startTime = eventDates?.startTimeNumber?.let { formatter.format(Date(it * 1000)) }
         val endTime = eventDates?.endTimeNumber?.let { formatter.format(Date(it * 1000)) }
-        if(!startTime.equals(endTime)){
-            val add = view.context.getString(R.string.home_endWithEvent) //?
-            val endTime = eventDates?.endTimeNumber?.let { formatter.format(Date(it * 1000 + 24 * 60 * 60 * 1000)) }
-            timeDateText.text = "$add $endTime"
+        if(startTime.isNullOrBlank() && endTime.isNullOrBlank()){
+            val timeContainer = view.findViewById<LinearLayout>(R.id.event_timeContainer)
+            timeContainer.visibility = View.GONE
         }
-        else timeDateText.text = "$endTime"
+        else{
+            if(!startTime.equals(endTime)){
+                val add = view.context.getString(R.string.home_endWithEvent) //?
+                val endTime = eventDates?.endTimeNumber?.let { formatter.format(Date(it * 1000 + 24 * 60 * 60 * 1000)) }
+                timeDateText.text = "$add $endTime"
+            }
+            else timeDateText.text = "$endTime"
+        }
 
 
         //Время
@@ -235,6 +248,9 @@ class FragmentEvent : Fragment() {
         if (timeText != null) {
             timeTimeText.append("$timeText")
         }
+        if(timeText.isNullOrBlank()){
+            timeTimeText.visibility = View.GONE
+        }
 
         //Расписание
         val schedule = eventDates?.schedules?.firstOrNull()
@@ -252,7 +268,10 @@ class FragmentEvent : Fragment() {
         }
 
         if (!daysOfWeek.isNullOrEmpty()) {
-            timeTimeText.append("\n${getString(R.string.event_daysPlace)} $daysOfWeek")
+            scheduleText.text = "${getString(R.string.event_daysPlace)} $daysOfWeek"
+        }
+        else{
+            scheduleText.visibility = View.GONE
         }
 
 

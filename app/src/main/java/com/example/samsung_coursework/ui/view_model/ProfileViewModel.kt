@@ -4,29 +4,38 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.samsung_coursework.R
 import com.example.samsung_coursework.data.FirebaseRepositoryImp
-import com.example.samsung_coursework.domain.use_cases.firebase.SignInUseCase
-import com.example.samsung_coursework.domain.use_cases.firebase.SignOutUseCase
-import com.example.samsung_coursework.domain.use_cases.firebase.SignUpUseCase
+import com.example.samsung_coursework.domain.use_cases.firebase.*
 import kotlinx.coroutines.launch
 
 class ProfileViewModel: ViewModel() {
-    /** TODO внедрить через Hilt **/
     private val repository = FirebaseRepositoryImp()
     private val signUpUseCase = SignUpUseCase(repository)
     private val signInUseCase = SignInUseCase(repository)
     private val signOutUseCase = SignOutUseCase(repository)
+    private val getUserDataUseCase = GetUserDataUseCase(repository)
+    private val changeNickname = ChangeNickname(repository)
 
     private val _isAuthorised = MutableLiveData <Boolean>(false)
-    private val _toast = MutableLiveData <String>()
+    private val _toastResId = MutableLiveData<Int?>()
+    private val _isSuccessful = MutableLiveData<Boolean>()
+    private val _nickname = MutableLiveData<String>()
+    private val _email = MutableLiveData<String>()
 
     val isAuthorised: LiveData<Boolean> = _isAuthorised
-    val toast: LiveData<String> = _toast
+    val toastResId: LiveData<Int?> = _toastResId
+    val isSuccessful: LiveData<Boolean> = _isSuccessful
+    val nickname: LiveData<String> = _nickname
+    val email: LiveData<String> = _email
 
     fun signUp(nickname: String, email: String, password: String){
         viewModelScope.launch {
-            val result = signUpUseCase.signUp(nickname, email, password)
-            toastMessage(result)
+            val (result, toast) = signUpUseCase.signUp(nickname, email, password)
+            if(result){
+                _isSuccessful.value = true
+            }
+            toastMessage(toast)
         }
     }
 
@@ -40,8 +49,8 @@ class ProfileViewModel: ViewModel() {
         }
     }
 
-    fun toastMessage(toast: String){
-        _toast.value = toast
+    fun toastMessage(toast: Int?){
+        _toastResId.value = toast
     }
 
     fun signOut(){
@@ -49,6 +58,47 @@ class ProfileViewModel: ViewModel() {
             signOutUseCase.signOut()
             _isAuthorised.value = false
         }
+    }
+
+    fun resetSignUpStatus(){
+        _isSuccessful.value = false
+    }
+
+    fun checkUserId(stayLoggedIn: Boolean){
+        viewModelScope.launch {
+            if (stayLoggedIn){
+                val user = getUserDataUseCase.getUser()
+                if (user != null) {
+                    _isAuthorised.value = true
+                }
+            }
+        }
+    }
+
+    fun loadUserData() {
+        viewModelScope.launch {
+            val user = getUserDataUseCase.getUser()
+            if (user != null) {
+                _nickname.value = user.userNickname
+                _email.value = user.userEmail
+            }
+        }
+    }
+
+    fun changeNickname(newNickname: String){
+        viewModelScope.launch {
+            val success = changeNickname.changeNickname(newNickname)
+            if (success) {
+                _nickname.value = newNickname
+                _toastResId.value = R.string.profile_toastNicknameGood
+            } else {
+                _toastResId.value = R.string.profile_toastNicknameBad
+            }
+        }
+    }
+
+    fun toastMessageShown() {
+        _toastResId.value = null
     }
 
 }

@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.samsung_coursework.data.EventRepositoryImp
+import com.example.samsung_coursework.data.ApiRepositoryImp
 import com.example.samsung_coursework.data.retrofit.CategoryTranslatorEvent
 import com.example.samsung_coursework.data.retrofit.CategoryTranslatorPlace
 import com.example.samsung_coursework.domain.models.Event
@@ -14,7 +14,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
-    private val repository = EventRepositoryImp() //создание репозитория
+    private val repository = ApiRepositoryImp() //создание репозитория
     private val getAllCategoriesEventUseCase = GetAllCategoriesEventUseCase(repository)
     private val getAllCategoriesPlaceUseCase = GetAllCategoriesPlaceUseCase(repository)
     private val getEventsUseCase = GetEventsUseCase(repository)
@@ -29,7 +29,6 @@ class HomeViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>() //анимаия загрузки
     private val _isPageVisible = MutableLiveData<Boolean>() //видимость домашней страницы
 
-    //переменные для использования в UI
     val events: LiveData<List<Event>> = _events
     val freeEvents: LiveData<List<Event>> = _freeEvents
     val mostPopularEvent: LiveData<Event?> = _mostPopularEvent
@@ -42,7 +41,6 @@ class HomeViewModel : ViewModel() {
             _isLoading.value = true
             _isPageVisible.value = false
             try{
-                /**TODO перенести загрузку категорий в другое место?**/
                 val categoriesEvent = getAllCategoriesEventUseCase.getAllCategories()
                 if (categoriesEvent.isNotEmpty()) {
                     CategoryTranslatorEvent.initFromList(categoriesEvent)

@@ -1,13 +1,11 @@
 <resources>
-    <string name="app_name">Samsung_coursework</string>
+    <string name="app_name">EventFinder</string>
 
     <!-- Экран входа -->
     <string name="greeting_greeting">Здравствуйте!</string>
     <string name="greeting_info">Войдите в аккаунт или создайте новый</string>
     <string name="greeting_signIn">Войти</string>
     <string name="greeting_signUp">Нет аккаунта? Создайте</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Домашний экран -->
     <string name="home_findEvent">Найти события в</string>
@@ -31,7 +29,6 @@
         <item>nnv</item>
     </string-array>
 
-
     <!-- Экран просмотра события -->
     <string name="event_textButton">Посмотреть на картах</string>
     <string name="event_price">Цена</string>
@@ -41,6 +38,7 @@
     <string name="event_location">Адресс:</string>
     <string name="event_emptyPlace">не указано</string>
     <string name="event_daysPlace">Дни:</string>
+    <string name="place_contacts">Контактная информация:</string>
 
     <!-- Экран поиска -->
     <string name="search_find">Поиск</string>
@@ -65,12 +63,8 @@
     <string name="filter_sortByDate">Дате события</string>
     <string name="filter_sortByPublication">Дате публикации</string>
     <string name="filter_showNumber">Показывать по</string>
-    <string-array name="filter_showNumber">
-        <item>5</item>
-        <item>10</item>
-        <item>20</item>
-        <item>30</item>
-    </string-array>
+    <string name="filter_buttonApply">Применить</string>
+    <string name="filter_buttonReset">Сбросить</string>
 
     <!-- Экран Избранного -->
     <string name="favorite_info">Избранное</string>
@@ -78,13 +72,52 @@
     <string name="favorite_places">Места</string>
     <string name="favorite_tabEvents">События</string>
     <string name="favorite_tabPlaces">Места</string>
+    <string name="favorite_anauthorisedInfo">Авторизуйтесь, чтобы просмотреть свой\nсписок избранного</string>
 
-    <!-- Экран Профиля -->
+    <!-- Экран Профиля (не авторизован) -->
     <string name="profile_greeting">Здравствуйте!</string>
     <string name="profile_info">Войдите в аккаунт или создайте новый</string>
     <string name="profile_singIn">Войти</string>
     <string name="profile_singUp">Нет аккаунта? Создайте</string>
     <string name="profile_LogOut">Выйти</string>
+
+    <!-- Экран Профиля (авторизован) -->
+    <string name="profile_settings">Настройки</string>
+
+    <!-- SharedPref экран -->
+    <string name="pref_cityName">Основной город поиска</string>
+    <string name="pref_cityChose">Выберите город</string>
+    <string name="pref_languageName">Язык интерфейса</string>
+    <string name="pref_languageChose">Выберте язык</string>
+    <string name="pref_nickname">Никнейм</string>
+    <string name="pref_nicknameChose">Изменить никнейм</string>
+    <string name="pref_stayLoggedIn">Оставаться в системе</string>
+    <string name="pref_stayLoggedInInfo">Оставаться в системе после выхода из приложения</string>
+
+    <string-array name="pref_cityList">
+        <item>Москва</item>
+        <item>Санкт-Петербург</item>
+        <item>Екатеринбург</item>
+        <item>Казань</item>
+        <item>Нижний Новгород</item>
+    </string-array>
+    <string-array name="pref_cityListId">
+        <item>msk</item>
+        <item>spb</item>
+        <item>ekb</item>
+        <item>kzn</item>
+        <item>nnv</item>
+    </string-array>
+
+    <string-array name="pref_languageList">
+        <item>Русский</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="pref_languageListId">
+        <item>ru</item>
+        <item>en</item>
+    </string-array>
+
 
     <!-- Экран Регистрации -->
     <string name="profile_signUpInfo">Новый аккаунт</string>
@@ -97,7 +130,24 @@
     <string name="profile_signUpPasswordRepeatEnter">Повтори новый пароль</string>
     <string name="profile_signUpButton">Создать аккаунт</string>
     <string name="profile_signUpPasswordError">Пароли должны совпадать</string>
-    <string name="profile_signUpFillError">Заполните все поля</string>
+    <string name="profile_signUpNicknameError">Никнейм не может быть пустым</string>
 
+    <!-- Экран Входа в аккаунт -->
+    <string name="profile_signInInfo">Вход в аккаунт</string>
+    <string name="profile_signInEmail">Электронная почта</string>
+    <string name="profile_signInPassword">Пароль</string>
+    <string name="profile_signInPasswordEnter">Введи свой пароль</string>
+    <string name="profile_signInButton">Войти</string>
+    <string name="profile_signInEmailError">Email не может быть пустым</string>
+    <string name="profile_signInPasswordError">Пароль не может быть пустым</string>
+
+
+    <!-- Toast-ы -->
+    <string name="profile_toastNicknameGood">Никнейм обновлен</string>
+    <string name="profile_toastNicknameBad">Ошибка обновления никнейма</string>
+    <string name="profile_toastRegGood">Успешная регистрация</string>
+    <string name="profile_toastRegBad">Ошибка регистрации</string>
+    <string name="profile_toastAuthGood">Успешная авторизация</string>
+    <string name="profile_toastAuthBad">Ошибка авторизации</string>
 
 </resources>

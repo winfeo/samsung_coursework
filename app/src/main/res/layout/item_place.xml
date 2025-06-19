@@ -48,6 +48,7 @@
                     style="@style/eventCardAge"/>
                 -->
 
+                <!--
                 <TextView
                     android:id="@+id/search_card2isFree"
                     android:layout_width="wrap_content"
@@ -58,10 +59,13 @@
                     android:layout_gravity="bottom|start"
                     android:backgroundTint="#025E4D"
                     android:textSize="16sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:layout_marginStart="8dp"
                     android:layout_marginBottom="8dp"
                     android:padding="5dp"
                     style="@style/eventCardAge"/>
+                -->
 
                 <ImageButton
                     android:id="@+id/search_card2AddToFavoriteButton"

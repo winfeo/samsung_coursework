@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.samsung_coursework.R
+import com.example.samsung_coursework.data.retrofit.CategoryTranslatorPlace
 import com.example.samsung_coursework.domain.models.SearchedPlace
 
 class SearchedPlaceAdapter() : ListAdapter<SearchedPlace, SearchedPlaceAdapter.PlaceViewHolder>(DiffCallback()) {
@@ -43,7 +44,7 @@ class SearchedPlaceAdapter() : ListAdapter<SearchedPlace, SearchedPlaceAdapter.P
         private val titleTextView = itemView.findViewById<TextView>(R.id.search_card2Title)
         private val descriptionTextView = itemView.findViewById<TextView>(R.id.search_card2Description)
         private val image = itemView.findViewById<ImageView>(R.id.search_card2Image)
-        private val isFreeTextView = itemView.findViewById<TextView>(R.id.search_card2isFree)
+        //private val isFreeTextView = itemView.findViewById<TextView>(R.id.search_card2isFree)
         private val favoriteButton = itemView.findViewById<ImageButton>(R.id.search_card2AddToFavoriteButton)
 
         fun bind(place: SearchedPlace) {
@@ -65,6 +66,12 @@ class SearchedPlaceAdapter() : ListAdapter<SearchedPlace, SearchedPlaceAdapter.P
             )
 
             /** TODO подумать на что заменить, т.к. API не возвращает пар-тр isFree **/
+            /*
+            val translatedCategories = CategoryTranslatorPlace.translateCategory(place.categories)
+            tagsTextView.text = translatedCategories
+
+             */
+
             /*
             if (place.isFree == true) {
                 isFreeTextView.visibility = View.VISIBLE

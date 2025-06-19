@@ -1,8 +1,6 @@
 package com.example.samsung_coursework.data
 
-import com.example.samsung_coursework.data.retrofit.dto.EventsResponseDTO
 import com.example.samsung_coursework.domain.FirebaseRepository
-import com.example.samsung_coursework.domain.models.Event
 import com.example.samsung_coursework.domain.models.User
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.ktx.auth
@@ -108,6 +106,11 @@ class FirebaseRepositoryImp : FirebaseRepository {
     override suspend fun getFavoritePlaceIds(userId: String): List<Int> {
         val snapshot = reference.child(userId).child("userFavoritePlaces").get().await()
         return snapshot.getValue<List<Int>>() ?: emptyList()
+    }
+
+
+    override suspend fun changeNickname(userId: String, newNickname: String) {
+        reference.child(userId).child("userNickname").setValue(newNickname).await()
     }
 
 

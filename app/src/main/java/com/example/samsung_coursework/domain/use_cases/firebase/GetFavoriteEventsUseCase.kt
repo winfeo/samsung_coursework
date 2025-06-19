@@ -1,9 +1,9 @@
 package com.example.samsung_coursework.domain.use_cases.firebase
 
-import com.example.samsung_coursework.domain.EventRepository
+import com.example.samsung_coursework.domain.ApiRepository
 import com.example.samsung_coursework.domain.models.Event
 
-class GetFavoriteEventsUseCase(eventRepository: EventRepository) {
+class GetFavoriteEventsUseCase(eventRepository: ApiRepository) {
     private val repository = eventRepository
     suspend fun getFavoriteEvents(ids: List<Int>): List<Event>{
         if(ids.isEmpty()){

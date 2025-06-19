@@ -1,0 +1,152 @@
+<resources>
+    <string name="app_name">EventFinder</string>
+
+    <!-- Login screen -->
+    <string name="greeting_greeting">Hello!</string>
+    <string name="greeting_info">Sign in or create a new account</string>
+    <string name="greeting_signIn">Sign In</string>
+    <string name="greeting_signUp">No account? Create one</string>
+
+    <!-- Home screen -->
+    <string name="home_findEvent">Find events in</string>
+    <string name="home_popularEvent">Trending now</string>
+    <string name="home_soonEvent">Upcoming events</string>
+    <string name="home_freeEvent">Free admission</string>
+    <string name="home_popularEvents">Most viewed</string>
+    <string name="home_endWithEvent">until</string>
+    <string-array name="home_cityList">
+        <item>Moscow</item>
+        <item>Saint Petersburg</item>
+        <item>Yekaterinburg</item>
+        <item>Kazan</item>
+        <item>Nizhny Novgorod</item>
+    </string-array>
+    <!-- Keep API codes unchanged -->
+    <string-array name="home_cityListAPI">
+        <item>msk</item>
+        <item>spb</item>
+        <item>ekb</item>
+        <item>kzn</item>
+        <item>nnv</item>
+    </string-array>
+
+    <!-- Event screen -->
+    <string name="event_textButton">View on map</string>
+    <string name="event_price">Price</string>
+    <string name="event_description">Description</string>
+    <string name="event_subway">subway</string>
+    <string name="event_freePrice">Free!</string>
+    <string name="event_location">Address:</string>
+    <string name="event_emptyPlace">not specified</string>
+    <string name="event_daysPlace">Days:</string>
+    <string name="place_contacts">Contact information:</string>
+
+    <!-- Search screen -->
+    <string name="search_find">Search</string>
+    <string name="search_category1">Events</string>
+    <string name="search_category2">Places</string>
+    <string name="search_category3">News</string>
+    <string name="search_found">Found in</string>
+
+    <!-- Filters screen -->
+    <string name="slider_label_formatter">%1$s</string>
+    <string name="filter_contentType">Content type</string>
+    <string name="filter_contentTypeEvents">Events</string>
+    <string name="filter_contentTypePlaces">Places</string>
+    <string name="filter_city">City</string>
+    <string name="filter_cityHint">Select city</string>
+    <string name="filter_price">Price</string>
+    <string name="filter_priceIsFree">Free only</string>
+    <string name="filter_categories">Categories</string>
+    <string name="filter_sortBy">Sort by</string>
+    <string name="filter_sortByPopularity">Popularity</string>
+    <string name="filter_sortByDate">Event date</string>
+    <string name="filter_sortByPublication">Publication date</string>
+    <string name="filter_showNumber">Show per page</string>
+    <string name="filter_buttonApply">Apply</string>
+    <string name="filter_buttonReset">Reset</string>
+
+    <!-- Favorites screen -->
+    <string name="favorite_info">Favorites</string>
+    <string name="favorite_events">Events</string>
+    <string name="favorite_places">Places</string>
+    <string name="favorite_tabEvents">Events</string>
+    <string name="favorite_tabPlaces">Places</string>
+    <string name="favorite_anauthorisedInfo">Sign in to view your favorites</string>
+
+    <!-- Profile screen (unauthorized) -->
+    <string name="profile_greeting">Hello!</string>
+    <string name="profile_info">Sign in or create a new account</string>
+    <string name="profile_singIn">Sign In</string>
+    <string name="profile_singUp">No account? Create one</string>
+    <string name="profile_LogOut">Sign Out</string>
+
+    <!-- Profile screen (authorized) -->
+    <string name="profile_settings">Settings</string>
+
+    <!-- SharedPref screen -->
+    <string name="pref_cityName">Default search city</string>
+    <string name="pref_cityChose">Select city</string>
+    <string name="pref_languageName">Interface language</string>
+    <string name="pref_languageChose">Select language</string>
+    <string name="pref_nickname">Nickname</string>
+    <string name="pref_nicknameChose">Change nickname</string>
+    <string name="pref_stayLoggedIn">Stay logged in</string>
+    <string name="pref_stayLoggedInInfo">Stay signed in after closing the app</string>
+
+    <string-array name="pref_cityList">
+        <item>Moscow</item>
+        <item>Saint Petersburg</item>
+        <item>Yekaterinburg</item>
+        <item>Kazan</item>
+        <item>Nizhny Novgorod</item>
+    </string-array>
+    <!-- Keep API codes unchanged -->
+    <string-array name="pref_cityListId">
+        <item>msk</item>
+        <item>spb</item>
+        <item>ekb</item>
+        <item>kzn</item>
+        <item>nnv</item>
+    </string-array>
+
+    <string-array name="pref_languageList">
+        <item>Russian</item>
+        <item>English</item>
+    </string-array>
+    <!-- Keep language codes unchanged -->
+    <string-array name="pref_languageListId">
+        <item>ru</item>
+        <item>en</item>
+    </string-array>
+
+    <!-- Registration screen -->
+    <string name="profile_signUpInfo">New account</string>
+    <string name="profile_signUpNickname">Nickname</string>
+    <string name="profile_signUpNicknameEnter">Enter your nickname</string>
+    <string name="profile_signUpEmail">Email</string>
+    <string name="profile_signUpPassword">Password</string>
+    <string name="profile_signUpPasswordEnter">Enter your password</string>
+    <string name="profile_signUpPasswordRepeat">Repeat password</string>
+    <string name="profile_signUpPasswordRepeatEnter">Repeat new password</string>
+    <string name="profile_signUpButton">Create account</string>
+    <string name="profile_signUpPasswordError">Passwords must match</string>
+    <string name="profile_signUpNicknameError">Nickname cannot be empty</string>
+
+    <!-- Login screen -->
+    <string name="profile_signInInfo">Account login</string>
+    <string name="profile_signInEmail">Email</string>
+    <string name="profile_signInPassword">Password</string>
+    <string name="profile_signInPasswordEnter">Enter your password</string>
+    <string name="profile_signInButton">Sign In</string>
+    <string name="profile_signInEmailError">Email cannot be empty</string>
+    <string name="profile_signInPasswordError">Password cannot be empty</string>
+
+    <!-- Toasts -->
+    <string name="profile_toastNicknameGood">Nickname updated</string>
+    <string name="profile_toastNicknameBad">Nickname update error</string>
+    <string name="profile_toastRegGood">Registration successful</string>
+    <string name="profile_toastRegBad">Registration error</string>
+    <string name="profile_toastAuthGood">Authorization successful</string>
+    <string name="profile_toastAuthBad">Authorization error</string>
+</resources>

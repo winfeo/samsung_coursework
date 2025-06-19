@@ -2,10 +2,12 @@ package com.example.samsung_coursework.ui.fragments
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -13,8 +15,6 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.samsung_coursework.R
@@ -25,7 +25,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class FragmentSearch : Fragment() {
-    private val viewModel: SearchViewModel by viewModels()
+    private val viewModel: SearchViewModel by activityViewModels()
     private val selectedEventViewModel: SelectedEventViewModel by activityViewModels()
     private val selectedPlaceViewModel: SelectedPlaceViewModel by activityViewModels()
     private val favoriteViewModel: FavoriteViewModel by activityViewModels()
@@ -36,8 +36,8 @@ class FragmentSearch : Fragment() {
     private lateinit var progressBar: ProgressBar
     private var click: EventAdapterWide.ClickInterface? = null
     private var click2: SearchedPlaceAdapter.ClickInterface? = null
-
-
+    private lateinit var searchBarText: EditText
+    private lateinit var searchButtonSearch: ImageButton
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_search, container, false)
@@ -58,34 +58,25 @@ class FragmentSearch : Fragment() {
         favoriteViewModel.updateFavoriteEvents()
 
         recyclerViewEvents = view.findViewById(R.id.search_recyclerView)
-        recyclerViewEvents.adapter = adapterEvent
 
-        //обзёрверы
-        viewModel.events.observe(viewLifecycleOwner, Observer { events ->
+        // Обзёрверы
+        viewModel.events.observe(viewLifecycleOwner) { events ->
             adapterEvent.submitList(events)
-        })
+        }
 
         viewModel.places.observe(viewLifecycleOwner) { places ->
             adapterPlace.submitList(places)
         }
 
-        /*
-        favoriteViewModel.favoriteEvents.observe(viewLifecycleOwner, Observer{ events ->
-            adapterEvent.favoriteEvents = events.toSet()
-        })
-
-         */
-
-        favoriteViewModel.favoriteEventIds.observe(viewLifecycleOwner, Observer { ids ->
+        favoriteViewModel.favoriteEventIds.observe(viewLifecycleOwner) { ids ->
             adapterEvent.favoriteEventIds = ids
-        })
+        }
 
-        favoriteViewModel.favoritePlaceIds.observe(viewLifecycleOwner, Observer { ids ->
+        favoriteViewModel.favoritePlaceIds.observe(viewLifecycleOwner) { ids ->
             adapterPlace.favoritePlaceIds = ids
-        })
+        }
 
-        /** TODO имзенить логику обработки, так как при навигации каждый раз вызывается анимация **/
-        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             progressBar.isVisible = isLoading
             if (isLoading) {
                 progressBar.fadeIn()
@@ -96,21 +87,11 @@ class FragmentSearch : Fragment() {
             }
         }
 
-
-
-
-        //клики нажатий
-        val filterButton = view.findViewById<ImageButton>(R.id.search_buttonFilters)
-        filterButton.setOnClickListener(){
-            findNavController().navigate(R.id.action_fragmentSearch_to_fragmentFilters)
-        }
-
         click = object : EventAdapterWide.ClickInterface {
             override fun onClick(event: Event) {
                 selectedEventViewModel.choseEvent(event)
                 findNavController().navigate(R.id.action_fragmentSearch_to_fragmentEvent)
             }
-
             override fun onFavoriteClick(event: Event, isCurrentlyFavorite: Boolean) {
                 if (isCurrentlyFavorite) {
                     favoriteViewModel.deleteFavoriteEvent(event.id)
@@ -126,7 +107,6 @@ class FragmentSearch : Fragment() {
                 selectedPlaceViewModel.chosePlace(place)
                 findNavController().navigate(R.id.action_fragmentSearch_to_fragmentPlace)
             }
-
             override fun onFavoriteClick(place: SearchedPlace, isCurrentlyFavorite: Boolean) {
                 if (isCurrentlyFavorite) {
                     favoriteViewModel.deleteFavoritePlace(place.id)
@@ -137,68 +117,50 @@ class FragmentSearch : Fragment() {
         }
         adapterPlace.clickListener = click2
 
+        val filterButton = view.findViewById<ImageButton>(R.id.search_buttonFilters)
+        filterButton.setOnClickListener {
+            findNavController().navigate(R.id.action_fragmentSearch_to_fragmentFilters)
+        }
 
-
-
-        //логика
         val buttonEvent = view.findViewById<TextView>(R.id.search_eventsButton)
+        val buttonPlace = view.findViewById<TextView>(R.id.search_placesButton)
+
         viewModel.isButtonEventsPressed.observe(viewLifecycleOwner) { pressed ->
+            buttonEvent.isSelected = pressed
+            buttonEvent.setTextColor(if (pressed) Color.WHITE else Color.BLACK)
             if (pressed) {
-                buttonEvent?.isSelected = true
-                buttonEvent?.setTextColor(Color.WHITE)
                 recyclerViewEvents.adapter = adapterEvent
-                val pageSize: Int = 10
-                val location: String = "spb"
-                val isFree: Boolean = false
-                viewModel.searchEvents(pageSize, location, isFree)
-            } else {
-                buttonEvent?.isSelected = false
-                buttonEvent?.setTextColor(Color.BLACK)
             }
         }
-        buttonEvent?.setOnClickListener(){
+
+        searchBarText = view.findViewById(R.id.search_barText)
+        searchButtonSearch = view.findViewById(R.id.search_buttonSearch)
+
+        searchButtonSearch.setOnClickListener {
+            val query = searchBarText.text.toString().trim()
+            if (query.isNotEmpty()) {
+                viewModel.search(query)
+            }
+        }
+
+        viewModel.isButtonPlacesPressed.observe(viewLifecycleOwner) { pressed ->
+            buttonPlace.isSelected = pressed
+            buttonPlace.setTextColor(if (pressed) Color.WHITE else Color.BLACK)
+            if (pressed) {
+                recyclerViewEvents.adapter = adapterPlace
+            }
+        }
+
+        buttonEvent.setOnClickListener {
             viewModel.changeEventColor()
         }
 
-        val buttonPlace = view.findViewById<TextView>(R.id.search_placesButton)
-        viewModel.isButtonPlacesPressed.observe(viewLifecycleOwner){ pressed ->
-            if (pressed) {
-                buttonPlace?.isSelected = true
-                buttonPlace?.setTextColor(Color.WHITE)
-                recyclerViewEvents.adapter = adapterPlace
-                val pageSize: Int = 10
-                val location: String = "msk"
-                val isFree: Boolean = false
-                viewModel.searchPlaces(pageSize, location, isFree)
-            } else {
-                buttonPlace?.isSelected = false
-                buttonPlace?.setTextColor(Color.BLACK)
-            }
-        }
-        buttonPlace?.setOnClickListener(){
+        buttonPlace.setOnClickListener {
             viewModel.changePlacesColor()
         }
 
-        val buttonNews = view.findViewById<TextView>(R.id.search_newsButton)
-        viewModel.isButtonNewsPressed.observe(viewLifecycleOwner){ pressed ->
-            if (pressed) {
-                buttonNews?.isSelected = true
-                buttonNews?.setTextColor(Color.WHITE)
-                val pageSize: Int = 10
-                val location: String = "spb"
-                val isFree: Boolean = false
-                //viewModel.searchEvents(pageSize, location, isFree)
-            } else {
-                buttonNews?.isSelected = false
-                buttonNews?.setTextColor(Color.BLACK)
-            }
-        }
-        buttonNews?.setOnClickListener(){
-            viewModel.changeNewsColor()
-        }
+        viewModel.searchWithCurrentFilters()
     }
-
-
 
     fun View.fadeIn(duration: Long = 300) {
         this.apply {
@@ -220,6 +182,4 @@ class FragmentSearch : Fragment() {
                 alpha = 1f
             }
     }
-
-
 }

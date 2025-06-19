@@ -49,13 +49,22 @@
 
         <ImageButton
             android:clickable="true"
+            android:id="@+id/search_buttonSearch"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_button_primary"
+            android:src="@drawable/ic_search"
+            android:padding="8dp" />
+
+        <ImageButton
+            android:clickable="true"
             android:id="@+id/search_buttonFilters"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/bg_button_primary"
             android:src="@drawable/ic_filters"
-            android:contentDescription="Фильтры"
             android:padding="8dp" />
 
     </LinearLayout>
@@ -89,20 +98,9 @@
             android:paddingHorizontal="8dp"
             android:text="@string/search_category2"/>
 
-        <TextView
-            android:id="@+id/search_newsButton"
-            android:clickable="true"
-            android:background="@drawable/bg_event_card_selector"
-            android:textColor="@color/black"
-            android:layout_marginStart="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingVertical="8dp"
-            android:paddingHorizontal="8dp"
-            android:text="@string/search_category3"/>
-
     </LinearLayout>
 
+    <!--
     <TextView
         android:id="@+id/search_foundCounter"
         android:layout_marginTop="12dp"
@@ -113,6 +111,7 @@
         android:textSize="16sp"
         android:textColor="@color/black"
         android:text="@string/search_found"/>
+    -->
 
     <FrameLayout
         android:layout_width="match_parent"

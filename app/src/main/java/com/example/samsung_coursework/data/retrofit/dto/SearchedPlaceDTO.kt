@@ -15,7 +15,7 @@ data class SearchedPlaceDTO (
     @SerializedName("foreign_url") val foreignUrl: String?,
     @SerializedName("favorites_count") val favoritesCount: Int?,
     @SerializedName("images") val images: List<ImageResourceDTO>?,
-    @SerializedName("categories") val categories: List<String>?,
+    @SerializedName("categories") val categories: List<String>,
     @SerializedName("location") val location: String?
 )
 

@@ -19,7 +19,6 @@ data class Event(
 )
 
 //Осн. формат ответа
-/** TODO нужен ли теперь? **/
 data class EventsResponse(
     val results: List<Event>,
     val count: Int,

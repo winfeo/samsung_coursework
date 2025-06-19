@@ -58,13 +58,29 @@ class FragmentHome : Fragment() {
         window.statusBarColor = Color.TRANSPARENT
         WindowInsetsControllerCompat(window, requireView()).isAppearanceLightStatusBars = true
 
+        val prefs = androidx.preference.PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val savedCityCode = prefs.getString("primary_city", "msk") ?: "msk"
+
         val cityNames = resources.getStringArray(R.array.home_cityList)
         val cityCodes = resources.getStringArray(R.array.home_cityListAPI)
         val mapCity = cityNames.zip(cityCodes).toMap()
+        val reverseMapCity = cityCodes.zip(cityNames).toMap()
+
         val spinner = view.findViewById<Spinner>(R.id.home_spinner)
-        val adapter = ArrayAdapter.createFromResource(requireContext(), R.array.home_cityList, android.R.layout.simple_spinner_item)
+        val adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.home_cityList,
+            android.R.layout.simple_spinner_item
+        )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
+
+        val initialPosition = cityCodes.indexOf(savedCityCode).takeIf { it >= 0 } ?: 0
+        spinner.setSelection(initialPosition)
+        lastPositionAdapter = initialPosition
+
+        viewModel.loadEvents(savedCityCode)
+        firstLoad = true
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -75,11 +91,11 @@ class FragmentHome : Fragment() {
                 }
                 if (position != lastPositionAdapter) {
                     lastPositionAdapter = position
-                    val cityName = cityNames[position]
-                    val cityCode = mapCity[cityName] ?: "msk"
-                    viewModel.loadEvents(cityCode)
+                    val selectedCityCode = cityCodes[position]
+                    viewModel.loadEvents(selectedCityCode)
                 }
             }
+
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
@@ -214,9 +230,8 @@ class FragmentHome : Fragment() {
             }
         }
 
-        /** TODO Не всегда Москва **/
         val textPlace = view.findViewById<TextView>(R.id.home_eventPlace)
-        textPlace.text = "Москва" + ", ${event?.place?.title ?: ""}" + ", ${event?.place?.address ?: ""}"
+        textPlace.text = "${event?.place?.title ?: ""}" + ", ${event?.place?.address ?: ""}"
 
         val textAge = view.findViewById<TextView>(R.id.home_eventAge)
         val age = when (event?.age_restriction) {
@@ -226,25 +241,12 @@ class FragmentHome : Fragment() {
         textAge.text = age
 
         val textDate = view.findViewById<TextView>(R.id.home_eventDate)
-        /*
-        val formatter = SimpleDateFormat("d MMMM", Locale("ru"))
-
-        val eventDates: EventDate? = event?.dates
-            ?.filter { it.startTimeNumber != null && it.startTimeNumber > 0 }
-            ?.maxByOrNull { it.startTimeNumber!! }
-
-        val startTime = eventDates?.startTimeNumber?.let { formatter.format(Date(it * 1000)) }
-        val endTime = eventDates?.endTimeNumber?.let { formatter.format(Date(it * 1000)) }
-        textDate.text = "$startTime - $endTime"
-         */
         // Дата
-        /** TODO настроить правильное отображение **/
         val formatter = SimpleDateFormat("d MMMM", Locale("ru"))
 
         val eventDates: EventDate? = event?.dates
             ?.filter { it.endTimeNumber != null && it.endTimeNumber > System.currentTimeMillis() / 1000 }
             ?.minByOrNull { it.endTimeNumber!! }
-        //?.maxByOrNull { it.endTime!! }
 
         val startTime = eventDates?.startTimeNumber?.let { formatter.format(Date(it * 1000)) }
         val endTime = eventDates?.endTimeNumber?.let { formatter.format(Date(it * 1000)) }
